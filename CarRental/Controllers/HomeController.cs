@@ -12,7 +12,10 @@ namespace CarRental.Controllers
         {
             _logger = logger;
         }
-
+        public IActionResult login()
+        {
+            return View();
+        }
         public IActionResult Index()
         {
             return View();
