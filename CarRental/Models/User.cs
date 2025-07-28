@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using CarRental.Enums;
+using CarRental.Enums.UserEnums;
 
 namespace CarRental.Models
 {
     public class User
     {
         [Key]
-        public int UserId { get; set; }
+        public int UserID { get; set; }
 
         [Required]
         public string Name { get; set; }  
@@ -26,7 +26,11 @@ namespace CarRental.Models
         public UserRole Role { get; set; }
 
         [Required]
-        public bool isDeleted { get; set; }
+        public bool IsDeleted { get; set; }
+
+        // Navigation properties
+
+        public ICollection<Request>? Requests { get; set; }
 
     }
 }
