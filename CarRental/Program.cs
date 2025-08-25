@@ -1,4 +1,8 @@
 using CarRental.Data;
+using CarRental.Repositories.Implementations;
+using CarRental.Repositories.Interfaces;
+using CarRental.Services.Implementations;
+using CarRental.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarRental
@@ -16,6 +20,12 @@ namespace CarRental
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("CarRentalDbConnection")));
 
+            // Register Repositories
+            builder.Services.AddScoped<IBrandRespository, BrandRespository>();
+
+            // Register Services
+            builder.Services.AddScoped<IBrandService, BrandService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -28,7 +38,7 @@ namespace CarRental
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            
             app.UseRouting();
 
             app.UseAuthorization();
