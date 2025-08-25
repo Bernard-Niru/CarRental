@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CarRental.Migrations
 {
     /// <inheritdoc />
-    public partial class IntialMigrations : Migration
+    public partial class InitialMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -151,7 +151,6 @@ namespace CarRental.Migrations
                     BookingID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RequestID = table.Column<int>(type: "int", nullable: false),
-                    UnitID = table.Column<int>(type: "int", nullable: false),
                     IsPicked = table.Column<bool>(type: "bit", nullable: false),
                     IsReturned = table.Column<bool>(type: "bit", nullable: false),
                     ReturnDate = table.Column<DateOnly>(type: "date", nullable: false),
@@ -170,23 +169,12 @@ namespace CarRental.Migrations
                         principalTable: "Requests",
                         principalColumn: "RequestID",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Bookings_Units_UnitID",
-                        column: x => x.UnitID,
-                        principalTable: "Units",
-                        principalColumn: "UnitID",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_RequestID",
                 table: "Bookings",
                 column: "RequestID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Bookings_UnitID",
-                table: "Bookings",
-                column: "UnitID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cars_BrandID",
@@ -224,16 +212,16 @@ namespace CarRental.Migrations
                 name: "Images");
 
             migrationBuilder.DropTable(
-                name: "Requests");
-
-            migrationBuilder.DropTable(
                 name: "Units");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Requests");
 
             migrationBuilder.DropTable(
                 name: "Cars");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Brands");

@@ -1,0 +1,25 @@
+﻿@model IEnumerable<CarRental.DTOs.BrandDTO>
+@{
+}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Brand ID</th>
+            <th>Brand Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var brand in Model)
+        {
+            <tr>
+                <td>@brand.BrandID</td>
+                <td>@brand.BrandName</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

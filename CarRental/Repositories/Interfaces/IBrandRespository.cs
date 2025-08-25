@@ -5,5 +5,6 @@ namespace CarRental.Repositories.Interfaces
     public interface IBrandRespository
     {
         IEnumerable<Brand> GetAll();
+        void Add(Brand brand);
     }
 }
