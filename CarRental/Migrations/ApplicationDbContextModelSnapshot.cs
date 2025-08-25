@@ -57,9 +57,14 @@ namespace CarRental.Migrations
                     b.Property<TimeOnly>("ReturnTime")
                         .HasColumnType("time");
 
+                    b.Property<int>("UnitID")
+                        .HasColumnType("int");
+
                     b.HasKey("BookingID");
 
                     b.HasIndex("RequestID");
+
+                    b.HasIndex("UnitID");
 
                     b.ToTable("Bookings");
                 });
@@ -264,7 +269,15 @@ namespace CarRental.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CarRental.Models.Unit", "Unit")
+                        .WithMany("Bookings")
+                        .HasForeignKey("UnitID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Request");
+
+                    b.Navigation("Unit");
                 });
 
             modelBuilder.Entity("CarRental.Models.Car", b =>
@@ -334,6 +347,11 @@ namespace CarRental.Migrations
                 });
 
             modelBuilder.Entity("CarRental.Models.Request", b =>
+                {
+                    b.Navigation("Bookings");
+                });
+
+            modelBuilder.Entity("CarRental.Models.Unit", b =>
                 {
                     b.Navigation("Bookings");
                 });
