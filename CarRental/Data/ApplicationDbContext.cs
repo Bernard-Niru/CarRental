@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CarRental.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace CarRental.Data
@@ -10,5 +11,12 @@ namespace CarRental.Data
         {
             
         }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<Unit> Units { get; set; }
+        public DbSet<Request> Requests { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
     }
 }
