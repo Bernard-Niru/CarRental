@@ -26,6 +26,5 @@ namespace CarRental.Models
         [ForeignKey("CarID")]
         public Car? Car { get; set; }
         
-        public ICollection<Booking>? Bookings { get; set; }
     }
 }
