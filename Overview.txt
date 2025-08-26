@@ -1,0 +1,106 @@
+CarRentalProject/
+│
+├── Controllers/
+│   ├── AdminController.cs
+│   ├── CustomerController.cs
+│   ├── GuestController.cs
+│
+├── Models/                   # DB Entities
+│   ├── Car.cs
+│   ├── Brand.cs
+│   ├── Image.cs
+│   ├── Unit.cs
+│   ├── Request.cs
+│   ├── Booking.cs
+│   └── User.cs
+│
+├── DTOs/                     # For data transfer (e.g. AddCarDTO, EditBrandDTO)
+│   ├── CarDTO.cs
+│   ├── BrandDTO.cs
+│   ├── ImageDTO.cs
+│   ├── UnitDTO.cs
+│   ├── RequestDTO.cs
+│   ├── BookingDTO.cs
+│   └── UserDTO.cs
+│
+├── ViewModels/              # For combining multiple entities or customizing view data
+│   ├── CarViewModel.cs
+│   ├── BookingViewModel.cs
+│   ├── DashboardViewModel.cs
+│   └── etc...
+│
+├── Services/                # Business Logic
+│   ├── Interfaces/
+│   │   ├── ICarService.cs
+│   │   ├── IBrandService.cs
+│   │   ├── IUserService.cs
+│   │   ├── IBookingService.cs
+│   │   ├── IImageService.cs
+│   │   ├── IRequestService.cs
+│   │   └── IUnitService.cs
+│   └── Implementations/
+│       ├── CarService.cs
+│       ├── BrandService.cs
+│       ├── UserService.cs
+│       ├── BookingService.cs
+│       ├── ImageService.cs
+│       ├── RequestService.cs
+│       └── UnitService.cs
+│
+├── Repositories/            # Data Access Layer
+│   ├── Interfaces/
+│   │   ├── ICarRepository.cs
+│   │   ├── IBrandRepository.cs
+│   │   ├── IUserRepository.cs
+│   │   ├── IBookingRepository.cs
+│   │   ├── IImageRepository.cs
+│   │   ├── IRequestRepository.cs
+│   │   └── IUnitRepository.cs
+│   └── Implementations/
+│       ├── CarRepository.cs
+│       ├── BrandRepository.cs
+│       ├── UserRepository.cs
+│       ├── BookingRepository.cs
+│       ├── ImageRepository.cs
+│       ├── RequestRepository.cs
+│       └── UnitRepository.cs
+│
+├── Views/
+│   ├── Admin/
+│   │   ├── Car/
+│   │   │   ├── Index.cshtml
+│   │   │   ├── Create.cshtml
+│   │   ├── Brand/
+│   │   │   ├── Index.cshtml
+│   │   │   ├── Create.cshtml
+│   │   ├── Booking/
+│   │   │   ├── Index.cshtml
+│   │   ├── Request/
+│   │   │   ├── Index.cshtml
+│   │   └── Dashboard.cshtml
+│
+│   ├── Customer/
+│   │   ├── Car/
+│   │   │   ├── Browse.cshtml
+│   │   ├── Booking/
+│   │   │   ├── MyBookings.cshtml
+│   │   │   ├── Create.cshtml
+│   │   └── Dashboard.cshtml
+│
+│   ├── Guest/
+│   │   ├── Car/
+│   │   │   ├── ViewCars.cshtml
+│   │   └── Index.cshtml
+│
+│   └── Shared/
+│       ├── _Layout.cshtml
+│       ├── _AdminLayout.cshtml
+│       ├── _CustomerLayout.cshtml
+│       ├── _GuestLayout.cshtml
+│       └── _ValidationScriptsPartial.cshtml
+│
+├── wwwroot/                 # Static files (JS, CSS, images)
+│
+├── appsettings.json
+├── Program.cs
+└── Startup.cs

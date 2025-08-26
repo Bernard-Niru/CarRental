@@ -11,9 +11,12 @@ namespace CarRental.Models
 
         [Required]
         public int RequestID { get; set; }
-
+      
         [Required]
         public bool IsPicked { get; set; }
+
+        [Required]
+        public string Unit { get; set; }
 
         [Required]
         public bool IsReturned { get; set; }
@@ -42,5 +45,7 @@ namespace CarRental.Models
 
         [ForeignKey("RequestID")]
         public Request? Request { get; set; }
+
+       
     }
 }
