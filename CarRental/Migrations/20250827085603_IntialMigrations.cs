@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CarRental.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigrations : Migration
+    public partial class IntialMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -102,6 +102,8 @@ namespace CarRental.Migrations
                     CarID = table.Column<int>(type: "int", nullable: false),
                     PickupDate = table.Column<DateOnly>(type: "date", nullable: false),
                     PickupTime = table.Column<TimeOnly>(type: "time", nullable: false),
+                    ReturnDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    ReturnTime = table.Column<TimeOnly>(type: "time", nullable: false),
                     IsAccepted = table.Column<bool>(type: "bit", nullable: false),
                     IsRejected = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -152,9 +154,12 @@ namespace CarRental.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RequestID = table.Column<int>(type: "int", nullable: false),
                     IsPicked = table.Column<bool>(type: "bit", nullable: false),
+                    ActualPickupDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    ActualPickupTime = table.Column<TimeOnly>(type: "time", nullable: false),
                     IsReturned = table.Column<bool>(type: "bit", nullable: false),
-                    ReturnDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    ReturnTime = table.Column<TimeOnly>(type: "time", nullable: false),
+                    ActualReturnDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    ActualReturnTime = table.Column<TimeOnly>(type: "time", nullable: false),
+                    Unit = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RentalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Condition = table.Column<int>(type: "int", nullable: false),
                     Ratings = table.Column<double>(type: "float", nullable: false),

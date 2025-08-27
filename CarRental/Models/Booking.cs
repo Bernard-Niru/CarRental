@@ -16,17 +16,23 @@ namespace CarRental.Models
         public bool IsPicked { get; set; }
 
         [Required]
-        public string Unit { get; set; }
+        public DateOnly ActualPickupDate { get; set; }
+
+        [Required]
+        public TimeOnly ActualPickupTime { get; set; }
 
         [Required]
         public bool IsReturned { get; set; }
 
         [Required]
-        public DateOnly ReturnDate { get; set; }
+        public DateOnly ActualReturnDate { get; set; }
 
         [Required]
-        public TimeOnly ReturnTime { get; set; }
+        public TimeOnly ActualReturnTime { get; set; }
 
+        [Required]
+        public string Unit { get; set; }
+       
         [Required]
         [Range(0, double.MaxValue, ErrorMessage = "Rental amount must be positive")]
         public decimal RentalAmount { get; set; }
