@@ -51,5 +51,5 @@ namespace CarRental.Controllers
             _brandService.Add(model);
             return RedirectToAction("Index");
         }
-    }
+    }//Bernard
 }
