@@ -21,6 +21,12 @@ namespace CarRental.Models
         public TimeOnly PickupTime { get; set; }
 
         [Required]
+        public DateOnly ReturnDate { get; set; }
+
+        [Required]
+        public TimeOnly ReturnTime { get; set; }
+
+        [Required]
         public bool IsAccepted { get; set; }
 
         [Required]

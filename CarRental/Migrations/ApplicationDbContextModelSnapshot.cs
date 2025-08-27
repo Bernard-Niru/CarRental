@@ -30,6 +30,18 @@ namespace CarRental.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingID"));
 
+                    b.Property<DateOnly>("ActualPickupDate")
+                        .HasColumnType("date");
+
+                    b.Property<TimeOnly>("ActualPickupTime")
+                        .HasColumnType("time");
+
+                    b.Property<DateOnly>("ActualReturnDate")
+                        .HasColumnType("date");
+
+                    b.Property<TimeOnly>("ActualReturnTime")
+                        .HasColumnType("time");
+
                     b.Property<int>("Condition")
                         .HasColumnType("int");
 
@@ -50,12 +62,6 @@ namespace CarRental.Migrations
 
                     b.Property<int>("RequestID")
                         .HasColumnType("int");
-
-                    b.Property<DateOnly>("ReturnDate")
-                        .HasColumnType("date");
-
-                    b.Property<TimeOnly>("ReturnTime")
-                        .HasColumnType("time");
 
                     b.Property<string>("Unit")
                         .IsRequired()
@@ -181,6 +187,12 @@ namespace CarRental.Migrations
                         .HasColumnType("date");
 
                     b.Property<TimeOnly>("PickupTime")
+                        .HasColumnType("time");
+
+                    b.Property<DateOnly>("ReturnDate")
+                        .HasColumnType("date");
+
+                    b.Property<TimeOnly>("ReturnTime")
                         .HasColumnType("time");
 
                     b.Property<int>("UserID")
