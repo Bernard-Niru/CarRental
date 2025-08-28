@@ -104,3 +104,7 @@ CarRentalProject/
 ├── appsettings.json
 ├── Program.cs
 └── Startup.cs
+
+#DataFlow
+View (.cshtml) ⇄ ViewModel ⇄ Controller ⇄ Service ⇄ DTO ⇄ Repository ⇄ Entity (Model) ⇄ Database
+

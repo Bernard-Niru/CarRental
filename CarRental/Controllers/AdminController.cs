@@ -51,5 +51,68 @@ namespace CarRental.Controllers
             _brandService.Add(model);
             return RedirectToAction("Index");
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //=========================================== IMAGE ===============================================================
+
+        //public IActionResult ViewImages()
+        //{
+        //    //var image = _imageService.GetAll();
+        //    //return View(image);
+        //}
+
+        [HttpGet]
+        public IActionResult AddImage()
+        {
+            return View();
+        }
+
+
+
     }//Thivaharan
+
 }

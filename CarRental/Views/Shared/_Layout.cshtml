@@ -4,7 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CarRental</title>
+    <link href="~/css/New.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CarRental.styles.css" asp-append-version="true" />
 </head>
@@ -12,11 +14,10 @@
     @if (ViewData["HideNavbar"] as bool? != true)
     {
         <header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
                 <div class="container-fluid">
                     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CarRentalManagement</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -28,7 +29,8 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="login">Sign In</a>
+                               
+                                <a class="nav-link text-dark" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</a>
                             </li>
                         </ul>
                     </div>
@@ -36,6 +38,7 @@
             </nav>
         </header>
     }
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -47,6 +50,93 @@
             &copy; 2025 - CarRental - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="wrapper">
+                    <form method="post" action="/Home/Login">
+                        <h2>Log In</h2>
+                        <div class="input-feild">
+                            <input type="text" name="Email" required>
+                            <label>Enter Your Email</label>
+                        </div>
+                        <div class="input-feild">
+                            <input type="password" name="Password" required>
+                            <label>Enter Your Password</label>
+                        </div>
+                        <div class="forget">
+                            <label>
+                                <input type="checkbox" name="RememberMe"> Remember Me
+                            </label>
+                            <a href="#">Forget Password</a>
+                        </div>
+                        <button type="submit">Log In</button>
+                        <div class="register">
+                            <a href="#" id="showRegister">Don't have an account? Register</a>
+
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background: transparent; border: none; box-shadow: none;">
+                <div class="wrapper">
+                    <form method="post" action="/Home/Register">
+                        <h2>Register</h2>
+                        <div class="input-feild">
+                            <input type="text" name="Name" required>
+                            <label>Enter Your Name</label>
+                        </div>
+                        <div class="input-feild">
+                            <input type="text" name="Email" required>
+                            <label>Enter Your Email</label>
+                        </div>
+                        <div class="input-feild">
+                            <input type="password" name="Password" required>
+                            <label>Enter Your Password</label>
+                        </div>
+                        <div class="forget">
+                            <label><input type="checkbox" name="RememberMe"> Remember Me</label>
+                        </div>
+                        <button type="submit">Register</button>
+
+                        <!-- 👇 Back to Login Button -->
+                        <div class="register">
+                            <a href="#" id="backToLogin">Back to Login</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById("showRegister").addEventListener("click", function (e) {
+            e.preventDefault();
+            var loginModal = bootstrap.Modal.getInstance(document.getElementById("loginModal"));
+            loginModal.hide();
+
+            var registerModal = new bootstrap.Modal(document.getElementById("registerModal"));
+            registerModal.show();
+        });
+
+        document.getElementById("backToLogin").addEventListener("click", function (e) {
+            e.preventDefault();
+            var registerModal = bootstrap.Modal.getInstance(document.getElementById("registerModal"));
+            registerModal.hide();
+
+            var loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
+            loginModal.show();
+        });
+    </script>
+
+   
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
