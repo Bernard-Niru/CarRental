@@ -1,6 +1,6 @@
 using CarRental.Data;
-using CarRental.Repositories.Implementations;
-using CarRental.Repositories.Interfaces;
+using CarRental.repo.Implementations;
+using CarRental.repo.Interfaces;
 using CarRental.Services.Implementations;
 using CarRental.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;

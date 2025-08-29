@@ -1,8 +1,12 @@
+
+﻿using CarRental.Enums.CarEnums;
+using CarRental.Enums.UserEnums;
 ﻿using CarRental.DTOs;
 using CarRental.Models;
 using CarRental.Services.Interfaces;
 using CarRental.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CarRental.Controllers
 {
@@ -82,7 +86,27 @@ namespace CarRental.Controllers
 
 
 
+        //==================================================== Car =============================================================
+        [HttpGet]
+        public IActionResult Addcar()
+        {
+            ViewBag.CarType = new SelectList(Enum.GetValues(typeof(CarType)));
+            ViewBag.FuelType = new SelectList(Enum.GetValues(typeof(FuelType)));
+            ViewBag.GearType = new SelectList(Enum.GetValues(typeof(GearType)));
 
+            // Get all brands as SelectListItems for dropdown
+            var brands = _brandService.GetAll()
+                        .Select(b => new SelectListItem
+                        {
+                            Value = b.BrandID.ToString(),
+                            Text = b.BrandName
+                        })
+                        .ToList();
+
+            ViewBag.BrandList = brands;
+
+            return View("Car/AddCar");
+        }
 
 
 
