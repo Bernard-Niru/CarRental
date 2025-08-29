@@ -1,4 +1,6 @@
-﻿using CarRental.Services.Interfaces;
+﻿using CarRental.DTOs;
+using CarRental.Models;
+using CarRental.Services.Interfaces;
 using CarRental.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +22,7 @@ namespace CarRental.Controllers
                                IUnitService unitService,
                                IUserService userService,
                                IBookingService bookingService,
-                               IRequestService requestService) 
+                               IRequestService requestService)
         {
             _brandService = brandService;
             _carService = carService;
@@ -30,26 +32,35 @@ namespace CarRental.Controllers
             _bookingService = bookingService;
             _requestService = requestService;
         }
+
         public IActionResult Index()
         {
             return View();
         }
+
         //=========================================== BRANDS ===============================================================
+
         public IActionResult ViewBrands()
         {
             var brand = _brandService.GetAll();
             return View(brand);
         }
+
         [HttpGet]
         public IActionResult AddBrand()
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult AddBrand(BrandViewModel model)
         {
-            _brandService.Add(model);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _brandService.Add(model);
+                return RedirectToAction("ViewBrands");
+            }
+            return View(model);
         }
 
 
@@ -97,22 +108,68 @@ namespace CarRental.Controllers
 
 
 
-        //=========================================== IMAGE ===============================================================
 
-        //public IActionResult ViewImages()
-        //{
-        //    //var image = _imageService.GetAll();
-        //    //return View(image);
-        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //=========================================== UNITS + IMAGES ======================================================
 
         [HttpGet]
-        public IActionResult AddImage()
+        public IActionResult AddUnit()
         {
             return View();
         }
+        [HttpPost]
+        public async Task<IActionResult> AddUnit(UnitImageViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                await _unitService.AddWithImageAsync(model);
+                return RedirectToAction("ViewUnits");
+            }
+
+            return View(model);
+        }
 
 
-
-    }//Thivaharan
-
+        public IActionResult ViewUnits()
+        {
+            var units = _unitService.GetAll(); // Already returns UnitDTOs
+            return View(units);
+        }
+    }
 }
