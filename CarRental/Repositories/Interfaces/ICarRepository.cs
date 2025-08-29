@@ -1,6 +1,6 @@
 ﻿namespace CarRental.repo.Interfaces
 {
-    public interface IUserRespository
+    public interface ICarRepository
     {
     }
 }

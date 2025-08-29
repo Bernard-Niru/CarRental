@@ -1,6 +1,6 @@
 ﻿using CarRental.Models;
 
-namespace CarRental.Repositories.Interfaces
+namespace CarRental.repo.Interfaces
 {
     public interface IBrandRespository
     {

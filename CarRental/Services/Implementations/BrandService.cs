@@ -1,6 +1,6 @@
 ﻿using CarRental.DTOs;
 using CarRental.Mappings;
-using CarRental.Repositories.Interfaces;
+using CarRental.repo.Interfaces;
 using CarRental.Services.Interfaces;
 using CarRental.ViewModels;
 
