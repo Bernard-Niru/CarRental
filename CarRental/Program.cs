@@ -34,6 +34,24 @@ namespace CarRental
   
            
 
+            // Register Repositories
+            builder.Services.AddScoped<IBrandRespository, BrandRespository>();
+            builder.Services.AddScoped<ICarRespository, CarRespository>();
+            builder.Services.AddScoped<IImageRepository, ImageRepository>();
+            builder.Services.AddScoped<IUnitRepository, UnitRepository>();
+            builder.Services.AddScoped<IUserRespository, UserRepository>();
+            // Add booking and request repositories if they exist
+
+            // Register Services
+            builder.Services.AddScoped<IBrandService, BrandService>();
+           builder.Services.AddScoped<ICarService, CarService>();
+           builder.Services.AddScoped<IImageService, ImageService>();
+            builder.Services.AddScoped<IUnitService, UnitService>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IBookingService, BookingService>();
+            builder.Services.AddScoped<IRequestService, RequestService>();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -20,4 +20,8 @@
     <Folder Include="Views\Admin\Users\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Admin\Car\" />
+  </ItemGroup>
+
 </Project>

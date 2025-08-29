@@ -1,5 +1,8 @@
+
 ﻿using CarRental.Enums.CarEnums;
 using CarRental.Enums.UserEnums;
+﻿using CarRental.DTOs;
+using CarRental.Models;
 using CarRental.Services.Interfaces;
 using CarRental.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -18,12 +21,13 @@ namespace CarRental.Controllers
         private readonly IRequestService _requestService;
 
         public AdminController(IBrandService brandService,
-                               ICarService carService,
-                               IImageService imageService,
-                               IUnitService unitService,
-                               IUserService userService,
-                               IBookingService bookingService,
-                               IRequestService requestService) 
+                       ICarService carService,    
+                       IImageService imageService,
+                       IUnitService unitService,
+                       IUserService userService,
+                       IBookingService bookingService,
+                       IRequestService requestService)
+
         {
             _brandService = brandService;
             _carService = carService;
@@ -33,15 +37,20 @@ namespace CarRental.Controllers
             _bookingService = bookingService;
             _requestService = requestService;
         }
+
         public IActionResult Index()
         {
             return View();
         }
+
         //=========================================== BRANDS ===============================================================
+
         public IActionResult ViewBrands()
         {
             var brand = _brandService.GetAll();
+
             return View("Brand/ViewBrands", brand); // <-- explicitly point to the subfolder
+
         }
 
         [HttpGet]
@@ -49,9 +58,19 @@ namespace CarRental.Controllers
         {
             return View("Brand/AddBrand");
         }
+
+
         [HttpPost]
         public IActionResult AddBrand(BrandViewModel model)
         {
+
+            if (ModelState.IsValid)
+            {
+                _brandService.Add(model);
+                return RedirectToAction("ViewBrands");
+            }
+            return View(model);
+
             _brandService.Add(model);
             return RedirectToAction("ViewBrands");
 
@@ -60,7 +79,6 @@ namespace CarRental.Controllers
         public IActionResult AddUser()
         {
             return View();
-        }
 
 
 
@@ -127,22 +145,69 @@ namespace CarRental.Controllers
 
 
 
-        //=========================================== IMAGE ===============================================================
 
-        //public IActionResult ViewImages()
-        //{
-        //    //var image = _imageService.GetAll();
-        //    //return View(image);
-        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //=========================================== UNITS + IMAGES ======================================================
 
         [HttpGet]
-        public IActionResult AddImage()
+        public IActionResult AddUnit()
         {
-            return View();
+            return View("Image/AddUnit");
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddUnit(UnitImageViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                await _unitService.AddWithImageAsync(model);
+                return RedirectToAction("ViewUnit");
+            }
+
+            return View(model);
         }
 
 
-
-    }//Thivaharan
-
+        public IActionResult ViewUnits()
+        {
+            var units = _unitService.GetAll(); // Already returns UnitDTOs
+            return View("Image/ViewUnit",units);
+        }
+    }
 }
