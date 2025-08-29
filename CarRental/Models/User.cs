@@ -22,7 +22,7 @@ namespace CarRental.Models
         [StringLength(8, MinimumLength = 8, ErrorMessage = "Password must be exactly 8 characters long.")]
         public string Password { get; set; }
 
-        [Required]
+        [Required]  
         public UserRole Role { get; set; }
 
         [Required]
@@ -34,3 +34,4 @@ namespace CarRental.Models
 
     }
 }
+//name data srch panni not ex

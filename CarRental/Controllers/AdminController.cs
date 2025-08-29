@@ -38,18 +38,25 @@ namespace CarRental.Controllers
         public IActionResult ViewBrands()
         {
             var brand = _brandService.GetAll();
-            return View(brand);
+            return View("Brand/ViewBrands", brand); // <-- explicitly point to the subfolder
         }
+
         [HttpGet]
         public IActionResult AddBrand()
         {
-            return View();
+            return View("Brand/AddBrand");
         }
         [HttpPost]
         public IActionResult AddBrand(BrandViewModel model)
         {
             _brandService.Add(model);
-            return RedirectToAction("Index");
+            return RedirectToAction("ViewBrands");
+
+        }
+        //===================================================== USER ===========================================================
+        public IActionResult AddUser()
+        {
+            return View();
         }
     }//Thivaharan
 }
