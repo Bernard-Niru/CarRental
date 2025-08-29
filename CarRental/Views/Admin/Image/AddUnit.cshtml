@@ -1,5 +1,8 @@
 ﻿@model CarRental.ViewModels.UnitImageViewModel
-
+@{
+    ViewData["Title"] = "Add Unit";
+}
+<link rel="stylesheet" href="~/css/imageForm.css" />
 <h2>Add Unit</h2>
 
 <form asp-action="AddUnit" method="post" enctype="multipart/form-data">
