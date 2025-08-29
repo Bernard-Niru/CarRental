@@ -1,6 +1,8 @@
-﻿namespace CarRental.Services.Implementations
+﻿using CarRental.Services.Interfaces;
+
+namespace CarRental.Services.Implementations
 {
-    public class CarService
+    public class CarService : ICarService
     {
     }
 }
