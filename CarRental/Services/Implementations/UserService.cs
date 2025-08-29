@@ -1,6 +1,6 @@
-﻿namespace CarRental.Services.Implementations
+﻿using CarRental.Services.Interfaces;
+
+public class UserService : IUserService
 {
-    public class UserService
-    {
-    }
+    // Implementation
 }

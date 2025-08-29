@@ -1,0 +1,84 @@
+﻿/* Container for the form */
+form {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem 3rem;
+    background: #f9f5f1; /* Light beige */
+    border: 1px solid #d2c7bb;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    font-family: 'Georgia', serif;
+    color: #4b3b2b;
+}
+
+/* Heading */
+h2 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 1.8rem;
+    color: #5a4a37;
+    text-shadow: 1px 1px 0 #d1c4b2;
+}
+
+/* Form groups spacing */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Labels */
+label {
+    display: block;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #6e5a44;
+}
+
+/* Inputs styling */
+input[type="text"],
+input[type="file"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input.form-control {
+    width: 100%;
+    padding: 0.65rem 1rem;
+    font-size: 1rem;
+    border: 1.5px solid #a3907c;
+    border-radius: 6px;
+    background-color: #fffaf0;
+    box-shadow: inset 1px 1px 3px rgba(255, 255, 255, 0.7);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Georgia', serif;
+    color: #4b3b2b;
+}
+
+/* Focus effect */
+input:focus {
+    border-color: #8c6c3a;
+    box-shadow: 0 0 6px #c8a85a;
+    outline: none;
+}
+
+/* Submit button */
+button.btn-primary {
+    display: block;
+    width: 100%;
+    padding: 0.85rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #f7f1e9;
+    background: linear-gradient(135deg, #8c6c3a, #a08543);
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(140,108,58,0.5);
+    cursor: pointer;
+    font-family: 'Georgia', serif;
+    transition: background 0.3s ease;
+}
+
+    button.btn-primary:hover {
+        background: linear-gradient(135deg, #a08543, #8c6c3a);
+        box-shadow: 0 6px 12px rgba(140,108,58,0.7);
+    }

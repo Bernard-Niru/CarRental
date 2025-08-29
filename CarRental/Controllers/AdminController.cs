@@ -17,12 +17,13 @@ namespace CarRental.Controllers
         private readonly IRequestService _requestService;
 
         public AdminController(IBrandService brandService,
-                               ICarService carService,
-                               IImageService imageService,
-                               IUnitService unitService,
-                               IUserService userService,
-                               IBookingService bookingService,
-                               IRequestService requestService)
+                       ICarService carService,    
+                       IImageService imageService,
+                       IUnitService unitService,
+                       IUserService userService,
+                       IBookingService bookingService,
+                       IRequestService requestService)
+
         {
             _brandService = brandService;
             _carService = carService;
@@ -43,14 +44,15 @@ namespace CarRental.Controllers
         public IActionResult ViewBrands()
         {
             var brand = _brandService.GetAll();
-            return View(brand);
+            return View("Brand/ViewBrands",brand);
         }
 
         [HttpGet]
         public IActionResult AddBrand()
         {
-            return View();
+            return View("Brand/AddBrand");
         }
+
 
         [HttpPost]
         public IActionResult AddBrand(BrandViewModel model)
@@ -151,7 +153,7 @@ namespace CarRental.Controllers
         [HttpGet]
         public IActionResult AddUnit()
         {
-            return View();
+            return View("Image/AddUnit");
         }
         [HttpPost]
         public async Task<IActionResult> AddUnit(UnitImageViewModel model)
@@ -159,7 +161,7 @@ namespace CarRental.Controllers
             if (ModelState.IsValid)
             {
                 await _unitService.AddWithImageAsync(model);
-                return RedirectToAction("ViewUnits");
+                return RedirectToAction("ViewUnit");
             }
 
             return View(model);
@@ -169,7 +171,7 @@ namespace CarRental.Controllers
         public IActionResult ViewUnits()
         {
             var units = _unitService.GetAll(); // Already returns UnitDTOs
-            return View(units);
+            return View("Image/ViewUnit",units);
         }
     }
 }

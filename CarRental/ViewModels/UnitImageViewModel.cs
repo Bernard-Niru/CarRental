@@ -13,6 +13,6 @@ namespace CarRental.ViewModels
         public string PlateNumber { get; set; }
 
         [Required]
-        public IFormFile ImageFile { get; set; }  // Image uploaded from form
+        public IFormFile ImageFile { get; set; } 
     }
 }
