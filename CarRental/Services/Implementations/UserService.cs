@@ -1,6 +1,9 @@
 ﻿using CarRental.Services.Interfaces;
 
-public class UserService : IUserService
+namespace CarRental.Services.Implementations
 {
-    // Implementation
+    public class UserService : IUserService
+    {
+    }
 }
+
