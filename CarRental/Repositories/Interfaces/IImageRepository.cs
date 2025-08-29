@@ -1,11 +1,11 @@
 ﻿using CarRental.Models;
 
-namespace CarRental.Services.Interfaces
+namespace CarRental.Repositories.Interfaces
 {
-    public interface IImageService
+    public interface IImageRepository
     {
         void Add(Image image);
-        IEnumerable<Image> GetAll(); 
+        IEnumerable<Image> GetAll();
         Image GetById(int id);
         void Delete(int id);
     }
