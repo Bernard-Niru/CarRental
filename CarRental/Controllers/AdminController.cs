@@ -1,7 +1,6 @@
-
-﻿using CarRental.Enums.CarEnums;
+using CarRental.Enums.CarEnums;
 using CarRental.Enums.UserEnums;
-﻿using CarRental.DTOs;
+using CarRental.DTOs;
 using CarRental.Models;
 using CarRental.Services.Interfaces;
 using CarRental.ViewModels;
@@ -74,14 +73,38 @@ namespace CarRental.Controllers
 
         }
         //===================================================== USER ===========================================================
+        [HttpGet]
         public IActionResult AddUser()
         {
-            return View();
+           ViewBag.RoleList = new SelectList(Enum.GetValues(typeof(UserRole)));
+            return View("Users/AddUser");
+
+        }
+        [HttpPost]
+        public IActionResult AddUser(UserViewModel model)
+        {
+            ViewBag.RoleList = new SelectList(Enum.GetValues(typeof(UserRole)));
+
+            if (ModelState.IsValid)
+            {
+                if (_userService.check(model.UserName)) // check UserName 
+                {
+                    TempData["ErrorMessage"] = "UserName already Exist";
+                    return View("Users/AddUser", model);
+                }
 
 
+                _userService.Add(model);
+                return RedirectToAction("ViewUser");
+            }
 
+            return View("Users/AddUser");
 
-
+        }
+        public IActionResult ViewUser()
+        {
+            var User = _userService.Getall();
+            return View("Users/ViewUser",User);
         }
 
         //==================================================== Car =============================================================

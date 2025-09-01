@@ -31,6 +31,7 @@ namespace CarRental
             builder.Services.AddScoped<IBookingRepository, BookingRepository>();
             builder.Services.AddScoped<IRequestRepository, RequestRepository>();
 
+
             // Register Services
             builder.Services.AddScoped<IBrandService, BrandService>();
             builder.Services.AddScoped<ICarService, CarService>();
