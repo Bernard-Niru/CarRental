@@ -1,4 +1,6 @@
 using CarRental.Data;
+using CarRental.repo.Implementations;
+using CarRental.repo.Interfaces;
 using CarRental.Repositories.Implementations;
 using CarRental.Repositories.Interfaces;
 using CarRental.Services.Implementations;
@@ -16,13 +18,19 @@ namespace CarRental
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            // Register ApplicationDbContext and configure it to use SQL Server 
+            // Register DbContext
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("CarRentalDbConnection")));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("CarRentalDbConnection")));
 
             // Register Repositories
             builder.Services.AddScoped<IBrandRespository, BrandRespository>();
+            builder.Services.AddScoped<ICarRespository, CarRespository>();
+            builder.Services.AddScoped<IImageRepository, ImageRepository>();
+            builder.Services.AddScoped<IUnitRepository, UnitRepository>();
             builder.Services.AddScoped<IUserRespository, UserRepository>();
+            builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+            builder.Services.AddScoped<IRequestRepository, RequestRepository>();
+
 
             // Register Services
             builder.Services.AddScoped<IBrandService, BrandService>();
@@ -30,24 +38,21 @@ namespace CarRental
             builder.Services.AddScoped<IImageService, ImageService>();
             builder.Services.AddScoped<IUnitService, UnitService>();
             builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddScoped<IRequestService, RequestService>();
             builder.Services.AddScoped<IBookingService, BookingService>();
-  
-           
+            builder.Services.AddScoped<IRequestService, RequestService>();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // Configure middleware
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -60,3 +65,6 @@ namespace CarRental
         }
     }
 }
+
+    
+

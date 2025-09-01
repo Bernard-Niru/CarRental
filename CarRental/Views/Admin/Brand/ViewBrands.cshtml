@@ -1,10 +1,13 @@
 ﻿@model IEnumerable<CarRental.DTOs.BrandDTO>
+
 @{
+    int counter = 1;
 }
+
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>Brand ID</th>
+            <th>counter</th>
             <th>Brand Name</th>
             <th>Actions</th>
         </tr>
@@ -13,13 +16,14 @@
         @foreach (var brand in Model)
         {
             <tr>
-                <td>@brand.BrandID</td>
+                <td>@counter</td>
                 <td>@brand.BrandName</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="" class="btn btn-sm btn-warning">Edit</a>
-                    <a asp-action="Delete" asp-route-id="" class="btn btn-sm btn-danger">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@brand.BrandID" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@brand.BrandID" class="btn btn-sm btn-danger">Delete</a>
                 </td>
             </tr>
+            counter++;
         }
     </tbody>
 </table>

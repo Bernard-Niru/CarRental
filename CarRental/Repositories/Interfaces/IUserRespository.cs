@@ -1,6 +1,8 @@
 ﻿using CarRental.Models;
 
 namespace CarRental.Repositories.Interfaces
+
+
 {
     public interface IUserRespository
     {

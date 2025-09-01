@@ -1,9 +1,9 @@
 ﻿using CarRental.Data;
 using CarRental.DTOs;
 using CarRental.Models;
-using CarRental.Repositories.Interfaces;
+using CarRental.repo.Interfaces;
 
-namespace CarRental.Repositories.Implementations
+namespace CarRental.repo.Implementations
 {
     public class UserRepository : IUserRespository
     {

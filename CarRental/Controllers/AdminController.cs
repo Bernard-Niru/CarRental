@@ -1,4 +1,7 @@
-﻿using CarRental.Enums.UserEnums;
+using CarRental.Enums.CarEnums;
+using CarRental.Enums.UserEnums;
+using CarRental.DTOs;
+using CarRental.Models;
 using CarRental.Services.Interfaces;
 using CarRental.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +20,13 @@ namespace CarRental.Controllers
         private readonly IRequestService _requestService;
 
         public AdminController(IBrandService brandService,
-                               ICarService carService,
-                               IImageService imageService,
-                               IUnitService unitService,
-                               IUserService userService,
-                               IBookingService bookingService,
-                               IRequestService requestService) 
+                       ICarService carService,    
+                       IImageService imageService,
+                       IUnitService unitService,
+                       IUserService userService,
+                       IBookingService bookingService,
+                       IRequestService requestService)
+
         {
             _brandService = brandService;
             _carService = carService;
@@ -32,15 +36,20 @@ namespace CarRental.Controllers
             _bookingService = bookingService;
             _requestService = requestService;
         }
+
         public IActionResult Index()
         {
             return View();
         }
+
         //=========================================== BRANDS ===============================================================
+
         public IActionResult ViewBrands()
         {
             var brand = _brandService.GetAll();
+
             return View("Brand/ViewBrands", brand); // <-- explicitly point to the subfolder
+
         }
 
         [HttpGet]
@@ -48,9 +57,17 @@ namespace CarRental.Controllers
         {
             return View("Brand/AddBrand");
         }
+
+
         [HttpPost]
         public IActionResult AddBrand(BrandViewModel model)
         {
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+          
             _brandService.Add(model);
             return RedirectToAction("ViewBrands");
 
@@ -59,8 +76,9 @@ namespace CarRental.Controllers
         [HttpGet]
         public IActionResult AddUser()
         {
-            ViewBag.RoleList = new SelectList(Enum.GetValues(typeof(UserRole)));
+           ViewBag.RoleList = new SelectList(Enum.GetValues(typeof(UserRole)));
             return View("Users/AddUser");
+
         }
         [HttpPost]
         public IActionResult AddUser(UserViewModel model)
@@ -75,6 +93,7 @@ namespace CarRental.Controllers
                     return View("Users/AddUser", model);
                 }
 
+
                 _userService.Add(model);
                 return RedirectToAction("ViewUser");
             }
@@ -88,66 +107,128 @@ namespace CarRental.Controllers
             return View("Users/ViewUser",User);
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //=========================================== IMAGE ===============================================================
-
-        //public IActionResult ViewImages()
-        //{
-        //    //var image = _imageService.GetAll();
-        //    //return View(image);
-        //}
-
+        //==================================================== Car =============================================================
         [HttpGet]
-        public IActionResult AddImage()
+        public IActionResult AddCar()
         {
-            return View();
+            ViewBag.CarType = new SelectList(Enum.GetValues(typeof(CarType)));
+            ViewBag.FuelType = new SelectList(Enum.GetValues(typeof(FuelType)));
+            ViewBag.GearType = new SelectList(Enum.GetValues(typeof(GearType)));
+
+            // Get all brands as SelectListItems for dropdown
+            var brands = _brandService.GetAll()
+                        .Select(b => new SelectListItem
+                        {
+                            Value = b.BrandID.ToString(),
+                            Text = b.BrandName
+                        })
+                        .ToList();
+
+            ViewBag.BrandList = brands;
+
+            return View("Car/AddCar");
         }
 
 
 
-    }//Thivaharan
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //=========================================== UNITS + IMAGES ======================================================
+
+        //[HttpGet]
+        //public IActionResult AddUnit()
+        //{
+        //    return View("Image/AddUnit");
+        //}
+        //[HttpPost]
+        //public async Task<IActionResult> AddUnit(UnitImageViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        await _unitService.AddWithImageAsync(model);
+        //        return RedirectToAction("ViewUnit");
+        //    }
+
+        //    return View(model);
+        //}
+
+
+        //public IActionResult ViewUnits()
+        //{
+        //    var units = _unitService.GetAll(); // Already returns UnitDTOs
+        //    return View("Image/ViewUnit",units);
+        //}
+    }
 }
