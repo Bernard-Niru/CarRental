@@ -11,8 +11,10 @@ namespace CarRental.ViewModels
         [Required]
         [EmailAddress(ErrorMessage = "Invalid email address format.")]
         public string EmailAddress { get; set; }
+        [Required]
         public string UserName { get; set; }
         [StringLength(8, MinimumLength = 8, ErrorMessage = "Password must be exactly 8 characters long.")]
+        [Required]
         public string Password { get; set; }
         [Required]
         public UserRole Role { get; set; }
