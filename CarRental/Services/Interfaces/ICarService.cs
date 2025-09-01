@@ -1,6 +1,5 @@
-﻿namespace CarRental.Services.Interfaces
+﻿namespace CarRental.Services.Interfaces;
+
+public interface ICarService
 {
-    public interface ICarService
-    {
-    }
 }

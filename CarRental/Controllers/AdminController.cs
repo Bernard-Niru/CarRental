@@ -64,13 +64,11 @@ namespace CarRental.Controllers
         public IActionResult AddBrand(BrandViewModel model)
         {
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _brandService.Add(model);
-                return RedirectToAction("ViewBrands");
+                return View(model);
             }
-            return View(model);
-
+          
             _brandService.Add(model);
             return RedirectToAction("ViewBrands");
 
@@ -84,11 +82,11 @@ namespace CarRental.Controllers
 
 
 
-
+        }
 
         //==================================================== Car =============================================================
         [HttpGet]
-        public IActionResult Addcar()
+        public IActionResult AddCar()
         {
             ViewBag.CarType = new SelectList(Enum.GetValues(typeof(CarType)));
             ViewBag.FuelType = new SelectList(Enum.GetValues(typeof(FuelType)));
@@ -186,28 +184,28 @@ namespace CarRental.Controllers
 
         //=========================================== UNITS + IMAGES ======================================================
 
-        [HttpGet]
-        public IActionResult AddUnit()
-        {
-            return View("Image/AddUnit");
-        }
-        [HttpPost]
-        public async Task<IActionResult> AddUnit(UnitImageViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                await _unitService.AddWithImageAsync(model);
-                return RedirectToAction("ViewUnit");
-            }
+        //[HttpGet]
+        //public IActionResult AddUnit()
+        //{
+        //    return View("Image/AddUnit");
+        //}
+        //[HttpPost]
+        //public async Task<IActionResult> AddUnit(UnitImageViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        await _unitService.AddWithImageAsync(model);
+        //        return RedirectToAction("ViewUnit");
+        //    }
 
-            return View(model);
-        }
+        //    return View(model);
+        //}
 
 
-        public IActionResult ViewUnits()
-        {
-            var units = _unitService.GetAll(); // Already returns UnitDTOs
-            return View("Image/ViewUnit",units);
-        }
+        //public IActionResult ViewUnits()
+        //{
+        //    var units = _unitService.GetAll(); // Already returns UnitDTOs
+        //    return View("Image/ViewUnit",units);
+        //}
     }
 }
