@@ -3,13 +3,13 @@ using CarRental.Repositories.Interfaces;
 
 namespace CarRental.Repositories.Implementations
 {
-    public class CarRespository : ICarRespository 
+    public class RequestRepository : IRequestRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public CarRespository(ApplicationDbContext context)
+        public RequestRepository(ApplicationDbContext context) 
         {
-            _context = context;  
+            _context = context;
         }
     }
 }

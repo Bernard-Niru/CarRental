@@ -6,7 +6,7 @@
 
 <h2>Add Car</h2>
 
-<form asp-action="Addcar" asp-controller="Admin" method="post">
+<form asp-action="AddCar" asp-controller="Admin" method="post">
     <div class="form-group">
         <label asp-for="CarName"></label>
         <input asp-for="CarName" class="form-control" />
@@ -15,9 +15,9 @@
 
     <div class="form-group">
         <label asp-for="BrandID">Brand</label>
-            <select asp-for="BrandID" class="form-control" asp-items="ViewBag.BrandList">
-                <option value="">-- Select Brand --</option>
-            </select>
+        <select asp-for="BrandID" class="form-control" asp-items="ViewBag.BrandList">
+            <option value="">-- Select Brand --</option>
+        </select>
         <span asp-validation-for="BrandID" class="text-danger"></span>
     </div>
 
@@ -82,4 +82,3 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-
