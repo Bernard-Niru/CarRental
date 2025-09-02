@@ -77,7 +77,7 @@ namespace CarRental.Controllers
         public IActionResult AddUser()
         {
            ViewBag.RoleList = new SelectList(Enum.GetValues(typeof(UserRole)));
-            return View("Users/AddUser");
+            return View("User/AddUser");
 
         }
         [HttpPost]
@@ -90,7 +90,7 @@ namespace CarRental.Controllers
                 if (_userService.check(model.UserName)) // check UserName 
                 {
                     TempData["ErrorMessage"] = "UserName already Exist";
-                    return View("Users/AddUser", model);
+                    return View("User/AddUser", model);
                 }
 
 
@@ -98,13 +98,13 @@ namespace CarRental.Controllers
                 return RedirectToAction("ViewUser");
             }
 
-            return View("Users/AddUser");
+            return View("User/AddUser");
 
         }
         public IActionResult ViewUser()
         {
             var User = _userService.Getall();
-            return View("Users/ViewUser",User);
+            return View("User/ViewUser",User);
         }
 
         //==================================================== Car =============================================================
