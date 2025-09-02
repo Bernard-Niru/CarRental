@@ -72,6 +72,35 @@ namespace CarRental.Controllers
             return RedirectToAction("ViewBrands");
 
         }
+        [HttpGet]
+        public IActionResult UpdateBrand(int id)
+        {
+            var brand = _brandService.GetBrandByID(id);
+            if (brand == null)
+            {
+                TempData["ErrorMessage"] = "Brand Not Found";
+                return RedirectToAction("ViewBrands");
+            }
+            return View("Brand/UpdateBrand", brand);
+        }
+        [HttpPost]
+        public IActionResult UpdateBrand(BrandViewModel model) 
+        {
+            if (ModelState.IsValid) 
+            {
+                _brandService.Update(model);
+                return RedirectToAction("ViewBrands");
+            }
+            return View(model);
+        }
+
+        public IActionResult DeleteBrand(int id) 
+        {
+            
+            _brandService.Delete(id);
+            return RedirectToAction("ViewBrands");
+        }
+      
         //===================================================== USER ===========================================================
         [HttpGet]
         public IActionResult AddUser()

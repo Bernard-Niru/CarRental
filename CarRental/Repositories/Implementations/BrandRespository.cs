@@ -27,5 +27,16 @@ namespace CarRental.repo.Implementations
             _context.Brands.Add(brand);
             _context.SaveChanges();
         }
+
+        public void Update(Brand brand)
+        {
+            _context.Brands.Update(brand);
+            _context.SaveChanges();
+        }
+
+        public Brand GetBrandByID(int id)
+        {
+            return _context.Brands.Find(id);
+        }
     }
 }

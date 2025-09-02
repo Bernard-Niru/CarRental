@@ -1,0 +1,15 @@
+﻿@model CarRental.ViewModels.BrandViewModel
+
+<h2>Edit Brand</h2>
+
+<form asp-action="UpdateBrand" asp-controller="Admin" method="post">
+    <input type="hidden" asp-for="BrandID" />
+    <div class="mb-3">
+        <label asp-for="BrandName" class="form-label"></label>
+        <input asp-for="BrandName" class="form-control" />
+        <span asp-validation-for="BrandName" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Update</button>
+    <a asp-action="ViewBrands" asp-controller="Admin" class="btn btn-secondary">Back</a>
+</form>
