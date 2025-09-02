@@ -1,4 +1,5 @@
 ﻿using CarRental.Data;
+using CarRental.Models;
 using CarRental.repo.Interfaces;
 
 namespace CarRental.repo.Implementations
@@ -10,6 +11,11 @@ namespace CarRental.repo.Implementations
         public CarRepository(ApplicationDbContext context)
         {
             _context = context;
+        }
+        public void AddCar(Car car) 
+        {
+            _context.Cars.Add(car);
+            _context.SaveChanges();
         }
     }
 }

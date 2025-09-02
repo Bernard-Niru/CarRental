@@ -1,6 +1,8 @@
-﻿using CarRental.repo.Interfaces;
+﻿using CarRental.Mappings;
+using CarRental.repo.Interfaces;
 using CarRental.Repositories.Interfaces;
 using CarRental.Services.Interfaces;
+using CarRental.ViewModels;
 
 namespace CarRental.Services.Implementations
 {
@@ -12,7 +14,13 @@ namespace CarRental.Services.Implementations
         {
             _repo = repo; 
         }
-       
+        public void AddCar(CarViewModel model)
+        {
+            var car = CarMapper.ToModel(model);
+            _repo.AddCar(car);
+
+        }
     }
 }
+        
 
