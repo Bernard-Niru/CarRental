@@ -24,7 +24,7 @@ namespace CarRental
 
             // Register Repositories
             builder.Services.AddScoped<IBrandRespository, BrandRespository>();
-            builder.Services.AddScoped<ICarRespository, CarRespository>();
+            builder.Services.AddScoped<ICarRepository, CarRepository>();
             builder.Services.AddScoped<IImageRepository, ImageRepository>();
             builder.Services.AddScoped<IUnitRepository, UnitRepository>();
             builder.Services.AddScoped<IUserRespository, UserRepository>();
