@@ -2,6 +2,7 @@
 using CarRental.DTOs;
 using CarRental.Models;
 using CarRental.repo.Interfaces;
+using CarRental.Repositories.Interfaces;
 
 namespace CarRental.repo.Implementations
 {

@@ -6,9 +6,9 @@ namespace CarRental.Services.Implementations
 {
     public class CarService : ICarService
     {
-        private readonly ICarRespository _repo;
+        private readonly ICarRepository _repo;
 
-        public CarService(ICarRespository repo) 
+        public CarService(ICarRepository repo) 
         {
             _repo = repo; 
         }
