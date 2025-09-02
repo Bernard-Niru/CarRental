@@ -14,5 +14,25 @@ namespace CarRental.Mappings
                 IsDeleted = false
             };
         }
+
+        public static BrandViewModel ToViewModel(Brand brand)
+        {
+            return new BrandViewModel
+            {
+                BrandID = brand.BrandID,
+                BrandName = brand.BrandName,
+                
+            };
+        }
+
+        public static Brand Delete(Brand brand) 
+        {
+            return new Brand
+            {
+                BrandID = brand.BrandID,
+                BrandName = brand.BrandName,
+                IsDeleted = true
+            };
+        }
     }
 }

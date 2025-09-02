@@ -37,5 +37,32 @@ namespace CarRental.Services.Implementations
             var brand = BrandMapper.ToModel(model);
             _repo.Add(brand);
         }
+
+        public void Update(BrandViewModel model)
+        {
+            var brand = BrandMapper.ToModel(model);
+            _repo.Update(brand);
+        }
+
+        public BrandViewModel GetBrandByID(int id)
+        {
+            var brand = _repo.GetBrandByID(id);
+            if (brand == null)
+            {
+                // Could throw an exception or return null
+                return null;
+            }
+            return BrandMapper.ToViewModel(brand);
+        }
+        public void Delete(int id)
+        {
+            var brand = _repo.GetBrandByID(id);
+            if (brand != null)
+            {
+                brand.IsDeleted = true;
+                _repo.Update(brand); // reuse update method
+            }
+        }
+
     }
 }
