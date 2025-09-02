@@ -128,6 +128,31 @@ namespace CarRental.Controllers
 
             return View("Car/AddCar");
         }
+        [HttpPost]
+        public IActionResult AddCar(CarViewModel model)
+        {
+            ViewBag.RoleList = new SelectList(Enum.GetValues(typeof(CarType)));
+            ViewBag.RoleList = new SelectList(Enum.GetValues(typeof(FuelType)));
+            ViewBag.RoleList = new SelectList(Enum.GetValues(typeof(GearType)));
+
+            if (ModelState.IsValid) 
+            {
+                _carService.AddCar(model);
+                return RedirectToAction("ViewCars");
+            }
+            return View(model);
+
+
+
+
+
+
+
+
+
+
+
+        }
 
 
 
