@@ -38,15 +38,18 @@ namespace CarRental.Services.Implementations
                     UserName = u.UserName,
                     Email = u.Email,
                     Role = u.Role,
-                   
-
                 };
                 userDTO.Add(Userdto);
             }
             return userDTO;
         }
         
-    
+        public UserDTO GetbyId(int id)
+        {
+            var user = UserMapper.ToDTO(_repo.GetByID(id));
+            return user;
+
+        }
     }
 }
 

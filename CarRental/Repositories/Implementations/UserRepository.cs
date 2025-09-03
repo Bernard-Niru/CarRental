@@ -39,6 +39,10 @@ namespace CarRental.repo.Implementations
 
             return Users;
         }
+        public User GetByID(int id)
+        {
+            return _context.Users.Find(id);
+        }
 
     }
 }

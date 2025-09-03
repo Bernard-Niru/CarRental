@@ -138,6 +138,13 @@ namespace CarRental.Controllers
             var User = _userService.Getall();
             return View("User/ViewUser",User);
         }
+        [HttpGet]
+        public IActionResult Edit(int Id)
+        {
+            var user = _userService.GetbyId(Id);
+            ViewBag.RoleList = new SelectList(Enum.GetValues(typeof(UserRole)));
+            return View("User/Edit", user);
+        }
 
         //==================================================== Car =============================================================
         [HttpGet]

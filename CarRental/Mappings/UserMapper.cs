@@ -1,4 +1,5 @@
-﻿using CarRental.Models;
+﻿using CarRental.DTOs;
+using CarRental.Models;
 using CarRental.ViewModels;
 
 namespace CarRental.Mappings
@@ -16,6 +17,18 @@ namespace CarRental.Mappings
                 Password = model.Password,
                 Role = model.Role,
                 IsDeleted = false
+            };
+        }
+        public static UserDTO ToDTO(User user)
+        {
+            return new UserDTO
+            {
+                Id = user.UserID,
+                Name = user.Name,
+                Email = user.Email,
+                UserName = user.UserName,
+                Role = user.Role,
+
             };
         }
 

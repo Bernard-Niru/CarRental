@@ -9,6 +9,7 @@ namespace CarRental.Services.Interfaces
         bool check(string UserName);
         void Add(UserViewModel model);
         IEnumerable<UserDTO> Getall();
+        UserDTO GetbyId(int id);
 
     }
 }
