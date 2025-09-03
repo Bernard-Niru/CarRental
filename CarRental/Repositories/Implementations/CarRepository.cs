@@ -1,6 +1,7 @@
 ﻿using CarRental.Data;
 using CarRental.Models;
 using CarRental.repo.Interfaces;
+using CarRental.Repositories.Interfaces;
 
 namespace CarRental.repo.Implementations
 {
@@ -16,6 +17,14 @@ namespace CarRental.repo.Implementations
         {
             _context.Cars.Add(car);
             _context.SaveChanges();
+        }
+        IEnumerable<Car> ICarRepository.GetAll() 
+        {
+            var cars = _context.Cars.
+                        Where(c => !c.IsDeleted)
+                        .ToList();
+
+            return cars;
         }
     }
 }

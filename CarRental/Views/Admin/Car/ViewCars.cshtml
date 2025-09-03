@@ -1,0 +1,55 @@
+﻿@model IEnumerable<CarRental.DTOs.CarDTO>
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@{
+    ViewData["Title"] = "View Cars";
+}
+@{
+    int counter = 1;
+}
+
+<h2>Car List</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Car Name</th>
+            <th>Brand</th>
+            <th>Color</th>
+            <th>Ratings</th>
+            <th>Rental Rate</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model)
+        {
+            <tr> 
+                <td>@counter</td>
+                <td>@car.CarName</td>
+                <td>@car.BrandName</td>
+                <td>@car.Color</td>            
+                <td>@car.Ratings</td>
+                <td>@car.RentalRate.ToString("C")</td>  <!-- formatted as currency -->
+                <td>
+                    <a asp-action="" asp-route-id="@car.CarID" class="btn btn-sm btn-warning">
+                        <i class="bi bi-pencil-fill"></i>
+                    </a>
+
+                    <a asp-action="" asp-route-id="@car.CarID" class="btn btn-sm btn-danger">
+                        <i class="bi bi-trash3-fill"></i>
+                    </a>
+                </td>
+            </tr>
+            counter++;
+        
+        }
+    </tbody>
+</table>

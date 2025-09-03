@@ -1,18 +1,22 @@
-﻿using CarRental.Mappings;
+﻿using CarRental.DTOs;
+using CarRental.Mappings;
 using CarRental.repo.Interfaces;
 using CarRental.Repositories.Interfaces;
 using CarRental.Services.Interfaces;
 using CarRental.ViewModels;
+using Humanizer;
 
 namespace CarRental.Services.Implementations
 {
     public class CarService : ICarService
     {
         private readonly ICarRepository _repo;
+        private readonly IBrandService _brandService;
 
-        public CarService(ICarRepository repo) 
+        public CarService(ICarRepository repo, IBrandService brandService) 
         {
             _repo = repo; 
+            _brandService = brandService;
         }
         public void AddCar(CarViewModel model)
         {
@@ -20,6 +24,36 @@ namespace CarRental.Services.Implementations
             _repo.AddCar(car);
 
         }
+        public IEnumerable<CarDTO> GetAll()
+        {
+            var cars = _repo.GetAll();
+            var brands = _brandService.GetAll();
+            var carlist = new List<CarDTO>();
+
+            foreach (var c in cars )
+            {
+                var brandName = brands.FirstOrDefault(b => b.BrandID == c.BrandID)?.BrandName ?? "Unknown";
+
+                var model = new CarDTO
+                {
+                    CarID = c.CarID,
+                    CarName = c.CarName,
+                    BrandID = c.BrandID,
+                    BrandName = brandName,
+                    CarType = c.CarType,
+                    FuelType = c.FuelType,
+                    Color = c.Color,
+                    No_of_Seats = c.No_of_Seats,
+                    Ratings = c.Ratings,
+                    RentalRate = c.RentalRate,
+
+                };
+
+               carlist.Add(model);
+            }
+            
+            return carlist;
+        } 
     }
 }
         
