@@ -47,7 +47,7 @@
     </div>
     <div class="form-group">
         <label asp-for="Color"></label>
-        <select asp-for="Color" class="form-control">
+        <select asp-for="Color" class="form-control" id="color-select">
             <option value="">-- Select Color --</option>
             <option value="White" style="background-color: white; color: black;">White</option>
             <option value="Black" style="background-color: black; color: white;">Black</option>
@@ -56,8 +56,11 @@
             <option value="Silver" style="background-color: silver; color: black;">Silver</option>
             <option value="Gray" style="background-color: gray; color: white;">Gray</option>
             <option value="Green" style="background-color: green; color: white;">Green</option>
+            <option value="Other">Other</option>
         </select>
         <span asp-validation-for="Color" class="text-danger"></span>
+
+        <input type="text" id="custom-color-input" class="form-control mt-2" placeholder="Enter new color" style="display: none;" />
     </div>
 
 

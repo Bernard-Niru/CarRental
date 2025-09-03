@@ -1,7 +1,7 @@
 ﻿@model CarRental.ViewModels.BrandViewModel
 
 <h2>Create Brand</h2>
-
+,<br />
 <form asp-action="AddBrand" asp-controller="Admin" method="post">
     <div class="mb-3">
         <label asp-for="BrandName" class="form-label"></label>
@@ -9,6 +9,8 @@
         <span asp-validation-for="BrandName" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-success">Create</button>
-    <a asp-action="ViewBrands" asp-controller="Admin" class="btn btn-secondary">Back</a>
+    <div class="d-flex justify-content-between">       
+        <a asp-action="ViewBrands" asp-controller="Admin" class="btn btn-secondary btn-sm">Back</a>
+        <button type="submit" class="btn btn-success btn-sm">Create</button>
+    </div>
 </form>
