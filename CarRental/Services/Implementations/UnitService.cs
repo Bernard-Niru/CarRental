@@ -1,4 +1,3 @@
-
 using CarRental.DTOs;
 using CarRental.Models;
 using CarRental.Repositories.Interfaces;
@@ -9,69 +8,72 @@ namespace CarRental.Services.Implementations
 {
     public class UnitService : IUnitService
     {
-        //private readonly IUnitRepository _unitRepo;
-        //private readonly IImageRepository _imageRepo;
-        private readonly IUnitRepository _repo;
+        private readonly IUnitRepository _unitRepo;
+        private readonly IImageRepository _imageRepo;
 
-        public UnitService(IUnitRepository repo)
+        public UnitService(IUnitRepository unitRepo, IImageRepository imageRepo)
         {
-            _repo = repo;
-            //_imageRepo = imageRepo;
+            _unitRepo = unitRepo;
+            _imageRepo = imageRepo;
         }
 
         public void Add(Unit unit)
         {
-            _repo.Add(unit);
+            _unitRepo.Add(unit);
         }
 
-        //public IEnumerable<UnitDTO> GetAll()
-        //{
-        //    var units = _unitRepo.GetAll();
-        //    var images = _imageRepo.GetAll();
+        public IEnumerable<UnitDTO> GetAll()
+        {
+            var units = _unitRepo.GetAll();
+            var images = _imageRepo.GetAll();
 
-        //    var dto = from u in units
-        //              join i in images on u.CarID equals i.CarID into ui
-        //              from img in ui.DefaultIfEmpty()
-        //              select new UnitDTO
-        //              {
-        //                  UnitID = u.UnitID,
-        //                  CarID = u.CarID,
-        //                  PlateNumber = u.PlateNumber,
-        //                  ImageBase64 = img != null
-        //                      ? $"data:image/png;base64,{Convert.ToBase64String(img.ImageData)}"
-        //                      : "/images/default.png"
-        //              };
+            var dto = from u in units
+                      join i in images on u.CarID equals i.CarID into ui
+                      from img in ui.DefaultIfEmpty()
+                      select new UnitDTO
+                      {
+                          UnitID = u.UnitID,
+                          CarID = u.CarID,
+                          PlateNumber = u.PlateNumber,
+                          ImageBase64 = img != null
+                              ? $"data:image/png;base64,{Convert.ToBase64String(img.ImageData)}"
+                              : "/images/default.png"
+                      };
 
-        //    return dto.ToList();
-        //}
+            return dto.ToList();
+        }
 
-        //public async Task AddWithImageAsync(UnitImageViewModel model)
-        //{
-        //    // 1️⃣ Save Unit
-        //    var unit = new Unit
-        //    {
-        //        CarID = model.CarID,
-        //        PlateNumber = model.PlateNumber,
-        //        IsAvailble = true,
-        //        IsDeleted = false
-        //    };
-        //    _unitRepo.Add(unit);
+        // Inside UnitService.cs
+        public async Task AddWithImagesAsync(AddUnitsViewModel model)
+        {
+            foreach (var unitViewModel in model.Units)
+            {
+                // 1️⃣ Save Unit
+                var unit = new Unit
+                {
+                    CarID = unitViewModel.CarID,
+                    PlateNumber = unitViewModel.PlateNumber,
+                    IsAvailble = true,
+                    IsDeleted = false
+                };
+                _unitRepo.Add(unit);
 
-        //    // 2️⃣ Save Image
-        //    if (model.ImageFile != null && model.ImageFile.Length > 0)
-        //    {
-        //        using var ms = new MemoryStream();
-        //        await model.ImageFile.CopyToAsync(ms);
+                // 2️⃣ Save Image
+                if (unitViewModel.ImageFile != null && unitViewModel.ImageFile.Length > 0)
+                {
+                    using var ms = new MemoryStream();
+                    await unitViewModel.ImageFile.CopyToAsync(ms);
 
-        //        var image = new Image
-        //        {
-        //            CarID = model.CarID,
-        //            ImageData = ms.ToArray(),
-        //            IsDeleted = false
-        //        };
+                    var image = new Image
+                    {
+                        CarID = unitViewModel.CarID,
+                        ImageData = ms.ToArray(),
+                        IsDeleted = false
+                    };
 
-        //        _imageRepo.Add(image);
-        //    }
-        //}
+                    _imageRepo.Add(image);
+                }
+            }
+        }
     }
 }

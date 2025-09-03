@@ -38,7 +38,8 @@ namespace CarRental.Repositories.Implementations
         public void Update(Unit unit)
         {
             _context.Units.Update(unit);
-            _context.SaveChanges();
+            _context.
+                SaveChanges();
         }
 
         public void Delete(int id)

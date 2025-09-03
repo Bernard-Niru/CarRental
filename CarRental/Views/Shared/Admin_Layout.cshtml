@@ -1,13 +1,37 @@
 ﻿<!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+    <title>Sidebars</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/akar-icons-fonts"></script>
 </head>
 <body>
-    <div>
-        @RenderBody()
-    </div>
+    <aside class="sidebar">
+        <header>
+            <button type="button">
+                <i class="ai-three-line-horizontal"></i>
+            </button>
+            <img src="logo.svg" />
+        </header>
+        <ul>
+            <li>
+                <button type="button" onclick="onClick(this)">
+                    <i class="ai-home-alt1"></i>Home<p></p>
+                </button>
+            </li>
+            <li>
+                <button type="button" onclick="onClick(this)">
+                    <i class="ai-shipping-box-v1"></i><p>Products</p>
+                    <i class="ai-chevron-down-small"></i>
+                </button>
+                <div class="sub-menu">
+                    <ul>
+                        <li><button type="button">Digital</button></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </aside>
+    <script src="~/js/Main.js"></script>
 </body>
 </html>
