@@ -172,20 +172,14 @@ namespace CarRental.Controllers
                 _carService.AddCar(model);
                 return RedirectToAction("ViewCars");
             }
-            return View(model);
-
-
-
-
-
-
-
-
-
-
-
+            return View("Car/AddCar",model);
         }
 
+        public IActionResult ViewCars()
+        {
+            var Car = _carService.GetAll();
+            return View("Car/ViewCars", Car);
+        }
 
 
 

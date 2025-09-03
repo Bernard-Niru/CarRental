@@ -1,9 +1,9 @@
 ﻿using CarRental.Enums.CarEnums;
 using System.ComponentModel.DataAnnotations;
 
-namespace CarRental.ViewModels
+namespace CarRental.DTOs
 {
-    public class CarViewModel
+    public class CarDTO
     {
         [Key]
         public int CarID { get; set; }
@@ -14,8 +14,9 @@ namespace CarRental.ViewModels
         [Required]
         public int BrandID { get; set; }
 
+        [Required]
+        public string BrandName { get; set; }
 
-        //public string BrandName { get; set; }
         [Required]
         public CarType CarType { get; set; }
 
@@ -31,13 +32,12 @@ namespace CarRental.ViewModels
         [Required]
         public int No_of_Seats { get; set; }
 
-        
+
         public double Ratings { get; set; }
 
         [Required]
         [Range(0, double.MaxValue, ErrorMessage = "Rental rate must be positive")]
         public decimal RentalRate { get; set; }
-
 
     }
 }
