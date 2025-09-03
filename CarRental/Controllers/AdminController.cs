@@ -37,10 +37,13 @@ namespace CarRental.Controllers
             _requestService = requestService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        
+            public IActionResult Admin_Layout()
+            {
+                return View("~/Views/Shared/Admin_Layout.cshtml");
+            }
+        
+
 
         //=========================================== BRANDS ===============================================================
 
@@ -207,28 +210,52 @@ namespace CarRental.Controllers
 
         //=========================================== UNITS + IMAGES ======================================================
 
-        //[HttpGet]
-        //public IActionResult AddUnit()
-        //{
-        //    return View("Image/AddUnit");
-        //}
+        [HttpGet]
+        public IActionResult AddUnit()
+        {
+            return View("Image/AddUnit");
+        }
         //[HttpPost]
         //public async Task<IActionResult> AddUnit(UnitImageViewModel model)
         //{
         //    if (ModelState.IsValid)
         //    {
-        //        await _unitService.AddWithImageAsync(model);
+        //        await _unitService.AddWithImagesAsync(model);
         //        return RedirectToAction("ViewUnit");
         //    }
 
         //    return View(model);
         //}
 
+        [HttpPost]
+        public async Task<IActionResult> AddUnit(UnitImageViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Create an instance of the new ViewModel
+                var unitsModel = new AddUnitsViewModel();
+                unitsModel.Units.Add(model);
 
-        //public IActionResult ViewUnits()
-        //{
-        //    var units = _unitService.GetAll(); // Already returns UnitDTOs
-        //    return View("Image/ViewUnit",units);
-        //}
+                // Call the corrected method on the service
+                await _unitService.AddWithImagesAsync(unitsModel);
+
+                return RedirectToAction("ViewUnits");
+            }
+
+            return View(model);
+        }
+
+
+        public IActionResult ViewUnits()
+        {
+            var units = _unitService.GetAll(); // Already returns UnitDTOs
+            return View("Image/ViewUnit", units);
+        }
+
+
+
+
+
+
     }
 }

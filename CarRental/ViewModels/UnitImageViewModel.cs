@@ -3,6 +3,13 @@ using Microsoft.AspNetCore.Http;
 
 namespace CarRental.ViewModels
 {
+    // Inside CarRental.ViewModels
+    public class AddUnitsViewModel
+    {
+        // A list to hold each car's data
+        public List<UnitImageViewModel> Units { get; set; } = new List<UnitImageViewModel>();
+    }
+
     public class UnitImageViewModel
     {
         [Required]
@@ -13,6 +20,6 @@ namespace CarRental.ViewModels
         public string PlateNumber { get; set; }
 
         [Required]
-        public IFormFile ImageFile { get; set; } 
+        public IFormFile ImageFile { get; set; }
     }
 }

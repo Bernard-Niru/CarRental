@@ -1,25 +1,57 @@
-﻿@model CarRental.ViewModels.UnitImageViewModel
+﻿@model CarRental.ViewModels.AddUnitsViewModel
 @{
-    ViewData["Title"] = "Add Unit";
+    ViewData["Title"] = "Add Units";
 }
 <link rel="stylesheet" href="~/css/imageForm.css" />
-<h2>Add Unit</h2>
+<h2>Add Units</h2>
 
-<form asp-action="AddUnit" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label>Car ID</label>
-        <input asp-for="CarID" class="form-control" />
+<form asp-action="AddUnits" method="post" enctype="multipart/form-data" id="unitsForm">
+    <div id="unitsContainer">
+        <div class="unit-group">
+            <div class="form-group">
+                <label>Car ID</label>
+                <input name="Units[0].CarID" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Plate Number</label>
+                <input name="Units[0].PlateNumber" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Upload Image</label>
+                <input name="Units[0].ImageFile" type="file" class="form-control" />
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label>Plate Number</label>
-        <input asp-for="PlateNumber" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Upload Image</label>
-        <input asp-for="ImageFile" type="file" class="form-control" />
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save Unit</button>
+    <button type="button" class="btn btn-secondary" id="addMoreBtn">Add Another Unit</button>
+    <button type="submit" class="btn btn-primary">Save All Units</button>
 </form>
+
+<script>
+    document.getElementById('addMoreBtn').addEventListener('click', function () {
+        const container = document.getElementById('unitsContainer');
+        const count = container.children.length;
+
+        // Create a new div to hold the new inputs
+        const newGroup = document.createElement('div');
+        newGroup.classList.add('unit-group');
+
+        // The HTML for the new inputs, using a new index
+        newGroup.innerHTML = `
+            <hr />
+            
+            <div class="form-group">
+                <label>Plate Number</label>
+                <input name="Units[${count}].PlateNumber" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Upload Image</label>
+                <input name="Units[${count}].ImageFile" type="file" class="form-control" />
+            </div>
+        `;
+
+        container.appendChild(newGroup);
+    });
+</script>
