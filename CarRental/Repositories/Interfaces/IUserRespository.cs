@@ -9,5 +9,6 @@ namespace CarRental.Repositories.Interfaces
         bool CheckUserName(string userName);
         void Add(User user);
         IEnumerable<User> GetAll();
+        User GetByID(int id);
     }
 }
