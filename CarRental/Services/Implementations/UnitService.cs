@@ -1,4 +1,5 @@
 using CarRental.DTOs;
+using CarRental.Mappings;
 using CarRental.Models;
 using CarRental.Repositories.Interfaces;
 using CarRental.Services.Interfaces;
@@ -43,34 +44,20 @@ namespace CarRental.Services.Implementations
             return dto.ToList();
         }
 
-        // Inside UnitService.cs
         public async Task AddWithImagesAsync(AddUnitsViewModel model)
         {
             foreach (var unitViewModel in model.Units)
             {
-                // 1️⃣ Save Unit
-                var unit = new Unit
-                {
-                    CarID = unitViewModel.CarID,
-                    PlateNumber = unitViewModel.PlateNumber,
-                    IsAvailble = true,
-                    IsDeleted = false
-                };
+                
+                var unit = UnitMapper.ToModel(unitViewModel);
                 _unitRepo.Add(unit);
 
-                // 2️⃣ Save Image
+                
                 if (unitViewModel.ImageFile != null && unitViewModel.ImageFile.Length > 0)
                 {
                     using var ms = new MemoryStream();
                     await unitViewModel.ImageFile.CopyToAsync(ms);
-
-                    var image = new Image
-                    {
-                        CarID = unitViewModel.CarID,
-                        ImageData = ms.ToArray(),
-                        IsDeleted = false
-                    };
-
+                    var image = UnitMapper.ToImage(unitViewModel, ms.ToArray());
                     _imageRepo.Add(image);
                 }
             }

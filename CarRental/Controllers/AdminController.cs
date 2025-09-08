@@ -282,28 +282,43 @@ namespace CarRental.Controllers
         //    return View(model);
         //}
 
+        //[HttpPost]
+        //public async Task<IActionResult> AddUnit(UnitImageViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        // Create an instance of the new ViewModel
+        //        var unitsModel = new AddUnitsViewModel();
+        //        unitsModel.Units.Add(model);
+
+        //        // Call the corrected method on the service
+        //        await _unitService.AddWithImagesAsync(unitsModel);
+
+        //        return RedirectToAction("ViewUnits");
+        //    }
+
+        //    return View(model);
+        //}
+
         [HttpPost]
-        public async Task<IActionResult> AddUnit(UnitImageViewModel model)
+        public async Task<IActionResult> AddUnit(AddUnitsViewModel model)
         {
             if (ModelState.IsValid)
             {
-                // Create an instance of the new ViewModel
-                var unitsModel = new AddUnitsViewModel();
-                unitsModel.Units.Add(model);
-
-                // Call the corrected method on the service
-                await _unitService.AddWithImagesAsync(unitsModel);
-
+                await _unitService.AddWithImagesAsync(model);
                 return RedirectToAction("ViewUnits");
             }
 
-            return View(model);
+            TempData["ErrorMessage"] = "Failed to add unit. Please check the form.";
+            return RedirectToAction("ViewCars");
         }
+
+
 
 
         public IActionResult ViewUnits()
         {
-            var units = _unitService.GetAll(); // Already returns UnitDTOs
+            var units = _unitService.GetAll();
             return View("Image/ViewUnit", units);
         }
 
