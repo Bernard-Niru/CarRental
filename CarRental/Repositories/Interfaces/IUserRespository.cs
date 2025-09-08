@@ -6,9 +6,11 @@ namespace CarRental.Repositories.Interfaces
 {
     public interface IUserRespository
     {
-        bool CheckUserName(string userName);
-        void Add(User user);
-        IEnumerable<User> GetAll();
+        Task<bool> CheckUserNameAsync(string userName);
+        Task AddAsync(User user);
+        Task<IEnumerable<User>> GetAllAsync();
         User GetByID(int id);
+        void UpdateByID(User user);
+        void DeletebyID(int userId);
     }
 }

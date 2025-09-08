@@ -3,6 +3,7 @@ using CarRental.DTOs;
 using CarRental.Models;
 using CarRental.repo.Interfaces;
 using CarRental.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.repo.Implementations
 {
@@ -13,19 +14,19 @@ namespace CarRental.repo.Implementations
         {
             _context = context;
         }
-        public bool CheckUserName(string userName)
+        public async Task<bool> CheckUserNameAsync(string userName)
         {
-            return _context.Users.Any(u => u.UserName.ToLower() == userName.ToLower());
+            return await _context.Users.AnyAsync(u => u.UserName.ToLower() == userName.ToLower());
         }
 
-        public void Add(User user)
+        public async Task AddAsync(User user)
         {
-            _context.Users.Add(user);
-            _context.SaveChanges();
+           await _context.Users.AddAsync(user);
+           await _context.SaveChangesAsync();
         }
-        IEnumerable<User> IUserRespository.GetAll()
+        async Task<IEnumerable<User>> IUserRespository.GetAllAsync()
         {
-            var Users = _context.Users
+            var Users = await _context.Users
                          .Where(b => !b.IsDeleted)
                          .Select(b => new User
                          {
@@ -35,13 +36,29 @@ namespace CarRental.repo.Implementations
                              UserName = b.UserName,
                              Role = b.Role
                          })
-                         .ToList();
+                         .ToListAsync();
 
             return Users;
         }
         public User GetByID(int id)
         {
             return _context.Users.Find(id);
+        }
+        public void UpdateByID(User user)
+        {
+            var updateUser = _context.Users.FirstOrDefault(u => u.UserID == user.UserID);
+            updateUser.Name = user.Name;
+            updateUser.Email = user.Email;
+            updateUser.Role = user.Role;
+            _context.Users.Update(updateUser);
+            _context.SaveChanges();
+        }
+        public void DeletebyID(int userId)
+        {
+            var updateUser = _context.Users.FirstOrDefault(u => u.UserID == userId);
+            updateUser.IsDeleted = true;
+            _context.Users.Update(updateUser);
+            _context.SaveChanges();
         }
 
     }
