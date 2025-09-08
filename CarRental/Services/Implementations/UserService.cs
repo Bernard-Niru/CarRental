@@ -1,6 +1,7 @@
 
 ﻿using CarRental.DTOs;
 using CarRental.Mappings;
+using CarRental.Models;
 using CarRental.Repositories.Interfaces;
 using CarRental.Services.Interfaces;
 using CarRental.ViewModels;
@@ -15,26 +16,26 @@ namespace CarRental.Services.Implementations
         {
             _repo = repo;
         }
-        public bool check(string UserName)
+        public async Task<bool> CheckAsync(string UserName)
         {
-            return _repo.CheckUserName(UserName);
+            return await _repo.CheckUserNameAsync(UserName);
         }
-        public void Add(UserViewModel model)
+        public async Task AddAsync(UserViewModel model)
         {
             var User = UserMapper.ToModel(model);
-            _repo.Add(User);
+            await _repo.AddAsync(User);
 
         }
-        public IEnumerable<UserDTO> Getall()
+        public async Task<IEnumerable<UserDTO>> GetallAsync()
         {
-            var user = _repo.GetAll();
+            var user = await _repo.GetAllAsync();
             var userDTO = new List<UserDTO>();
             foreach(var u in user)
             {
                 var Userdto = new UserDTO
                 {
                     Id = u.UserID,
-                    Name = u.UserName,
+                    Name = u.Name,
                     UserName = u.UserName,
                     Email = u.Email,
                     Role = u.Role,
@@ -50,6 +51,23 @@ namespace CarRental.Services.Implementations
             return user;
 
         }
+        public void Edit(UserDTO userDTO)
+        {
+            var User = new User
+            {
+                UserID = userDTO.Id,
+                Name = userDTO.Name,
+                UserName = userDTO.UserName,
+                Password = "No need",
+                Email = userDTO.Email,
+                Role= userDTO.Role,
+            };
+            _repo.UpdateByID(User);
+        }
+        public void Delete(int id)
+        {
+            _repo.DeletebyID(id);
+        }
     }
 }
-
+//now

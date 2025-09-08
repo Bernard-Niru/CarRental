@@ -103,39 +103,38 @@ namespace CarRental.Controllers
             _brandService.Delete(id);
             return RedirectToAction("ViewBrands");
         }
-      
+
         //===================================================== USER ===========================================================
         [HttpGet]
-        public IActionResult AddUser()
+        public async Task<IActionResult> AddUser()
         {
-           ViewBag.RoleList = new SelectList(Enum.GetValues(typeof(UserRole)));
+            ViewBag.RoleList = new SelectList(Enum.GetValues(typeof(UserRole)));
             return View("User/AddUser");
-
         }
+
         [HttpPost]
-        public IActionResult AddUser(UserViewModel model)
+        public async Task<IActionResult> AddUser(UserViewModel model)
         {
             ViewBag.RoleList = new SelectList(Enum.GetValues(typeof(UserRole)));
 
             if (ModelState.IsValid)
             {
-                if (_userService.check(model.UserName)) // check UserName 
+                if (await _userService.CheckAsync(model.UserName))
                 {
-                    TempData["ErrorMessage"] = "UserName already Exist";
+                    TempData["ErrorMessage"] = "UserName already exists";
                     return View("User/AddUser", model);
                 }
 
-
-                _userService.Add(model);
+                await _userService.AddAsync(model);
                 return RedirectToAction("ViewUser");
             }
 
-            return View("User/AddUser");
-
+            return View("User/AddUser", model);
         }
-        public IActionResult ViewUser()
+
+        public async Task<IActionResult> ViewUser()
         {
-            var User = _userService.Getall();
+            var User = await _userService.GetallAsync();
             return View("User/ViewUser",User);
         }
         [HttpGet]
@@ -144,6 +143,21 @@ namespace CarRental.Controllers
             var user = _userService.GetbyId(Id);
             ViewBag.RoleList = new SelectList(Enum.GetValues(typeof(UserRole)));
             return View("User/Edit", user);
+        }
+        [HttpPost]
+        public IActionResult Edit(UserDTO user)
+        {
+            if (ModelState.IsValid)
+            {
+                _userService.Edit(user);
+                return RedirectToAction("ViewUser");
+            }
+                return View(user);
+        }
+        public IActionResult Delete(int Id)
+        {
+            _userService.Delete(Id);
+            return RedirectToAction("ViewUser");
         }
 
         //==================================================== Car =============================================================

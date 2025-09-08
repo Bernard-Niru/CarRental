@@ -6,10 +6,12 @@ namespace CarRental.Services.Interfaces
     public interface IUserService
     {
 
-        bool check(string UserName);
-        void Add(UserViewModel model);
-        IEnumerable<UserDTO> Getall();
+        Task<bool> CheckAsync(string UserName);
+        Task AddAsync(UserViewModel model);
+        Task<IEnumerable<UserDTO>> GetallAsync();
         UserDTO GetbyId(int id);
+        void Edit(UserDTO userDTO);
+        void Delete(int id);
 
     }
 }
