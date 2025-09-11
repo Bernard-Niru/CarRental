@@ -119,7 +119,7 @@ namespace CarRental.Controllers
 
             if (ModelState.IsValid)
             {
-                if (await _userService.CheckAsync(model.UserName))
+                if (await _userService.CheckAsync(model.UserName.Trim()))
                 {
                     TempData["ErrorMessage"] = "UserName already exists";
                     return View("User/AddUser", model);
