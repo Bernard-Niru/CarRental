@@ -1,0 +1,52 @@
+﻿@model CarRental.ViewModels.CarViewModel
+
+@{
+    ViewData["Title"] = "Add Car";
+}
+
+<link rel="stylesheet" href="~/css/customer.css" />
+
+<div>
+    <p class="text-success fw-bold fs-5 mb-3">Rs @Model.RentalRate.ToString("N0") /Day</p>
+
+    <!-- Button triggers modal -->
+    <button type="button" class="btn btn-success btn-sm px-4" data-bs-toggle="modal" data-bs-target="#addCarModal">
+        Request
+    </button>
+</div>
+
+<!-- Modal with your form -->
+<div class="modal fade" id="addCarModal" tabindex="-1" aria-labelledby="addCarModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow-lg border-0">
+            <div class="modal-body p-5 bg-white">
+                <h3 class="text-center mb-4">Request Car</h3>
+
+                <form asp-action="Request" asp-controller="Customer" method="post">
+                    <!-- Example form fields, replace with your actual model -->
+                    <div class="mb-3">
+                        <label asp-for="CarName" class="form-label"></label>
+                        <input asp-for="CarName" class="form-control" />
+                        <span asp-validation-for="CarName" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="@Model.RentalRate" class="form-label"></label>
+                        <input asp-for="@Model.RentalRate" type="number" class="form-control" />
+                        <span asp-validation-for="@Model.RentalRate" class="text-danger"></span>
+                    </div>
+
+                    <!-- Add more fields as needed -->
+
+                    <button type="submit" class="btn btn-success w-100 mt-3">Submit Request</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/customer.js"></script>
+}

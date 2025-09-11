@@ -18,6 +18,12 @@ namespace CarRental.DTOs
         public string BrandName { get; set; }
 
         [Required]
+        public List<int> ImageIDs { get; set; }
+
+        [Required]
+        public List<string> ImageDataList { get; set; }
+
+        [Required]
         public CarType CarType { get; set; }
 
         [Required]
