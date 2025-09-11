@@ -369,28 +369,89 @@ namespace CarRental.Controllers
         //    return View(model);
         //}
 
+        //[HttpPost]
+        //public async Task<IActionResult> AddUnit(AddUnitsViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        await _unitService.AddWithImagesAsync(model);
+        //        return RedirectToAction("ViewUnits");
+        //    }
+
+        //    TempData["ErrorMessage"] = "Failed to add unit. Please check the form.";
+        //    return RedirectToAction("ViewCars");
+        //}
+
+
         [HttpPost]
         public async Task<IActionResult> AddUnit(AddUnitsViewModel model)
         {
-            if (ModelState.IsValid)
+            foreach (var unit in model.Units)
             {
-                await _unitService.AddWithImagesAsync(model);
-                return RedirectToAction("ViewUnits");
+                foreach (var plate in unit.PlateNumbers)
+                {
+                    if (plate.Length > 10)
+                    {
+                        ModelState.AddModelError("PlateNumbers", $"Plate number '{plate}' exceeds 10 characters.");
+                    }
+                }
             }
 
-            TempData["ErrorMessage"] = "Failed to add unit. Please check the form.";
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Some plate numbers are invalid.";
+                return RedirectToAction("ViewCars");
+            }
+
+            await _unitService.AddUnitsAsync(model);
             return RedirectToAction("ViewCars");
         }
 
 
 
+        //try
+        //{
+        //    await _unitService.AddWithImagesAsync(model);
+        //    TempData["SuccessMessage"] = "Units added successfully!";
+        //}
+        //catch (Exception ex)
+        //{
+        //    TempData["ErrorMessage"] = ex.Message;
+        //}
 
-        public IActionResult ViewUnits()
+
+        [HttpGet]
+        public async Task<IActionResult> ViewImage()
         {
-            var units = _unitService.GetAll();
-            return View("Image/ViewUnit", units);
+            // Suppose you fetch car list from CarService, here simplified
+            // var cars = await _carService.GetAllCarsAsync();
+            // For each car, get images
+
+            // For demo, assume you pass CarWithImagesDTO
+            // Let's assume CarService gives CarID & CarName, etc.
+
+            // Example:
+            var cars = new List<CarWithImagesDTO>();  // populate from service
+                                                      // for each car in your data source
+                                                      //      cars.Add(new CarWithImagesDTO { CarID = car.CarID, CarName = car.CarName, etc, Images = await _imageService.GetImagesForCarAsync(car.CarID) });
+
+            return View("Image/ViewImage", cars);
+ 
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddImage(AddImageViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Please select images.";
+                return RedirectToAction("ViewImage");
+            }
+
+            await _imageService.AddImagesAsync(model);
+            TempData["SuccessMessage"] = "Images uploaded successfully.";
+            return RedirectToAction("ViewImage");
+        }
 
 
 

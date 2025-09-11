@@ -2,10 +2,9 @@
 {
     public class ImageDTO
     {
-
         public int Id { get; set; }
-        public string CarNumber { get; set; }
-        public List<string> ImageUrls { get; set; }
-
+        public int CarId { get; set; }
+        public string ImageBase64 { get; set; } 
+        public string ImageMimeType { get; set; }
     }
 }

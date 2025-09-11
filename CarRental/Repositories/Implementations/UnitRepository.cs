@@ -13,11 +13,21 @@ namespace CarRental.Repositories.Implementations
         {
             _context = context;
         }
-
         public void Add(Unit unit)
         {
             _context.Units.Add(unit);
-            _context.SaveChanges();
+            _context.SaveChanges(); 
+        }
+        public bool CarExists(int carId)
+        {
+            return _context.Cars.Any(c => c.CarID == carId);
+        }
+
+        public async Task AddPlatesAsync(int carId, List<string> plates)
+        {
+            foreach (var plate in plates)
+                _context.Units.Add(new Unit { CarID = carId, PlateNumber = plate });
+            await _context.SaveChangesAsync();
         }
 
         public IEnumerable<Unit> GetAll()

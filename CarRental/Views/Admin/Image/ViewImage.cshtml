@@ -1,0 +1,96 @@
+﻿@model IEnumerable<CarRental.DTOs.CarWithImagesDTO>
+
+@{
+    ViewData["Title"] = "View Image";
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+<h2>Cars</h2>
+
+@foreach (var car in Model)
+{
+    <div class="card mb-4">
+        <div class="card-header">
+            CarID: @car.CarID — @car.CarName
+        </div>
+        <div class="card-body">
+            <div class="row">
+                @if (car.Images != null && car.Images.Count > 0)
+                {
+                    foreach (var imgDto in car.Images)
+                    {
+                        <div class="col-md-3 mb-2">
+                            <img src="@imgDto.ImageBase64" class="img-thumbnail" style="max-height:150px; width:auto;" />
+
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div>No images yet.</div>
+                }
+            </div>
+
+            <button class="btn btn-primary openImageModal" data-car-id="@car.CarID">Add Images</button>
+        </div>
+    </div>
+}
+
+<!-- Modal for uploading images -->
+<div class="modal fade" id="AddImagesModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4">
+            <h4 class="mb-3">Upload Images for Car</h4>
+            <form asp-action="AddImages" asp-controller="Admin" method="post" enctype="multipart/form-data">
+                <input type="hidden" id="imageCarId" name="CarID" />
+
+                <div id="imageInputsContainer" class="mb-3">
+                    <div class="input-group mb-2">
+                        <input name="ImageFiles" type="file" class="form-control" multiple />
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-outline-success btn-sm mb-2" id="addMoreImageInput">+ Add Another File Input</button>
+                <button type="submit" class="btn btn-primary">Upload Images</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const imageInputsContainer = document.getElementById("imageInputsContainer");
+            const addMoreBtn = document.getElementById("addMoreImageInput");
+            const modal = new bootstrap.Modal(document.getElementById("AddImagesModal"));
+
+            document.querySelectorAll(".openImageModal").forEach(btn => {
+                btn.addEventListener("click", function () {
+                    const carId = this.dataset.carId;
+                    document.getElementById("imageCarId").value = carId;
+                    // reset inputs
+                    imageInputsContainer.innerHTML = `
+                                <div class="input-group mb-2">
+                                    <input name="ImageFiles" type="file" class="form-control" multiple />
+                                </div>`;
+                    modal.show();
+                });
+            });
+
+            addMoreBtn.addEventListener("click", function () {
+                const wrapper = document.createElement("div");
+                wrapper.classList.add("input-group", "mb-2");
+                wrapper.innerHTML = `<input name="ImageFiles" type="file" class="form-control" multiple />`;
+                imageInputsContainer.appendChild(wrapper);
+            });
+        });
+    </script>
+}

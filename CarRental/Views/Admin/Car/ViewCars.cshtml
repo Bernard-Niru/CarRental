@@ -46,8 +46,11 @@
                     <a asp-action="DeleteCar" asp-route-id="@car.CarID" class="btn btn-sm btn-danger">
                         <i class="bi bi-trash3-fill"></i>
                     </a>
-                    <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#AddImage" data-car-id="@car.CarID">
+                    <button type="button" class="btn btn-sm btn-success openImageModal" data-car-id="@car.CarID">
                         <i class="bi bi-image-fill"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-info openPlateModal" data-car-id="@car.CarID">
+                        <i class="bi bi-card-text"></i>
                     </button>
 
                 </td>
@@ -60,75 +63,202 @@
 
 
 <link rel="stylesheet" href="~/css/imageForm.css" />
-<div class="modal fade" id="AddImage" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+
+<!-- Image Upload Modal -->
+<div class="modal fade" id="AddImageModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="background: transparent; border: none; box-shadow: none;">
-            <h2 id="modalTitle">Add Units</h2>
+        <div class="modal-content p-4">
+            <h4 class="mb-3">Add Car Images</h4>
 
-            <form asp-action="AddUnit" asp-controller="Admin" method="post" enctype="multipart/form-data" id="unitsForm">
-                <div id="unitsContainer">
-                    <div class="unit-group">
-                        <div class="form-group">
-                            <label>Car ID</label>
-                            <input name="Units[0].CarID" id="carIdInput" class="form-control" />
-                        </div>
+            <form asp-action="AddImage" asp-controller="Admin" method="post" enctype="multipart/form-data">
+                <!-- This binds to AddImageViewModel.CarID -->
+                <input type="hidden" id="imageCarId" name="CarID" />
 
-                        <div class="form-group">
-                            <label>Plate Number</label>
-                            <input name="Units[0].PlateNumber" class="form-control" />
-                        </div>
-
-                        <div class="form-group">
-                            <label>Upload Image</label>
-                            <input name="Units[0].ImageFile" type="file" class="form-control" />
-                        </div>
-                    </div>
+                <div id="imageContainer" class="mb-3">
+                    <!-- Input will be inserted by JS -->
                 </div>
 
-                <button type="button" class="btn btn-secondary" id="addMoreBtn">Add Another Unit</button>
-                <button type="submit" class="btn btn-primary">Save All Units</button>
+                <button type="button" class="btn btn-outline-success btn-sm mb-2" id="addImageBtn">+ Add Image Input</button>
+                <button type="submit" class="btn btn-primary">Upload Images</button>
             </form>
         </div>
     </div>
 </div>
 
 <script>
-    // Make sure the DOM is fully loaded before running the script
     document.addEventListener("DOMContentLoaded", function () {
-        // Get modal element
-        const addImageModal = document.getElementById('AddImage');
+        const imageContainer = document.getElementById("imageContainer");
+        const addImageBtn = document.getElementById("addImageBtn");
 
-        // Hook into Bootstrap modal show event
-        addImageModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
-            const carId = button.getAttribute('data-car-id');
+        document.querySelectorAll(".openImageModal").forEach(button => {
+            button.addEventListener("click", function () {
+                const carId = this.dataset.carId;
+                document.getElementById("imageCarId").value = carId;
 
-            // Set the hidden input value
-            document.getElementById('carIdInput').value = carId;
-            document.getElementById('modalTitle').textContent = `Add Units for Car ID: ${carId}`;
+                // Reset inputs
+                imageContainer.innerHTML = "";
+                addImageInput();
+
+                new bootstrap.Modal(document.getElementById("AddImageModal")).show();
+            });
         });
 
-        // Handle "Add More Unit" button click
-        document.getElementById('addMoreBtn').addEventListener('click', function () {
-            const container = document.getElementById('unitsContainer');
-            const count = container.getElementsByClassName('unit-group').length;
+        function addImageInput() {
+            const wrapper = document.createElement("div");
+            wrapper.classList.add("input-group", "mb-2");
 
-            const newGroup = document.createElement('div');
-            newGroup.classList.add('unit-group');
-
-            newGroup.innerHTML = `
-                    <hr />
-                    <div class="form-group">
-                        <label>Plate Number</label>
-                        <input name="Units[${count}].PlateNumber" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label>Upload Image</label>
-                        <input name="Units[${count}].ImageFile" type="file" class="form-control" />
-                    </div>
+            wrapper.innerHTML = `
+                    <!-- ✅ Correct name for binding to AddImageViewModel.ImageFiles -->
+                    <input name="ImageFiles" type="file" class="form-control" multiple required />
                 `;
 
-            container.appendChild(newGroup);
-        });
+            // Only allow one input (since "multiple" is supported)
+            imageContainer.innerHTML = "";
+            imageContainer.appendChild(wrapper);
+        }
+
+        addImageBtn.addEventListener("click", addImageInput);
     });
 </script>
+
+
+
+@* <!-- Image Upload Modal -->
+<div class="modal fade" id="AddImageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4">
+            <h4 class="mb-3">Add Car Images</h4>
+
+            <form asp-action="AddImage" asp-controller="Admin" method="post" enctype="multipart/form-data">
+                <input type="hidden" id="imageCarId" name="CarID" />
+
+                <div id="imageContainer" class="mb-3">
+                    <!-- Input will be inserted by JS -->
+                </div>
+
+                <button type="button" class="btn btn-outline-success btn-sm mb-2" id="addImageBtn">+ Add Image Input</button>
+                <button type="submit" class="btn btn-primary">Upload Images</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Plate Number Modal -->
+<div class="modal fade" id="AddPlateModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-4">
+            <h4 class="mb-3">Add Plate Numbers</h4>
+
+            <form asp-action="AddUnit" asp-controller="Admin" method="post" id="plateForm">
+                <input type="hidden" id="plateCarId" name="Units[0].CarID" />
+                <div id="plateContainer"></div>
+
+                <button type="button" class="btn btn-outline-primary btn-sm mb-2" id="addPlateBtn">+ Add Plate</button>
+                <button type="submit" class="btn btn-primary">Save Plates</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const plateContainer = document.getElementById("plateContainer");
+        const addPlateBtn = document.getElementById("addPlateBtn");
+
+        document.querySelectorAll(".openPlateModal").forEach(button => {
+            button.addEventListener("click", function () {
+                const carId = this.dataset.carId;
+                document.getElementById("plateCarId").value = carId;
+
+                plateContainer.innerHTML = "";
+                addPlateInput();
+
+                new bootstrap.Modal(document.getElementById("AddPlateModal")).show();
+            });
+        });
+
+        function addPlateInput() {
+            const index = plateContainer.querySelectorAll("input").length;
+            const wrapper = document.createElement("div");
+            wrapper.classList.add("input-group", "mb-2");
+
+            wrapper.innerHTML = `
+                    <input name="Units[0].PlateNumbers[${index}]" class="form-control" placeholder="Plate Number" required />
+                    <button type="button" class="btn btn-danger btn-sm remove-plate">Remove</button>
+                `;
+
+            wrapper.querySelector(".remove-plate").addEventListener("click", () => {
+                wrapper.remove();
+                reindexPlateInputs();
+            });
+
+            plateContainer.appendChild(wrapper);
+        }
+
+        function reindexPlateInputs() {
+            plateContainer.querySelectorAll("input").forEach((input, idx) => {
+                input.name = `Units[0].PlateNumbers[${idx}]`;
+            });
+        }
+
+        addPlateBtn.addEventListener("click", addPlateInput);
+    });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const imageContainer = document.getElementById("imageContainer");
+        const addImageBtn = document.getElementById("addImageBtn");
+
+        document.querySelectorAll(".openImageModal").forEach(button => {
+            button.addEventListener("click", function () {
+                const carId = this.dataset.carId;
+                document.getElementById("imageCarId").value = carId;
+
+                imageContainer.innerHTML = "";
+                addImageInput();
+
+                new bootstrap.Modal(document.getElementById("AddImageModal")).show();
+            });
+        });
+
+      function addImageInput() {
+            const wrapper = document.createElement("div");
+            wrapper.classList.add("input-group", "mb-2");
+
+            wrapper.innerHTML = `
+                    <input name="Units[0].ImageFiles" type="file" class="form-control" multiple required />
+                    <button type="button" class="btn btn-danger btn-sm remove-image">Remove</button>
+                `;
+
+            wrapper.querySelector(".remove-image").addEventListener("click", () => {
+                wrapper.remove();
+            });
+
+            imageContainer.appendChild(wrapper);
+        } 
+            function addImageInput() {
+                const wrapper = document.createElement("div");
+                wrapper.classList.add("input-group", "mb-2");
+
+                wrapper.innerHTML = `
+               <input name="ImageFiles" type="file" class="form-control" multiple required />
+
+        `;
+
+                // Prevent adding multiple inputs, only allow one with `multiple`
+                imageContainer.innerHTML = ""; // Clear existing inputs
+                imageContainer.appendChild(wrapper);
+            }
+
+        addImageBtn.addEventListener("click", addImageInput);
+    });
+</script>
+ *@

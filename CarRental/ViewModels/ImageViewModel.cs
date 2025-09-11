@@ -1,9 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace CarRental.ViewModels
 {
-    public class ImageViewModel
+    public class AddImageViewModel
     {
+
         [Key]
         public int ImageID { get; set; }
 
@@ -11,6 +15,11 @@ namespace CarRental.ViewModels
         public int CarID { get; set; }
 
         [Required]
-        public byte[] ImageData { get; set; }
+
+        public List<IFormFile> ImageFiles { get; set; } = new List<IFormFile>();//thiva
+      
+        public byte[] ImageData { get; set; }//bn
+
     }
 }
+

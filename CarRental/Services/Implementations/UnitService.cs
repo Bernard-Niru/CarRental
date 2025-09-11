@@ -1,9 +1,14 @@
 using CarRental.DTOs;
-using CarRental.Mappings;
 using CarRental.Models;
+using CarRental.repo.Interfaces;
 using CarRental.Repositories.Interfaces;
 using CarRental.Services.Interfaces;
 using CarRental.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CarRental.Services.Implementations
 {
@@ -11,16 +16,13 @@ namespace CarRental.Services.Implementations
     {
         private readonly IUnitRepository _unitRepo;
         private readonly IImageRepository _imageRepo;
+        private readonly ICarRepository _carRepo;
 
-        public UnitService(IUnitRepository unitRepo, IImageRepository imageRepo)
+        public UnitService(IUnitRepository unitRepo, IImageRepository imageRepo, ICarRepository carRepo)
         {
             _unitRepo = unitRepo;
             _imageRepo = imageRepo;
-        }
-
-        public void Add(Unit unit)
-        {
-            _unitRepo.Add(unit);
+            _carRepo = carRepo;
         }
 
         public IEnumerable<UnitDTO> GetAll()
@@ -36,30 +38,40 @@ namespace CarRental.Services.Implementations
                           UnitID = u.UnitID,
                           CarID = u.CarID,
                           PlateNumber = u.PlateNumber,
-                          ImageBase64 = img != null
-                              ? $"data:image/png;base64,{Convert.ToBase64String(img.ImageData)}"
-                              : "/images/default.png"
+                         
                       };
 
             return dto.ToList();
         }
 
-        public async Task AddWithImagesAsync(AddUnitsViewModel model)
+        public async Task AddUnitsAsync(AddUnitsViewModel model)
         {
-            foreach (var unitViewModel in model.Units)
-            {
-                
-                var unit = UnitMapper.ToModel(unitViewModel);
-                _unitRepo.Add(unit);
+            if (model == null || model.Units == null || model.Units.Count == 0)
+                throw new ArgumentException("No units provided.");
 
-                
-                if (unitViewModel.ImageFile != null && unitViewModel.ImageFile.Length > 0)
+
+            foreach (var unitGroup in model.Units)
+            {
+                //if (!_carRepo.Exists(unitGroup.CarID))
+                //    throw new Exception($"CarID {unitGroup.CarID} does not exist.");
+
+                // Add each plate number as a unit for this car
+                foreach (var plate in unitGroup.PlateNumbers)
                 {
-                    using var ms = new MemoryStream();
-                    await unitViewModel.ImageFile.CopyToAsync(ms);
-                    var image = UnitMapper.ToImage(unitViewModel, ms.ToArray());
-                    _imageRepo.Add(image);
+                    if (string.IsNullOrWhiteSpace(plate))
+                        continue;
+
+                    var unit = new Unit
+                    {
+                        CarID = unitGroup.CarID,
+                        PlateNumber = plate
+                    };
+
+                    _unitRepo.Add(unit);
                 }
+
+              
+                
             }
         }
     }

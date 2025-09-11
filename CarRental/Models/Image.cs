@@ -22,5 +22,8 @@ namespace CarRental.Models
 
         [ForeignKey("CarID")]
         public Car? Car { get; set; }
+
+        [Required]  // Add this
+        public string MimeType { get; set; }
     }
 }
