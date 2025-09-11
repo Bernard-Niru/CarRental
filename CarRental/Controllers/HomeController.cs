@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using CarRental.Models;
+using CarRental.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Controllers
@@ -7,10 +8,12 @@ namespace CarRental.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ICarService _carService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger , ICarService carService)
         {
             _logger = logger;
+            _carService = carService;
         }
         public IActionResult login()
         {
@@ -30,6 +33,11 @@ namespace CarRental.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public IActionResult GuestPage()
+        {
+            var Car = _carService.GetAll();
+            return View(Car);
         }
     }
 }

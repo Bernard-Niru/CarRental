@@ -1,5 +1,7 @@
-﻿using CarRental.Repositories.Interfaces;
+﻿using CarRental.Mappings;
+using CarRental.Repositories.Interfaces;
 using CarRental.Services.Interfaces;
+using CarRental.ViewModels;
 
 namespace CarRental.Services.Implementations
 {
@@ -11,5 +13,19 @@ namespace CarRental.Services.Implementations
        {
             _repo = repo;
        }
+
+        public IEnumerable<ImageViewModel> GetImgsByCarID(int carID)
+        {
+            var images = _repo.GetImgsByCarID(carID);
+
+            if (images == null || !images.Any())
+            {
+                // Return empty list or null, depending on your preference
+                return Enumerable.Empty<ImageViewModel>();
+            }
+
+            return ImageMapper.ToViewModelList(images);
+        }
+
     }
 }
