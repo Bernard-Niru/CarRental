@@ -9,12 +9,16 @@ namespace CarRental.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+
+        private readonly ICarService _carService;
         private readonly IUserService _userservice;
 
-        public HomeController(ILogger<HomeController> logger , IUserService userService)
+        public HomeController(ILogger<HomeController> logger , ICarService carService , IUserService userService)
         {
             _logger = logger;
+            _carService = carService;
             _userservice = userService;
+
         }
         [HttpGet]
         public IActionResult login()
@@ -63,6 +67,11 @@ namespace CarRental.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public IActionResult GuestPage()
+        {
+            var Car = _carService.GetAll();
+            return View(Car);
         }
     }
 }

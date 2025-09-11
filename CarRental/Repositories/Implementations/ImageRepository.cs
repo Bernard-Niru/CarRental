@@ -38,5 +38,11 @@ namespace CarRental.Repositories.Implementations
                 _context.SaveChanges();
             }
         }
+        public IEnumerable<Image> GetImgsByCarID(int carID)
+        {
+            return _context.Images.Where(img => img.CarID == carID).ToList();
+        }
+
+
     }
 }
