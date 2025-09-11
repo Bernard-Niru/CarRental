@@ -210,7 +210,15 @@ namespace CarRental.Controllers
                 return NotFound();
             }
 
-            ViewBag.BrandList = new SelectList(_carService.GetAll(), "CarID", "CarName");
+           var brands = _brandService.GetAll()
+            .Select(b => new SelectListItem
+            {
+                Value = b.BrandID.ToString(),
+                Text = b.BrandName
+            })
+            .ToList();
+
+            ViewBag.BrandList = brands;
             ViewBag.CarType = new SelectList(Enum.GetValues(typeof(CarType)));
             ViewBag.FuelType = new SelectList(Enum.GetValues(typeof(FuelType)));
             ViewBag.GearType = new SelectList(Enum.GetValues(typeof(GearType)));
