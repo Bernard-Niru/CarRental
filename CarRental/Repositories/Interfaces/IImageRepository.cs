@@ -12,5 +12,7 @@ namespace CarRental.Repositories.Interfaces
         IEnumerable<Image> GetByCarId(int carId);
         void Delete(int id);
         IEnumerable<Image> GetAll();
+        IEnumerable<Image> GetImgsByCarID(int carID);
+
     }
 }

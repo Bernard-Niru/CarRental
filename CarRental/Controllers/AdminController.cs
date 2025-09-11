@@ -119,7 +119,7 @@ namespace CarRental.Controllers
 
             if (ModelState.IsValid)
             {
-                if (await _userService.CheckAsync(model.UserName))
+                if (await _userService.CheckAsync(model.UserName.Trim()))
                 {
                     TempData["ErrorMessage"] = "UserName already exists";
                     return View("User/AddUser", model);
@@ -201,6 +201,61 @@ namespace CarRental.Controllers
             var Car = _carService.GetAll();
             return View("Car/ViewCars", Car);
         }
+        [HttpGet]
+        public IActionResult UpdateCar(int id)
+        {
+            var car = _carService.GetcarByID(id);
+            if (car == null)
+            {
+                return NotFound();
+            }
+
+           var brands = _brandService.GetAll()
+            .Select(b => new SelectListItem
+            {
+                Value = b.BrandID.ToString(),
+                Text = b.BrandName
+            })
+            .ToList();
+
+            ViewBag.BrandList = brands;
+            ViewBag.CarType = new SelectList(Enum.GetValues(typeof(CarType)));
+            ViewBag.FuelType = new SelectList(Enum.GetValues(typeof(FuelType)));
+            ViewBag.GearType = new SelectList(Enum.GetValues(typeof(GearType)));
+
+            return View("Car/UpdateCar", car);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateCar(CarViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                // Repopulate ViewBags in case of validation failure
+                ViewBag.CarType = new SelectList(Enum.GetValues(typeof(CarType)));
+                ViewBag.FuelType = new SelectList(Enum.GetValues(typeof(FuelType)));
+                ViewBag.GearType = new SelectList(Enum.GetValues(typeof(GearType)));
+
+                return View("Car/UpdateCar", model);
+            }
+
+
+            // Update the car properties
+
+            _carService.Update(model);
+
+            TempData["SuccessMessage"] = "Car updated successfully!";
+            return RedirectToAction("ViewCars"); 
+        }
+
+
+        public IActionResult DeleteCar(int id)
+        {
+
+            _carService.Delete(id);
+            return RedirectToAction("ViewCars");
+        }
+
 
 
 

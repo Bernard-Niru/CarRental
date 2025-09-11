@@ -1,18 +1,21 @@
 ﻿@model CarRental.ViewModels.CarViewModel
 
 @{
-    ViewData["Title"] = "Add Car";
+    ViewData["Title"] = "Update Car";
 }
 
 <!-- Page Title -->
 <h2 class="mb-4 text-center text-gradient fw-bold">
-    <i class="fas fa-car me-2"></i> Add New Car
+    <i class="fas fa-edit me-2"></i> Update Car
 </h2>
 
 <!-- Glassmorphism Card -->
 <div class="card glass-card shadow-lg mx-auto" style="max-width: 700px;">
     <div class="card-body p-4">
-        <form asp-action="AddCar" asp-controller="Admin" method="post">
+        <form asp-action="UpdateCar" asp-controller="Admin" method="post">
+
+            <!-- Hidden Car ID -->
+            <input type="hidden" asp-for="CarID" />
 
             <!-- Car Name -->
             <div class="form-group mb-3">
@@ -91,7 +94,7 @@
 
             <!-- Submit Button -->
             <button type="submit" class="btn btn-gradient w-100 fw-bold">
-                <i class="fas fa-plus-circle me-1"></i> Add Car
+                <i class="fas fa-save me-1"></i> Update Car
             </button>
         </form>
     </div>
@@ -108,7 +111,6 @@
     </script>
 
     <style>
-        /* Glassmorphism Card */
         .glass-card {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
@@ -149,6 +151,5 @@
         .fw-semibold {
             font-weight: 600;
         }
-
     </style>
 }

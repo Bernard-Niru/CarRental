@@ -1,0 +1,11 @@
+﻿/* Blur effect on modal backdrop */
+.modal-backdrop.blur-backdrop {
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.4); /* dim background */
+}
+
+/* Optional: Rounded corners and shadow on modal */
+.modal-content {
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}

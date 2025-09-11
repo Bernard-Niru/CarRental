@@ -1,3 +1,4 @@
+
 ﻿//using CarRental.Mappings;
 //using CarRental.Models;
 //using CarRental.Repositories.Interfaces;
@@ -67,6 +68,7 @@ using CarRental.Mappings;
 using System.Linq;
 using CarRental.DTOs;
 using CarRental.Services.Interfaces;
+using CarRental.ViewModels;
 
 public class ImageService : IImageService
 {
@@ -93,6 +95,7 @@ public class ImageService : IImageService
             await file.CopyToAsync(ms);
             var imageData = ms.ToArray();
 
+
             var image = new Image
             {
                 CarID = model.CarID,
@@ -113,5 +116,20 @@ public class ImageService : IImageService
         var images = _imageRepo.GetByCarId(carId);
         var dtos = images.Select(i => ImageMapping.ToDTO(i)).ToList();
         return await Task.FromResult(dtos);
+
+      
+
+        public IEnumerable<ImageViewModel> GetImgsByCarID(int carID)
+        {
+            var images =  _imageRepo.GetImgsByCarID(carID);
+
+            if (images == null || !images.Any())
+            {
+                // Return empty list or null, depending on your preference
+                return Enumerable.Empty<ImageViewModel>();
+            }
+
+            return ImageMapper.ToViewModelList(images);
+        }
     }
 }

@@ -5,6 +5,8 @@ using CarRental.Models;
 using CarRental.Repositories.Interfaces;
 using CarRental.Services.Interfaces;
 using CarRental.ViewModels;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace CarRental.Services.Implementations
 {
@@ -22,7 +24,10 @@ namespace CarRental.Services.Implementations
         }
         public async Task AddAsync(UserViewModel model)
         {
-            var User = UserMapper.ToModel(model);
+            string hashedPassword = Convert.ToBase64String(
+                SHA256.HashData(Encoding.UTF8.GetBytes(model.Password.Trim()))
+            );
+            var User = UserMapper.ToModel(model, hashedPassword);
             await _repo.AddAsync(User);
 
         }
@@ -67,6 +72,23 @@ namespace CarRental.Services.Implementations
         public void Delete(int id)
         {
             _repo.DeletebyID(id);
+        }
+        public string CheckPassword(LoginViewModels login)
+        {
+            var User = _repo.CheckPassword(login.Username.Trim());
+            if (User == null)
+            {
+                return "Account Blocked";
+            }
+            string hashedPassword = Convert.ToBase64String(
+                SHA256.HashData(Encoding.UTF8.GetBytes(login.Password.Trim()))
+            );
+            if (User.Password != hashedPassword)
+            {
+                return "Incorrect Password";
+            }
+            string role = User.Role.ToString();
+            return role;
         }
     }
 }

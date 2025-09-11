@@ -1,5 +1,6 @@
 ﻿using CarRental.DTOs;
 using CarRental.Mappings;
+using CarRental.Models;
 using CarRental.repo.Interfaces;
 using CarRental.Repositories.Interfaces;
 using CarRental.Services.Interfaces;
@@ -12,11 +13,13 @@ namespace CarRental.Services.Implementations
     {
         private readonly ICarRepository _repo;
         private readonly IBrandService _brandService;
+        private readonly IImageService _imageService;
 
-        public CarService(ICarRepository repo, IBrandService brandService) 
+        public CarService(ICarRepository repo, IBrandService brandService, IImageService imageService) 
         {
             _repo = repo; 
             _brandService = brandService;
+            _imageService = imageService;
         }
         public void AddCar(CarViewModel model)
         {
@@ -30,9 +33,22 @@ namespace CarRental.Services.Implementations
             var brands = _brandService.GetAll();
             var carlist = new List<CarDTO>();
 
-            foreach (var c in cars )
+            foreach (var c in cars)
             {
                 var brandName = brands.FirstOrDefault(b => b.BrandID == c.BrandID)?.BrandName ?? "Unknown";
+                var image = _imageService.GetImgsByCarID(c.CarID);
+
+                var images = _imageService.GetImgsByCarID(c.CarID);
+
+
+                var imageDataList = images != null && images.Any()
+                    ? images.Select(img => "data:image/jpeg;base64," + Convert.ToBase64String(img.ImageData)).ToList()
+                    : new List<string> { "/images/default-car.png" };
+
+                var imageIDs = images != null && images.Any()
+                    ? images.Select(img => img.ImageID).ToList()
+                    : new List<int>();
+
 
                 var model = new CarDTO
                 {
@@ -40,20 +56,51 @@ namespace CarRental.Services.Implementations
                     CarName = c.CarName,
                     BrandID = c.BrandID,
                     BrandName = brandName,
-                    CarType = c.CarType,
+                    ImageDataList = imageDataList,
+                    ImageIDs = imageIDs,
+                    CarType= c.CarType,
                     FuelType = c.FuelType,
                     Color = c.Color,
                     No_of_Seats = c.No_of_Seats,
                     Ratings = c.Ratings,
                     RentalRate = c.RentalRate,
-
                 };
 
-               carlist.Add(model);
+                carlist.Add(model);
             }
-            
+
             return carlist;
-        } 
+        }
+
+        public void Update(CarViewModel model)
+        {
+            var Car = CarMapper.ToModel(model);
+            _repo.Update(Car);
+        }
+       
+        public CarViewModel GetcarByID(int id)
+        {
+            var car = _repo.GetByID(id);
+            //if (car == null)
+            //{
+            // Could throw an exception or return null
+            // return null;
+            //}
+            var user = CarMapper.ToViewModel(car);
+            return user;
+        }
+        public void Delete(int id)
+        {
+            var car = _repo.GetByID(id);
+            if (car != null)
+            {
+                car.IsDeleted = true;
+                _repo.Update(car); 
+            }
+        }
+
+
+
     }
 }
         

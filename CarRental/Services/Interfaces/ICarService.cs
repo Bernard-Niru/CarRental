@@ -9,4 +9,11 @@ public interface ICarService
 
     IEnumerable<CarDTO> GetAll();
 
+    void Update(CarViewModel model);
+
+    void Delete(int id);
+
+    CarViewModel GetcarByID(int id);
+
+
 }

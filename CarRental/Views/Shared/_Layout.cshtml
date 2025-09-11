@@ -34,9 +34,12 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ViewUser">User</a>
                             </li>
-                            <li class="nav-item">
-                               
+                            @* <li class="nav-item">
+
                                 <a class="nav-link text-dark" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</a>
+                            </li> *@
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="login">Sin in</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Admin_Layout">Dash Board</a>
@@ -60,7 +63,7 @@
         </div>
     </footer>
 
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    @* <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="wrapper">
@@ -115,7 +118,7 @@
                         </div>
                         <button type="submit">Register</button>
 
-                        
+
                         <div class="register">
                             <a href="#" id="backToLogin">Back to Login</a>
                         </div>
@@ -143,9 +146,9 @@
             var loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
             loginModal.show();
         });
-    </script>
+    </script> *@
 
-   
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
