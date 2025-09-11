@@ -82,3 +82,8 @@ button.btn-primary {
         background: linear-gradient(135deg, #a08543, #8c6c3a);
         box-shadow: 0 6px 12px rgba(140,108,58,0.7);
     }
+
+/*Add extra image & plateNumber button*/
+.plate-group, .image-group {
+    margin-bottom: 15px;
+}
