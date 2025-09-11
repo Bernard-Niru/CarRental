@@ -6,15 +6,15 @@ namespace CarRental.Mappings
 {
     public class UserMapper
     {
-        public static User ToModel(UserViewModel model)
+        public static User ToModel(UserViewModel model,string hashedpassword)
         {
             return new User
             {
                 UserID = model.Id,
                 Name = model.Name,
                 Email = model.EmailAddress,
-                UserName = model.UserName,
-                Password = model.Password,
+                UserName = model.UserName.Trim(),
+                Password = hashedpassword,
                 Role = model.Role,
                 IsDeleted = false
             };

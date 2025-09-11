@@ -12,6 +12,7 @@ namespace CarRental.Services.Interfaces
         UserDTO GetbyId(int id);
         void Edit(UserDTO userDTO);
         void Delete(int id);
+        string CheckPassword(LoginViewModels login);
 
     }
 }
