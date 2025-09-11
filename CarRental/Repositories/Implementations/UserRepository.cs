@@ -61,5 +61,18 @@ namespace CarRental.repo.Implementations
             _context.SaveChanges();
         }
 
+        public User? CheckPassword(string userName)
+        {
+            return _context.Users
+                .Where(b => b.UserName == userName && !b.IsDeleted)
+                .Select(b => new User
+                {
+                    Password = b.Password,
+                    Role = b.Role,
+                })
+                .FirstOrDefault();
+        }
+
+
     }
 }

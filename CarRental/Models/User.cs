@@ -19,7 +19,6 @@ namespace CarRental.Models
         public string UserName { get; set; }
 
         [Required]
-        [StringLength(8, MinimumLength = 8, ErrorMessage = "Password must be exactly 8 characters long.")]
         public string Password { get; set; }
 
         [Required]  
