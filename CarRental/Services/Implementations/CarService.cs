@@ -72,6 +72,35 @@ namespace CarRental.Services.Implementations
             return carlist;
         }
 
+        public void Update(CarViewModel model)
+        {
+            var Car = CarMapper.ToModel(model);
+            _repo.Update(Car);
+        }
+       
+        public CarViewModel GetcarByID(int id)
+        {
+            var car = _repo.GetByID(id);
+            //if (car == null)
+            //{
+            // Could throw an exception or return null
+            // return null;
+            //}
+            var user = CarMapper.ToViewModel(car);
+            return user;
+        }
+        public void Delete(int id)
+        {
+            var car = _repo.GetByID(id);
+            if (car != null)
+            {
+                car.IsDeleted = true;
+                _repo.Update(car); 
+            }
+        }
+
+
+
     }
 }
         

@@ -1,4 +1,4 @@
-﻿/* Container for the form */
+/* Container for the form */
 /*form {
     max-width: 500px;
     margin: 2rem auto;
@@ -90,4 +90,6 @@ input.form-control {
 .modal-content {
     border-radius: 15px;
     box-shadow: 0 0 15px rgba(0,0,0,0.3);
-}
+    }
+
+

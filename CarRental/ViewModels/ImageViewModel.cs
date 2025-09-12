@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace CarRental.ViewModels
 {
     public class ImageViewModel
     {
+
         [Key]
         public int ImageID { get; set; }
 
@@ -13,6 +14,7 @@ namespace CarRental.ViewModels
         [Required]
         public byte[] ImageData { get; set; }
 
-        public List<IFormFile> ImageFiles { get; set; } = new List<IFormFile>();
+        public List<IFormFile> ImageFiles { get; set; } = new List<IFormFile>();       
     }
 }
+

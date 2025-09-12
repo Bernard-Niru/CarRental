@@ -5,25 +5,28 @@ namespace CarRental.Mappings
 {
     public static class UnitMapper
     {
-        public static Unit ToModel(UnitImageViewModel viewModel)
+        public static List<Unit> ToUnits(UnitImageViewModel viewModel)
         {
-            return new Unit
+            return viewModel.PlateNumbers.Select(plate => new Unit
             {
                 CarID = viewModel.CarID,
-                PlateNumber = viewModel.PlateNumber,
+                PlateNumber = plate,
                 IsAvailble = true,
                 IsDeleted = false
-            };
+            }).ToList();
         }
 
-        public static Image ToImage(UnitImageViewModel viewModel, byte[] imageData)
-        {
-            return new Image
-            {
-                CarID = viewModel.CarID,
-                ImageData = imageData,
-                IsDeleted = false
-            };
-        }
+
+        //public static ImageMapping ToImage(UnitImageViewModel viewModel, byte[] imageData, string mimeType)
+        //{
+        //    return new ImageMapping
+        //    {
+        //        CarID = viewModel.CarID,
+        //        ImageData = imageData, 
+        //        MimeType = mimeType,   
+        //        IsDeleted = false
+        //    };
+        //}
+
     }
 }

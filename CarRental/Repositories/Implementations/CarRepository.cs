@@ -26,5 +26,14 @@ namespace CarRental.repo.Implementations
 
             return cars;
         }
+        public Car GetByID(int id)
+        {
+            return _context.Cars.Find(id);
+        }
+        public void Update(Car car)
+        {
+            _context.Cars.Update(car);
+            _context.SaveChanges();
+        }
     }
 }

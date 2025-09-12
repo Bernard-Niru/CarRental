@@ -1,4 +1,4 @@
-﻿using CarRental.Models;
+using CarRental.Models;
 using CarRental.ViewModels;
 
 namespace CarRental.Services.Interfaces

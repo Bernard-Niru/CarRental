@@ -22,5 +22,23 @@ namespace CarRental.Mappings
 
             };
         }
+        public static CarViewModel ToViewModel(Car car)
+        {
+            return new CarViewModel
+            {
+                CarID = car.CarID,
+                CarName = car.CarName,
+                BrandID = car.BrandID,
+                CarType = car.CarType,
+                FuelType = car.FuelType,
+                Color = car.Color,
+                No_of_Seats = car.No_of_Seats,
+                Ratings = car.Ratings,
+                RentalRate = car.RentalRate,
+
+            };
+        }
+
+        
     }
 }
