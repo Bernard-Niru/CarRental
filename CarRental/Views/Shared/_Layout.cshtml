@@ -1,6 +1,4 @@
-﻿
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -34,13 +32,10 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ViewUser">User</a>
                             </li>
-                            @* <li class="nav-item">
+                            <li class="nav-item">
 
                                 <a class="nav-link text-dark" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</a>
-                            </li> *@
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="login">Sign in</a>
-                            </li>
+                  
                             @* <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Admin_Layout">Dash Board</a>
                             </li> *@
@@ -63,15 +58,16 @@
         </div>
     </footer>
 
-    @* <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="wrapper">
                     <form method="post" action="/Home/Login">
+                        <div id="loginError" class="alert alert-danger" style="display: none;"></div>
                         <h2>Log In</h2>
                         <div class="input-feild">
-                            <input type="text" name="Email" required>
-                            <label>Enter Your Email</label>
+                            <input type="text" name="UserName" required>
+                            <label>Enter Your UserName</label>
                         </div>
                         <div class="input-feild">
                             <input type="password" name="Password" required>
@@ -100,14 +96,19 @@
             <div class="modal-content" style="background: transparent; border: none; box-shadow: none;">
                 <div class="wrapper">
                     <form method="post" action="/Home/Register">
+                        <div id="RegisterError" class="alert alert-danger" style="display: none;"></div>
                         <h2>Register</h2>
                         <div class="input-feild">
                             <input type="text" name="Name" required>
                             <label>Enter Your Name</label>
                         </div>
                         <div class="input-feild">
-                            <input type="text" name="Email" required>
+                            <input type="text" name="EmailAddress" required>
                             <label>Enter Your Email</label>
+                        </div>
+                        <div class="input-feild">
+                            <input type="text" name="UserName" required>
+                            <label>Enter Your UserName</label>
                         </div>
                         <div class="input-feild">
                             <input type="password" name="Password" required>
@@ -116,9 +117,7 @@
                         <div class="forget">
                             <label><input type="checkbox" name="RememberMe"> Remember Me</label>
                         </div>
-                        <button type="submit">Register</button>
-
-
+                        <button type="submit">Register</button>            
                         <div class="register">
                             <a href="#" id="backToLogin">Back to Login</a>
                         </div>
@@ -129,6 +128,35 @@
         </div>
     </div>
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            var errorMessagelogin = '@TempData["LoginErrorMessage"]';
+            var errorMessageRegister = '@TempData["RegisterErrorMessage"]';
+
+            if (errorMessagelogin) {
+                var errorlogin = document.getElementById("loginError");
+                if (errorlogin) {
+                    errorlogin.innerText = errorMessagelogin;
+                    errorlogin.style.display = "block";
+                }
+
+                var loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
+                loginModal.show();
+            }
+
+            if (errorMessageRegister) {
+                var errorRegister = document.getElementById("RegisterError");
+                if (errorRegister) {
+                    errorRegister.innerText = errorMessageRegister;
+                    errorRegister.style.display = "block";
+                }
+
+                var registerModal = new bootstrap.Modal(document.getElementById("registerModal"));
+                registerModal.show();
+            }
+        });
+
+
         document.getElementById("showRegister").addEventListener("click", function (e) {
             e.preventDefault();
             var loginModal = bootstrap.Modal.getInstance(document.getElementById("loginModal"));
@@ -146,7 +174,7 @@
             var loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
             loginModal.show();
         });
-    </script> *@
+    </script>
 
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

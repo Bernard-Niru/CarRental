@@ -9,17 +9,15 @@
     <input type="hidden" asp-for="Id" />
     <div class="mb-3">
         <label asp-for="Name" class="form-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+        <input asp-for="Name" class="form-control" readonly />
     </div>
     <div class=" mb-3">
         <label asp-for="Email" class="form-label"></label>
-        <input asp-for = "Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
+        <input asp-for="Email" class="form-control" readonly />
     </div>
     <div class=" mb-3">
         <label asp-for="UserName" class="form-label"></label>
-        <input asp-for="UserName" class="form-control" readonly/>
+        <input asp-for="UserName" class="form-control" readonly />
     </div>
     <div class=" mb-3">
         <label asp-for="Role" class="form-label"></label>
@@ -27,6 +25,6 @@
         <span asp-validation-for="Role" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-success">Edit</button>
- 
+
 </form>
 

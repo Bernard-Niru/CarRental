@@ -11,8 +11,8 @@ namespace CarRental.Services.Interfaces
         Task<IEnumerable<UserDTO>> GetallAsync();
         UserDTO GetbyId(int id);
         void Edit(UserDTO userDTO);
-        void Delete(int id);      
-        string CheckPassword(LoginViewModels login);
+        void Delete(int id);
+        string CheckPassword(UserViewModel login);
 
     }
 }
