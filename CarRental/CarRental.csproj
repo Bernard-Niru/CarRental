@@ -13,6 +13,18 @@
     <None Remove="Views\Admin\Users\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\js\ImageForm.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\ImageForm.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\ImageForm.js" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.9" />

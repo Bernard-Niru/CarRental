@@ -1,11 +1,8 @@
-
-﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
-
 
 namespace CarRental.ViewModels
 {
-    public class AddImageViewModel
+    public class ImageViewModel
     {
 
         [Key]
@@ -15,11 +12,9 @@ namespace CarRental.ViewModels
         public int CarID { get; set; }
 
         [Required]
+        public byte[] ImageData { get; set; }
 
-        public List<IFormFile> ImageFiles { get; set; } = new List<IFormFile>();//thiva
-      
-        public byte[] ImageData { get; set; }//bn
-
+        public List<IFormFile> ImageFiles { get; set; } = new List<IFormFile>();       
     }
 }
 

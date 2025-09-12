@@ -1,4 +1,6 @@
-﻿using CarRental.Services.Interfaces;
+﻿using CarRental.Services.Implementations;
+using CarRental.Services.Interfaces;
+using CarRental.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Controllers
@@ -6,10 +8,12 @@ namespace CarRental.Controllers
     public class CustomerController : Controller
     {
         private readonly ICarService _carService;
+        private readonly IRequestService _requestService;
 
-        public CustomerController(ICarService carService)
+        public CustomerController(ICarService carService , IRequestService requestService)
         {
             _carService = carService;
+            _requestService = requestService;
         }
         public IActionResult Index()
         {
@@ -21,10 +25,20 @@ namespace CarRental.Controllers
             var Car = _carService.GetAll();
             return View(Car);
         }
-
-        public IActionResult Request() 
+        [HttpPost]
+        [HttpPost]
+        public IActionResult AddRequest(RequestViewModel model)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                var cars = _carService.GetAll(); // You need to repopulate the model
+                ViewData["FormErrors"] = "Please fix the form errors.";
+                return View("ViewPage", cars); // Pass the cars list again
+            }
+
+            _requestService.Add(model);
+            return RedirectToAction("ViewPage");
         }
+
     }
 }

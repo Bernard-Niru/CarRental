@@ -278,60 +278,6 @@ namespace CarRental.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         //=========================================== UNITS + IMAGES ======================================================
 
         [HttpGet]
@@ -369,18 +315,18 @@ namespace CarRental.Controllers
         //    return View(model);
         //}
 
-        //[HttpPost]
-        //public async Task<IActionResult> AddUnit(AddUnitsViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        await _unitService.AddWithImagesAsync(model);
-        //        return RedirectToAction("ViewUnits");
-        //    }
+        [HttpPost]
+        public async Task<IActionResult> AddUnit(AddUnitsViewModel model)
+        {
+            if (ModelState.IsValid)
+           {
+                await _unitService.AddWithImagesAsync(model);
+                return RedirectToAction("ViewUnits");
+            }
 
-        //    TempData["ErrorMessage"] = "Failed to add unit. Please check the form.";
-        //    return RedirectToAction("ViewCars");
-        //}
+            TempData["ErrorMessage"] = "Failed to add unit. Please check the form.";
+            return RedirectToAction("ViewCars");
+        }
 
 
         [HttpPost]
@@ -406,51 +352,92 @@ namespace CarRental.Controllers
             await _unitService.AddUnitsAsync(model);
             return RedirectToAction("ViewCars");
         }
-
-
-
-        //try
-        //{
-        //    await _unitService.AddWithImagesAsync(model);
-        //    TempData["SuccessMessage"] = "Units added successfully!";
-        //}
-        //catch (Exception ex)
-        //{
-        //    TempData["ErrorMessage"] = ex.Message;
-        //}
-
-
-        [HttpGet]
-        public async Task<IActionResult> ViewImage()
-        {
-            // Suppose you fetch car list from CarService, here simplified
-            // var cars = await _carService.GetAllCarsAsync();
-            // For each car, get images
-
-            // For demo, assume you pass CarWithImagesDTO
-            // Let's assume CarService gives CarID & CarName, etc.
-
-            // Example:
-            var cars = new List<CarWithImagesDTO>();  // populate from service
-                                                      // for each car in your data source
-                                                      //      cars.Add(new CarWithImagesDTO { CarID = car.CarID, CarName = car.CarName, etc, Images = await _imageService.GetImagesForCarAsync(car.CarID) });
-
-            return View("Image/ViewImage", cars);
- 
-        }
-
+     
+        
         [HttpPost]
-        public async Task<IActionResult> AddImage(AddImageViewModel model)
+        public async Task<IActionResult> AddImage(ImageViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (model.ImageFiles == null || !model.ImageFiles.Any())
             {
-                TempData["ErrorMessage"] = "Please select images.";
-                return RedirectToAction("ViewImage");
+                ModelState.AddModelError("", "Please upload at least one image.");
+                return View(model);
             }
 
-            await _imageService.AddImagesAsync(model);
-            TempData["SuccessMessage"] = "Images uploaded successfully.";
-            return RedirectToAction("ViewImage");
+            var images = new List<Image>();
+
+            foreach (var file in model.ImageFiles)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(memoryStream);
+                    images.Add(new Image
+                    {
+                        CarID = model.CarID,
+                        ImageData = memoryStream.ToArray(),
+                        IsDeleted = false
+                    });
+                }
+            }
+
+            _imageService.Add(images);
+
+            return RedirectToAction("ViewCars");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=======
+        
         }
 
 

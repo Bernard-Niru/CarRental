@@ -1,42 +1,42 @@
-﻿/* Container for the form */
-form {
+/* Container for the form */
+/*form {
     max-width: 500px;
     margin: 2rem auto;
     padding: 2rem 3rem;
-    background: #f9f5f1; /* Light beige */
-    border: 1px solid #d2c7bb;
+    background: #f9f5f1;*/ /* Light beige */
+    /*border: 1px solid #d2c7bb;
     border-radius: 12px;
     box-shadow: 0 6px 12px rgba(0,0,0,0.1);
     font-family: 'Georgia', serif;
     color: #4b3b2b;
-}
+}*/
 
 /* Heading */
-h2 {
+/*h2 {
     text-align: center;
     font-weight: 700;
     font-size: 2rem;
     margin-bottom: 1.8rem;
     color: #5a4a37;
     text-shadow: 1px 1px 0 #d1c4b2;
-}
+}*/
 
 /* Form groups spacing */
-.form-group {
+/*.form-group {
     margin-bottom: 1.5rem;
-}
+}*/
 
 /* Labels */
-label {
+/*label {
     display: block;
     font-weight: 600;
     font-size: 1.1rem;
     margin-bottom: 0.5rem;
     color: #6e5a44;
-}
+}*/
 
 /* Inputs styling */
-input[type="text"],
+/*input[type="text"],
 input[type="file"],
 input[type="number"],
 input[type="email"],
@@ -52,17 +52,17 @@ input.form-control {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
     font-family: 'Georgia', serif;
     color: #4b3b2b;
-}
+}*/
 
 /* Focus effect */
-input:focus {
+/*input:focus {
     border-color: #8c6c3a;
     box-shadow: 0 0 6px #c8a85a;
     outline: none;
-}
+}*/
 
 /* Submit button */
-button.btn-primary {
+/*button.btn-primary {
     display: block;
     width: 100%;
     padding: 0.85rem;
@@ -81,9 +81,15 @@ button.btn-primary {
     button.btn-primary:hover {
         background: linear-gradient(135deg, #a08543, #8c6c3a);
         box-shadow: 0 6px 12px rgba(140,108,58,0.7);
+    }*/
+.modal-backdrop.blur-backdrop {
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
     }
 
-/*Add extra image & plateNumber button*/
-.plate-group, .image-group {
-    margin-bottom: 15px;
-}
+
