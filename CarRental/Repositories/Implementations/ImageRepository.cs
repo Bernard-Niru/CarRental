@@ -67,6 +67,7 @@ public class ImageRepository : IImageRepository
     public void Add(Image image)
     {
         _context.Images.Add(image);
+        _context.SaveChanges();
     }
 
     public async Task SaveChangesAsync()
