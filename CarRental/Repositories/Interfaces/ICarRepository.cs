@@ -6,11 +6,11 @@ namespace CarRental.repo.Interfaces
     public interface ICarRepository
     {
 
-        public void AddCar(Car car);
+        string AddCar(Car car);
 
         IEnumerable<Car> GetAll();
 
-        void Update(Car car);
+        string Update(Car car);
 
         Car GetByID(int id);
 
