@@ -18,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Views\Admin\Brand\_AddBrandPartial.cshtml~RF5564e89.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\js\ImageForm.js" />
   </ItemGroup>
 

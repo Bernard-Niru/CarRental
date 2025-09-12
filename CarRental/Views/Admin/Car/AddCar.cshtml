@@ -2,13 +2,17 @@
 
 @{
     ViewData["Title"] = "Add Car";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <!-- Page Title -->
 <h2 class="mb-4 text-center text-gradient fw-bold">
     <i class="fas fa-car me-2"></i> Add New Car
 </h2>
+@await Html.PartialAsync("Brand/_AddBrandPartial")
 
+
+<link rel="stylesheet" href="~/css/AddCar.css" asp-append-version="true" />
 <!-- Glassmorphism Card -->
 <div class="card glass-card shadow-lg mx-auto" style="max-width: 700px;">
     <div class="card-body p-4">
@@ -24,11 +28,18 @@
             <!-- Brand -->
             <div class="form-group mb-3">
                 <label asp-for="BrandID" class="form-label fw-semibold">Brand</label>
-                <select asp-for="BrandID" class="form-select stylish-input" asp-items="ViewBag.BrandList">
-                    <option value="">-- Select Brand --</option>
-                </select>
+                <div class="d-flex align-items-center gap-2">
+                    <select asp-for="BrandID" class="form-select stylish-input" asp-items="ViewBag.BrandList">
+                        <option value="">-- Select Brand --</option>
+                    </select>
+                    <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#AddBrandModal">
+                        <i class="bi bi-plus-square-dotted"></i>
+                    </button>
+
+                </div>
                 <span asp-validation-for="BrandID" class="text-danger small"></span>
             </div>
+
 
             <!-- Car Type -->
             <div class="form-group mb-3">
@@ -100,55 +111,8 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 
-    <script>
-        document.getElementById("color-select").addEventListener("change", function () {
-            const customColor = document.getElementById("custom-color-input");
-            customColor.style.display = this.value === "Other" ? "block" : "none";
-        });
-    </script>
 
-    <style>
-        /* Glassmorphism Card */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 1rem;
-        }
+    <script src="~/js/AddCar.js"></script>
 
-        .text-gradient {
-            background: linear-gradient(to right, #007bff, #6610f2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .stylish-input {
-            border-radius: 0.5rem;
-            transition: box-shadow 0.3s, transform 0.2s;
-        }
-
-            .stylish-input:focus {
-                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-                transform: scale(1.02);
-            }
-
-        .btn-gradient {
-            background: linear-gradient(135deg, #007bff, #6610f2);
-            color: white;
-            border: none;
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            transition: background 0.3s, transform 0.2s;
-        }
-
-            .btn-gradient:hover {
-                background: linear-gradient(135deg, #0056b3, #520dc2);
-                transform: scale(1.03);
-            }
-
-        .fw-semibold {
-            font-weight: 600;
-        }
-
-    </style>
+  
 }
