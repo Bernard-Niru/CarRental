@@ -73,9 +73,9 @@ namespace CarRental.Services.Implementations
         {
             _repo.DeletebyID(id);
         }
-        public string CheckPassword(LoginViewModels login)
+        public string CheckPassword(UserViewModel login)
         {
-            var User = _repo.CheckPassword(login.Username.Trim());
+            var User = _repo.CheckPassword(login.UserName.Trim());
             if (User == null)
             {
                 return "Account Blocked";
@@ -87,7 +87,7 @@ namespace CarRental.Services.Implementations
             {
                 return "Incorrect Password";
             }
-            string role = User.Role.ToString();
+            var role = User.Role.ToString() + "," + User.UserID.ToString();
             return role;
         }
     }
