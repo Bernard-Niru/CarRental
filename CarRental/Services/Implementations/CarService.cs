@@ -21,10 +21,10 @@ namespace CarRental.Services.Implementations
             _brandService = brandService;
             _imageService = imageService;
         }
-        public void AddCar(CarViewModel model)
+        public string AddCar(CarViewModel model)
         {
             var car = CarMapper.ToModel(model);
-            _repo.AddCar(car);
+            return _repo.AddCar(car);
 
         }
         public IEnumerable<CarDTO> GetAll()
@@ -72,12 +72,12 @@ namespace CarRental.Services.Implementations
             return carlist;
         }
 
-        public void Update(CarViewModel model)
+        public string Update(CarViewModel model)
         {
             var Car = CarMapper.ToModel(model);
-            _repo.Update(Car);
+            return _repo.Update(Car);
         }
-       
+
         public CarViewModel GetcarByID(int id)
         {
             var car = _repo.GetByID(id);

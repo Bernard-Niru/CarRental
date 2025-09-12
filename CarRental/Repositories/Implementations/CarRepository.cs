@@ -13,27 +13,29 @@ namespace CarRental.repo.Implementations
         {
             _context = context;
         }
-        public void AddCar(Car car) 
+        public string AddCar(Car car)
         {
             _context.Cars.Add(car);
             _context.SaveChanges();
+            return "Car added successfully!";
         }
-        IEnumerable<Car> ICarRepository.GetAll() 
+        IEnumerable<Car> ICarRepository.GetAll()
         {
             var cars = _context.Cars.
                         Where(c => !c.IsDeleted)
                         .ToList();
 
             return cars;
-        }
+        }      
         public Car GetByID(int id)
         {
             return _context.Cars.Find(id);
         }
-        public void Update(Car car)
+        public string Update(Car car)
         {
             _context.Cars.Update(car);
             _context.SaveChanges();
+            return "Car update successfully!";
         }
     }
 }

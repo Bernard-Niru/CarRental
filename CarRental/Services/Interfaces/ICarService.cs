@@ -5,11 +5,11 @@ namespace CarRental.Services.Interfaces;
 
 public interface ICarService
 {
-    void AddCar(CarViewModel model);
+    string AddCar(CarViewModel model);
 
     IEnumerable<CarDTO> GetAll();
 
-    void Update(CarViewModel model);
+    string Update(CarViewModel model);
 
     void Delete(int id);
 

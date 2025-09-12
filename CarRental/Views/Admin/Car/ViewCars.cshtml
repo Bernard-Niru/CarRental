@@ -6,7 +6,15 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
+<link rel="stylesheet" href="~/css/ViewCar.css" / >
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div id="success-alert" class="alert alert-success alert-dismissible fade show fade-custom" role="alert">
+        <i class="fas fa-check-circle me-2"></i> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 @{
     ViewData["Title"] = "View Cars";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -100,6 +108,7 @@
 
 
 <script src="~/js/ImageForm.js"></script>
+<script src="~/js/ViewCar.js"></script>
 
 
 
