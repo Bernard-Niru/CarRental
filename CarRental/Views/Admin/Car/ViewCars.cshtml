@@ -43,10 +43,14 @@
                         <i class="bi bi-pencil-fill"></i>
                     </a>
 
-                    <a asp-action="" asp-route-id="@car.CarID" class="btn btn-sm btn-danger">
+                    <a asp-action="" asp-route-id="@car.CarID" class="btn btn-sm btn-danger">                      
                         <i class="bi bi-trash3-fill"></i>
                     </a>
-                    <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#AddImage" data-car-id="@car.CarID">
+                    <button type="button"
+                            class="btn btn-sm btn-success upload-image-btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#AddImage"
+                            data-carid="@car.CarID">
                         <i class="bi bi-image-fill"></i>
                     </button>
 
@@ -60,75 +64,27 @@
 
 
 <link rel="stylesheet" href="~/css/imageForm.css" />
-<div class="modal fade" id="AddImage" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+<!-- Image Upload Modal -->
+<div class="modal fade" id="AddImage" tabindex="-1" aria-labelledby="AddImageLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="background: transparent; border: none; box-shadow: none;">
-            <h2 id="modalTitle">Add Units</h2>
+        <div class="modal-content rounded-4 shadow-lg border-0">
+            <div class="modal-body p-5 bg-white">
+                <h3 class="text-center mb-4">Upload Images</h3>
 
-            <form asp-action="AddUnit" asp-controller="Admin" method="post" enctype="multipart/form-data" id="unitsForm">
-                <div id="unitsContainer">
-                    <div class="unit-group">
-                        <div class="form-group">
-                            <label>Car ID</label>
-                            <input name="Units[0].CarID" id="carIdInput" class="form-control" />
-                        </div>
+                <form asp-action="AddImage" asp-controller="Admin" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="CarID" id="ImageCarID" />
 
-                        <div class="form-group">
-                            <label>Plate Number</label>
-                            <input name="Units[0].PlateNumber" class="form-control" />
-                        </div>
-
-                        <div class="form-group">
-                            <label>Upload Image</label>
-                            <input name="Units[0].ImageFile" type="file" class="form-control" />
-                        </div>
+                    <div class="mb-3">
+                        <label for="ImageFiles" class="form-label">Select Image(s)</label>
+                        <input type="file" name="ImageFiles" id="ImageFiles" class="form-control" multiple required />
                     </div>
-                </div>
 
-                <button type="button" class="btn btn-secondary" id="addMoreBtn">Add Another Unit</button>
-                <button type="submit" class="btn btn-primary">Save All Units</button>
-            </form>
+                    <button type="submit" class="btn btn-primary w-100 mt-3">Upload</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
 
-<script>
-    // Make sure the DOM is fully loaded before running the script
-    document.addEventListener("DOMContentLoaded", function () {
-        // Get modal element
-        const addImageModal = document.getElementById('AddImage');
 
-        // Hook into Bootstrap modal show event
-        addImageModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
-            const carId = button.getAttribute('data-car-id');
-
-            // Set the hidden input value
-            document.getElementById('carIdInput').value = carId;
-            document.getElementById('modalTitle').textContent = `Add Units for Car ID: ${carId}`;
-        });
-
-        // Handle "Add More Unit" button click
-        document.getElementById('addMoreBtn').addEventListener('click', function () {
-            const container = document.getElementById('unitsContainer');
-            const count = container.getElementsByClassName('unit-group').length;
-
-            const newGroup = document.createElement('div');
-            newGroup.classList.add('unit-group');
-
-            newGroup.innerHTML = `
-                    <hr />
-                    <div class="form-group">
-                        <label>Plate Number</label>
-                        <input name="Units[${count}].PlateNumber" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label>Upload Image</label>
-                        <input name="Units[${count}].ImageFile" type="file" class="form-control" />
-                    </div>
-                `;
-
-            container.appendChild(newGroup);
-        });
-    });
-</script>
+<script src="~/js/ImageForm.js"></script>

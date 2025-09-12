@@ -10,5 +10,6 @@ namespace CarRental.Services.Interfaces
         //Image GetById(int id);
         //void Delete(int id);
         IEnumerable<ImageViewModel> GetImgsByCarID(int carID);
+        void Add(List<Image> images);
     }
 }

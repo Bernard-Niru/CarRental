@@ -1,7 +1,10 @@
-﻿namespace CarRental.Services.Interfaces
+﻿using CarRental.Models;
+using CarRental.ViewModels;
+
+namespace CarRental.Services.Interfaces
 {
     public interface IRequestService
     {
-        // Your method signatures
+        void Add(RequestViewModel model);
     }
 }

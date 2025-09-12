@@ -335,7 +335,35 @@ namespace CarRental.Controllers
             var units = _unitService.GetAll();
             return View("Image/ViewUnit", units);
         }
+        [HttpPost]
+        public async Task<IActionResult> AddImage(ImageViewModel model)
+        {
+            if (model.ImageFiles == null || !model.ImageFiles.Any())
+            {
+                ModelState.AddModelError("", "Please upload at least one image.");
+                return View(model);
+            }
 
+            var images = new List<Image>();
+
+            foreach (var file in model.ImageFiles)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(memoryStream);
+                    images.Add(new Image
+                    {
+                        CarID = model.CarID,
+                        ImageData = memoryStream.ToArray(),
+                        IsDeleted = false
+                    });
+                }
+            }
+
+            _imageService.Add(images);
+
+            return RedirectToAction("ViewCars");
+        }
 
 
 

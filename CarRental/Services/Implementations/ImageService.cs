@@ -1,4 +1,5 @@
 ﻿using CarRental.Mappings;
+using CarRental.Models;
 using CarRental.Repositories.Interfaces;
 using CarRental.Services.Interfaces;
 using CarRental.ViewModels;
@@ -26,6 +27,12 @@ namespace CarRental.Services.Implementations
 
             return ImageMapper.ToViewModelList(images);
         }
-
+        public void Add(List<Image> images)
+        {
+            foreach (var image in images)
+            {
+                _repo.Add(image);
+            }
+        }
     }
 }

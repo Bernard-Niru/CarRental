@@ -12,5 +12,7 @@ namespace CarRental.ViewModels
 
         [Required]
         public byte[] ImageData { get; set; }
+
+        public List<IFormFile> ImageFiles { get; set; } = new List<IFormFile>();
     }
 }

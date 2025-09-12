@@ -18,7 +18,7 @@
 
 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
-<form asp-action="AddUser" method="post">
+<form asp-action="AddUser" asp-controller="Admin" method="post">
     <div class="mb-3">
         <label asp-for="Name" class="form-label">Name</label>
         <input asp-for="Name" class="form-control" placeholder="Enter name" />
