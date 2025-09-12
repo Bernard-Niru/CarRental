@@ -93,11 +93,10 @@ public class ImageRepository : IImageRepository
             image.IsDeleted = true;
             _context.SaveChanges();
         }
-        public IEnumerable<Image> GetImgsByCarID(int carID)
+        
+    }
+    public IEnumerable<Image> GetImgsByCarID(int carID)
         {
             return _context.Images.Where(img => img.CarID == carID).ToList();
         }
-
-
-    }
 }
