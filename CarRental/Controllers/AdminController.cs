@@ -37,12 +37,13 @@ namespace CarRental.Controllers
             _requestService = requestService;
         }
 
-        
-            public IActionResult Admin_Layout()
-            {
-                return View("~/Views/Shared/Admin_Layout.cshtml");
-            }
-        
+
+        public IActionResult Dashboard()
+        {
+            ViewData["HideNavbar"] = true;
+            return View("AdminDashborad/Dashboard");
+        }
+
 
 
         //=========================================== BRANDS ===============================================================
@@ -58,7 +59,7 @@ namespace CarRental.Controllers
         [HttpGet]
         public IActionResult AddBrand()
         {
-            return View("Brand/AddBrand");
+            return View("Brand/_AddBrandPartial");
         }
 
 
@@ -72,7 +73,7 @@ namespace CarRental.Controllers
             }
           
             _brandService.Add(model);
-            return RedirectToAction("ViewBrands");
+            return RedirectToAction("AddCar", "Admin");
 
         }
         [HttpGet]

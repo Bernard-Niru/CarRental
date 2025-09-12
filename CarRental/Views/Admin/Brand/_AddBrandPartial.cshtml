@@ -1,0 +1,81 @@
+﻿@model CarRental.ViewModels.BrandViewModel
+@{
+    ViewData["Title"] = "_AddBrandPartial";
+   
+}
+
+
+
+@* <h2>Create Brand</h2>
+,<br />
+<form asp-action="AddBrand" asp-controller="Admin" method="post">
+    <div class="mb-3">
+        <label asp-for="BrandName" class="form-label"></label>
+        <input asp-for="BrandName" class="form-control" />
+        <span asp-validation-for="BrandName" class="text-danger"></span>
+    </div>
+
+    <div class="d-flex justify-content-between">       
+        <a asp-action="ViewBrands" asp-controller="Admin" class="btn btn-secondary btn-sm">Back</a>
+        <button type="submit" class="btn btn-success btn-sm">Create</button>
+    </div>
+</form>
+ *@
+
+<link rel="stylesheet" href="~/css/imageForm.css" />
+
+
+<div class="modal fade" id="AddBrandModal" tabindex="-1" aria-labelledby="AddBrandLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow-lg border-0">
+            <div class="modal-body p-5 bg-white">
+                <h3 class="text-center mb-4">Create Brand</h3>
+
+                <form asp-action="AddBrand" asp-controller="Admin" method="post">
+                    <div class="mb-3">
+                        <label asp-for="BrandName" class="form-label"></label>
+                        <input asp-for="BrandName" class="form-control" />
+                        <span asp-validation-for="BrandName" class="text-danger"></span>
+                        
+                    </div>
+
+                   @*  <div class="d-flex justify-content-between"> *@
+                       <div>
+                        <a asp-action="ViewBrands" class="btn btn-secondary">
+                            <i c<i class="bi bi-card-list"> View Brands</i> 
+                        </a>
+                        <button type="submit" class="btn btn-primary w-100 mt-3">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const brandModal = document.getElementById('AddBrand');
+
+        if (brandModal) {
+            // Optional: Handle modal open (e.g., focus, prefill, etc.)
+            brandModal.addEventListener('show.bs.modal', event => {
+                // You can fetch data if needed from event.relatedTarget
+                // const button = event.relatedTarget;
+                // const someData = button?.getAttribute('data-something');
+                // console.log(someData);
+            });
+
+            // Add blur effect to backdrop on modal show
+            brandModal.addEventListener('shown.bs.modal', () => {
+                const backdrop = document.querySelector('.modal-backdrop');
+                if (backdrop) backdrop.classList.add('blur-backdrop');
+            });
+
+            // Remove blur effect from backdrop when modal is hidden
+            brandModal.addEventListener('hidden.bs.modal', () => {
+                const backdrop = document.querySelector('.modal-backdrop');
+                if (backdrop) backdrop.classList.remove('blur-backdrop');
+            });
+        }
+    });
+</script>

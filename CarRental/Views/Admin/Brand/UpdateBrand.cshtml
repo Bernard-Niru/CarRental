@@ -1,5 +1,10 @@
 ﻿@model CarRental.ViewModels.BrandViewModel
 
+@{
+    ViewData["Title"] = "Update Brand";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
 <h2>Edit Brand</h2>
 
 <form asp-action="UpdateBrand" asp-controller="Admin" method="post">
