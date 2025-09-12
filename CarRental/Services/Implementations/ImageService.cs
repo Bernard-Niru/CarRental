@@ -17,7 +17,7 @@ public class ImageService : IImageService
 
     public IEnumerable<ImageViewModel> GetImgsByCarID(int carID)
     {
-        var images =  _imageRepo.GetImgsByCarID(carID);
+        var images =  _repo.GetImgsByCarID(carID);
 
         if (images == null || !images.Any())
         {
