@@ -5,34 +5,34 @@ using CarRental.Services.Interfaces;
 using CarRental.ViewModels;
 
 namespace CarRental.Services.Implementations
-
-public class ImageService : IImageService
 {
-    private readonly IImageRepository -repo;
-
-    public ImageService(IImageRepository repo)
+    public class ImageService : IImageService
     {
-        _repo = repo;
-    }
-
-    public IEnumerable<ImageViewModel> GetImgsByCarID(int carID)
-    {
-        var images =  _repo.GetImgsByCarID(carID);
-
-        if (images == null || !images.Any())
+        private readonly IImageRepository _repo;
+    
+        public ImageService(IImageRepository repo)
         {
-            // Return empty list or null, depending on your preference
-            return Enumerable.Empty<ImageViewModel>();
+            _repo = repo;
         }
-
-        return ImageMapper.ToViewModelList(images);
-        }
-        public void Add(List<Image> images)
+    
+        public IEnumerable<ImageViewModel> GetImgsByCarID(int carID)
         {
-            foreach (var image in images)
+            var images =  _repo.GetImgsByCarID(carID);
+    
+            if (images == null || !images.Any())
             {
-                _repo.Add(image);
+                // Return empty list or null, depending on your preference
+                return Enumerable.Empty<ImageViewModel>();
             }
+    
+            return ImageMapper.ToViewModelList(images);
         }
+            public void Add(List<Image> images)
+            {
+                foreach (var image in images)
+                {
+                    _repo.Add(image);
+                }
+            }
     }
 }
