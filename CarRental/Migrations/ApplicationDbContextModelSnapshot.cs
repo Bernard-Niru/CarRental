@@ -159,10 +159,6 @@ namespace CarRental.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("MimeType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("ImageID");
 
                     b.HasIndex("CarID");

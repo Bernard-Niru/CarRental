@@ -315,7 +315,7 @@ namespace CarRental.Controllers
         //    return View(model);
         //}
 
-                //[HttpPost]
+        //[HttpPost]
         //public async Task<IActionResult> AddUnit(AddUnitsViewModel model)
         //{
         //    if (ModelState.IsValid)
@@ -352,8 +352,8 @@ namespace CarRental.Controllers
         //    await _unitService.AddUnitsAsync(model);
         //    return RedirectToAction("ViewCars");
         //}
-     
-        
+
+
         [HttpPost]
         public async Task<IActionResult> AddImage(ImageViewModel model)
         {
@@ -381,63 +381,68 @@ namespace CarRental.Controllers
 
             _imageService.Add(images);
 
-            return RedirectToAction("ViewCars");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
+            return RedirectToAction("ViewCars"); 
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //=============================================================== REQUESTS ======================================================
+        public IActionResult ViewRequests() 
+        {
+            var request = _requestService.GetAll();
+            return View("Request/ViewRequests", request);
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

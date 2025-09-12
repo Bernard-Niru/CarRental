@@ -1,5 +1,6 @@
 ﻿using CarRental.Data;
 using CarRental.Models;
+using CarRental.repo.Interfaces;
 using CarRental.Repositories.Interfaces;
 
 namespace CarRental.Repositories.Implementations
@@ -16,6 +17,14 @@ namespace CarRental.Repositories.Implementations
         {
             _context.Requests.Add(request);
             _context.SaveChanges();
+        }
+        IEnumerable<Request> IRequestRepository.GetAll()
+        {
+            var requests = _context.Requests.
+                         Where(b => !b.IsRejected)
+                         .ToList();
+
+            return requests;
         }
     }
 }
