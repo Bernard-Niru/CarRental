@@ -315,43 +315,43 @@ namespace CarRental.Controllers
         //    return View(model);
         //}
 
-        [HttpPost]
-        public async Task<IActionResult> AddUnit(AddUnitsViewModel model)
-        {
-            if (ModelState.IsValid)
-           {
-                await _unitService.AddWithImagesAsync(model);
-                return RedirectToAction("ViewUnits");
-            }
+                //[HttpPost]
+        //public async Task<IActionResult> AddUnit(AddUnitsViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //   {
+        //        await _unitService.AddWithImagesAsync(model);
+        //        return RedirectToAction("ViewUnits");
+        //    }
 
-            TempData["ErrorMessage"] = "Failed to add unit. Please check the form.";
-            return RedirectToAction("ViewCars");
-        }
+        //    TempData["ErrorMessage"] = "Failed to add unit. Please check the form.";
+        //    return RedirectToAction("ViewCars");
+        //}
 
 
-        [HttpPost]
-        public async Task<IActionResult> AddUnit(AddUnitsViewModel model)
-        {
-            foreach (var unit in model.Units)
-            {
-                foreach (var plate in unit.PlateNumbers)
-                {
-                    if (plate.Length > 10)
-                    {
-                        ModelState.AddModelError("PlateNumbers", $"Plate number '{plate}' exceeds 10 characters.");
-                    }
-                }
-            }
+        //[HttpPost]
+        //public async Task<IActionResult> AddUnit(AddUnitsViewModel model)
+        //{
+        //    foreach (var unit in model.Units)
+        //    {
+        //        foreach (var plate in unit.PlateNumbers)
+        //        {
+        //            if (plate.Length > 10)
+        //            {
+        //                ModelState.AddModelError("PlateNumbers", $"Plate number '{plate}' exceeds 10 characters.");
+        //            }
+        //        }
+        //    }
 
-            if (!ModelState.IsValid)
-            {
-                TempData["ErrorMessage"] = "Some plate numbers are invalid.";
-                return RedirectToAction("ViewCars");
-            }
+        //    if (!ModelState.IsValid)
+        //    {
+        //        TempData["ErrorMessage"] = "Some plate numbers are invalid.";
+        //        return RedirectToAction("ViewCars");
+        //    }
 
-            await _unitService.AddUnitsAsync(model);
-            return RedirectToAction("ViewCars");
-        }
+        //    await _unitService.AddUnitsAsync(model);
+        //    return RedirectToAction("ViewCars");
+        //}
      
         
         [HttpPost]
