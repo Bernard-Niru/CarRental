@@ -23,10 +23,7 @@ namespace CarRental.Services.Implementations
 
         public void Add(RequestViewModel model)
         {
-            
-            model.UserID = 4;
-            
-           
+                     
             var request = RequestMapper.ToModel(model);
             _repo.Add(request);
         }

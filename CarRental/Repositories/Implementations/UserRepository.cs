@@ -67,6 +67,7 @@ namespace CarRental.repo.Implementations
                 .Where(b => b.UserName == userName && !b.IsDeleted)
                 .Select(b => new User
                 {
+                    UserID = b.UserID,
                     Password = b.Password,
                     Role = b.Role,
                 })

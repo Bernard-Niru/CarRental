@@ -21,6 +21,12 @@ namespace CarRental.Controllers
             _userservice = userService;
 
         }
+        [HttpGet]
+        public IActionResult login()
+        {
+            TempData["LoginErrorMessage"] = "";
+            return View("Index");
+        }
         [HttpPost]
         public async Task<IActionResult> Register(UserViewModel User)
         {
@@ -56,11 +62,11 @@ namespace CarRental.Controllers
                     Role.Id = User[1].Trim();
                     if (User[0] == "Admin")
                     {
-                        return RedirectToAction("ViewUser", "Admin");
+                        return RedirectToAction("Dashboard", "Admin");
                     }
                     if (User[0] == "Customer")
                     {
-                        return RedirectToAction("Index", "Customer");
+                        return RedirectToAction("HomePage", "Customer");
                     }
                     if (User[0] == "Staff")
                     {
@@ -74,6 +80,7 @@ namespace CarRental.Controllers
             TempData["LoginErrorMessage"] = "Incorrect UserName";
             return View("Index", login);
         }
+
         public IActionResult Index()
         {
             return View();
