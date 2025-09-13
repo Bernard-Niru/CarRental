@@ -17,5 +17,13 @@ namespace CarRental.Repositories.Implementations
             _context.Requests.Add(request);
             _context.SaveChanges();
         }
+        IEnumerable<Request> IRequestRepository.GetAll()
+        {
+            var requests = _context.Requests.
+                         Where(b => !b.IsRejected)
+                         .ToList();
+
+            return requests;
+        }
     }
 }

@@ -320,7 +320,7 @@ namespace CarRental.Controllers
         //    return View(model);
         //}
 
-                //[HttpPost]
+        //[HttpPost]
         //public async Task<IActionResult> AddUnit(AddUnitsViewModel model)
         //{
         //    if (ModelState.IsValid)
@@ -357,8 +357,8 @@ namespace CarRental.Controllers
         //    await _unitService.AddUnitsAsync(model);
         //    return RedirectToAction("ViewCars");
         //}
-     
-        
+
+
         [HttpPost]
         public async Task<IActionResult> AddImage(ImageViewModel model)
         {
@@ -389,6 +389,7 @@ namespace CarRental.Controllers
             return RedirectToAction("ViewCars");
 
 
+        }
 
 
 
@@ -417,6 +418,18 @@ namespace CarRental.Controllers
 
 
 
+        //=============================================================== REQUESTS ======================================================
+        public IActionResult ViewRequests()
+        {
+            var request = _requestService.GetAll();
+            return View("Request/ViewRequests", request);
+
+        }
+        //public IActionResult AcceptRequest(int RequestID)
+        //{
+        //    _bookingService.AddBooking(RequestID);
+        //    return RedirectToAction("ViewRequests");
+        //}
 
 
 
@@ -441,7 +454,6 @@ namespace CarRental.Controllers
 
 
 
-        
         }
 
 
@@ -449,4 +461,4 @@ namespace CarRental.Controllers
 
 
     }
-}
+
