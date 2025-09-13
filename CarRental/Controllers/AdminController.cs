@@ -102,6 +102,7 @@ namespace CarRental.Controllers
         {
             
             _brandService.Delete(id);
+            TempData["SuccessMessage"] = "Brand deleted successfully!";
             return RedirectToAction("ViewBrands");
         }
 
@@ -158,6 +159,7 @@ namespace CarRental.Controllers
         public IActionResult Delete(int Id)
         {
             _userService.Delete(Id);
+            TempData["SuccessMessage"] = "User deleted successfully!";
             return RedirectToAction("ViewUser");
         }
 
@@ -248,8 +250,7 @@ namespace CarRental.Controllers
 
             // Update the car properties
 
-            _carService.Update(model);
-
+            string message = _carService.Update(model);
             TempData["SuccessMessage"] = "Car updated successfully!";
             return RedirectToAction("ViewCars"); 
         }
@@ -259,6 +260,7 @@ namespace CarRental.Controllers
         {
 
             _carService.Delete(id);
+            TempData["SuccessMessage"] = "Car deleted successfully!";
             return RedirectToAction("ViewCars");
         }
 

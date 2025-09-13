@@ -15,6 +15,16 @@ namespace CarRental.Controllers
             _carService = carService;
             _requestService = requestService;
         }
+
+        public IActionResult SignOut()
+        {
+            return RedirectToAction("Index","Home");
+        }
+        public IActionResult HomePage()
+        {
+            ViewData["HideNavbar"] = true;
+            return View("CustomerHomepage/Homepage");
+        }
         public IActionResult Index()
         {
             return View();
@@ -25,7 +35,7 @@ namespace CarRental.Controllers
             var Car = _carService.GetAll();
             return View(Car);
         }
-       
+
         [HttpPost]
         public IActionResult AddRequest(RequestViewModel model)
         {
@@ -35,7 +45,8 @@ namespace CarRental.Controllers
                 ViewData["FormErrors"] = "Please fix the form errors.";
                 return View("ViewPage", cars); // Pass the cars list again
             }
-
+            int id = int.Parse(Role.Id);
+            model.UserID = id;
             _requestService.Add(model);
             return RedirectToAction("ViewPage");
         }
