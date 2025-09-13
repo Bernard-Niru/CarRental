@@ -35,6 +35,7 @@ namespace CarRental.Controllers
             var Car = _carService.GetAll();
             return View(Car);
         }
+
         [HttpPost]
         public IActionResult AddRequest(RequestViewModel model)
         {

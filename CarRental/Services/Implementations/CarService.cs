@@ -36,7 +36,7 @@ namespace CarRental.Services.Implementations
             foreach (var c in cars)
             {
                 var brandName = brands.FirstOrDefault(b => b.BrandID == c.BrandID)?.BrandName ?? "Unknown";
-                var image = _imageService.GetImgsByCarID(c.CarID);
+                //var image = _imageService.GetImgsByCarID(c.CarID);
 
                 var images = _imageService.GetImgsByCarID(c.CarID);
 

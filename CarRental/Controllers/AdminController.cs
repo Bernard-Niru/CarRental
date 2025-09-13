@@ -200,6 +200,7 @@ namespace CarRental.Controllers
             }
 
             return View("Car/AddCar", model);
+           
 
         }
 
@@ -287,11 +288,7 @@ namespace CarRental.Controllers
 
         //=========================================== UNITS + IMAGES ======================================================
 
-        [HttpGet]
-        public IActionResult AddUnit()
-        {
-            return View("Image/AddUnit");
-        }
+        
         //[HttpPost]
         //public async Task<IActionResult> AddUnit(UnitImageViewModel model)
         //{
@@ -391,6 +388,11 @@ namespace CarRental.Controllers
             return RedirectToAction("ViewCars");
 
 
+        }
+        [HttpGet]
+        public IActionResult GetImage()
+        {
+            return View("Car/_GetImagePartial");
         }
 
 

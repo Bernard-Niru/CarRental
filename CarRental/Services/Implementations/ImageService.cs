@@ -27,12 +27,12 @@ namespace CarRental.Services.Implementations
     
             return ImageMapper.ToViewModelList(images);
         }
-            public void Add(List<Image> images)
+        public void Add(List<Image> images)
+        {
+            foreach (var image in images)
             {
-                foreach (var image in images)
-                {
-                    _repo.Add(image);
-                }
+                _repo.Add(image);
             }
+        }
     }
 }
