@@ -28,7 +28,8 @@ namespace CarRental.Models
         [Required]
         public string Color { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter the number of seats.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Number of seats must be a positive number.")]
         public int No_of_Seats { get; set; }
 
         [Required]
