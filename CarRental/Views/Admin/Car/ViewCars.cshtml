@@ -1,4 +1,8 @@
 ﻿@model IEnumerable<CarRental.DTOs.CarDTO>
+
+
+
+
 @if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -6,7 +10,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
-<link rel="stylesheet" href="~/css/ViewCar.css" / >
+<link rel="stylesheet" href="~/css/ViewCar.css" />
 
 @if (TempData["SuccessMessage"] != null)
 {
@@ -34,6 +38,7 @@
 }
 
 
+
 <h2>Car List</h2>
 <a asp-action="AddCar" class="btn btn-primary mb-3">Add Car</a>
 <table class="table table-striped">
@@ -51,11 +56,11 @@
     <tbody>
         @foreach (var car in Model)
         {
-            <tr> 
+            <tr>
                 <td>@counter</td>
                 <td>@car.CarName</td>
                 <td>@car.BrandName</td>
-                <td>@car.Color</td>            
+                <td>@car.Color</td>
                 <td>@car.Ratings</td>
                 <td>@car.RentalRate.ToString("C")</td>  <!-- formatted as currency -->
                 <td>
@@ -64,34 +69,72 @@
                     </a>
 
 
-                    <a asp-action="" asp-route-id="@car.CarID" class="btn btn-sm btn-danger">                      
+                    <a asp-action="" asp-route-id="@car.CarID" class="btn btn-sm btn-danger">
                         <i class="bi bi-trash3-fill"></i>
                     </a>
-                    <button type="button"
-                            class="btn btn-sm btn-success upload-image-btn"
-                            data-bs-toggle="modal"
-                            data-bs-target="#AddImage"
-                            data-carid="@car.CarID">
+
+                    <div id="images-container-@car.CarID" class="d-none">
+                        @foreach (var img in car.ImageDataList)
+                        {
+                            <img src="@img" class="img-thumbnail" style="max-width:150px; max-height:150px;" />
+                        }
+                    </div>
+
+                    <button 
+                        type="button" 
+                        class="btn btn-sm btn-success view-images-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#carImagesModal"
+                        data-carname="@car.CarName"
+                        data-carid="@car.CarID">
                         <i class="bi bi-image-fill"></i>
-                    </button>                   
+                    </button>
+
+
+                    <button type="button"
+                            class="btn btn-sm btn-secondary view-units-btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#carUnitsModal"
+                            data-carname="@car.CarName"
+                            data-carid="@car.CarID">
+                        <i class="bi bi-puzzle-fill"></i>
+                    </button>                    
+                  
                 </td>
             </tr>
             counter++;
-        
+
         }
     </tbody>
+
 </table>
-
-
 <link rel="stylesheet" href="~/css/imageForm.css" />
-<!-- Image Upload Modal -->
-<div class="modal fade" id="AddImage" tabindex="-1" aria-labelledby="AddImageLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content rounded-4 shadow-lg border-0">
-            <div class="modal-body p-5 bg-white">
-                <h3 class="text-center mb-4">Upload Images</h3>
 
-                <form asp-action="AddImage" asp-controller="Admin" method="post" enctype="multipart/form-data">
+<!-- Combined Modal -->
+<div class="modal fade" id="carImagesModal" tabindex="-1" aria-labelledby="carImagesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <!-- modal-lg for more space -->
+        <div class="modal-content rounded-4 shadow-lg border-0">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="carImagesModalLabel">Car Images</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body bg-white">
+                <!-- Display car name -->
+                <h5 id="carNameModal" class="mb-3"></h5>
+
+                <!-- Existing Images Container -->
+                <div id="carImagesContainer" class="mb-4 d-flex flex-wrap gap-2">
+                    <!-- Images will be injected here -->
+                </div>
+
+                <hr>
+
+                <!-- Upload form -->
+                <h6>Upload New Images</h6>
+                <form asp-action="AddImage" asp-controller="Admin" method="post" enctype="multipart/form-data" id="imageUploadForm">
                     <input type="hidden" name="CarID" id="ImageCarID" />
 
                     <div class="mb-3">
@@ -102,13 +145,57 @@
                     <button type="submit" class="btn btn-primary w-100 mt-3">Upload</button>
                 </form>
             </div>
-       </div>
+
+        </div>
     </div>
- </div>
+</div>
+
+<link rel="stylesheet" href="~/css/imageForm.css" />
+
+<!-- Units Modal -->
+<div class="modal fade" id="carUnitsModal" tabindex="-1" aria-labelledby="carUnitsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow-lg border-0">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="carUnitsModalLabel">Manage Units (Plate Numbers)</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body bg-white">
+                <!-- Display car name -->
+                <h5 id="carNameUnitsModal" class="mb-3"></h5>
+
+                <!-- Existing Units List -->
+                <ul id="carUnitsList" class="list-group mb-3">
+                    <!-- Plate numbers will be loaded here -->
+                </ul>
+
+                <!-- Add New Unit Form -->
+                <form id="addUnitForm" onsubmit="return false;">
+                    <input type="hidden" name="CarID" id="UnitCarID" />
+
+                    <div class="mb-3">
+                        <label for="newPlateNumber" class="form-label">Add New Plate Number</label>
+                        <input type="text" id="newPlateNumber" class="form-control" placeholder="Enter new plate number" required />
+                    </div>
+
+                    <button type="submit" id="addUnitButton" class="btn btn-success w-100">Add Unit</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 
-<script src="~/js/ImageForm.js"></script>
-<script src="~/js/ViewCar.js"></script>
+@section Scripts {
+
+        <partial name="_ValidationScriptsPartial" />
+        <script src="~/js/ImageForm.js"></script>
+        <script src="~/js/ViewCar.js"></script>
+
+}
 
 
 
