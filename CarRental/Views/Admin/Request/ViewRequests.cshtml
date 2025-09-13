@@ -1,0 +1,43 @@
+﻿@model IEnumerable<CarRental.DTOs.RequestDTO>
+
+@{
+    ViewData["Title"] = "View Requests";
+    int counter = 1;
+}
+
+<h2>Requests</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th >No</th>
+            <th>Username</th>
+            <th >Car Name</th>
+            <th scope="col" style="width: 20%;">Pickup</th>
+            <th scope="col" style="width: 20%;">Return</th>
+            <th >Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var req in Model)
+        {
+            <tr>
+                <td>@counter</td>
+                <td>@req.Username</td>
+                <td>@req.CarName</td>
+                <td>@(req.PickupDate.ToString("yyyy-MM-dd") + " : " + req.PickupTime.ToString("hh:mm tt"))</td>
+                <td>@(req.ReturnDate.ToString("yyyy-MM-dd") + " : " + req.ReturnTime.ToString("hh:mm tt"))</td>
+                <td>
+                    <a asp-action="AcceptRequest" asp-route-id="@req.RequestID" class="btn btn-sm btn-success">
+                        <i class="bi bi-check-lg"></i>
+                    </a>  
+                    
+                    <a asp-action="RejectRequest" asp-route-id="@req.RequestID" class="btn btn-sm btn-danger">
+                        <i class="bi bi-x-lg"></i>                        
+                    </a>
+                </td>
+            </tr>
+            counter++; 
+        }
+    </tbody>
+</table>
