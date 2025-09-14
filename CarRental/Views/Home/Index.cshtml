@@ -27,7 +27,7 @@
         
             <h1>Your Journey Starts Here</h1>
             <p>Explore our collection of premium rental cars, ready when you are.</p>
-            <a asp-action="Login" asp-controller="Home" class="btn btn-warning">Book Now</a>
+            <a asp-action="login" asp-controller="Home" class="btn btn-warning">Book Now</a>
         </div>
     </section>
 
@@ -35,7 +35,7 @@
     <div class="container py-5">
         <h2 class="text-center section-title" data-aos="fade-up">Browse Available Cars</h2>
 
-        @if (Model != null && Model.Cars.Any())
+        @if (Model?.Cars != null && Model.Cars.Any())
         {
             <div class="row g-4">
                 @{
@@ -83,7 +83,7 @@
                                 <h5 class="card-title">@car.BrandName</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">@car.CarName</h6>
                                 <p class="text-success fw-bold fs-5">Rs @car.RentalRate.ToString("N0") / Day</p>
-                                <a asp-action="Login" asp-controller="Home" class="btn btn-outline-success btn-sm px-4">Request</a>
+                                <a asp-action="login" asp-controller="Home" class="btn btn-outline-success btn-sm px-4">Request</a>
                             </div>
                         </div>
                     </div>
@@ -111,9 +111,16 @@
                                         <span class="input-group-text"><i class="bi bi-tag"></i></span>
                                         <select id="brandFilter" class="form-select stylish-input">
                                             <option value="">-- All Brands --</option>
-                                            @foreach (var brand in Model.BrandOptions)
+                                            @if (Model?.BrandOptions != null && Model.BrandOptions.Any())
                                             {
-                                                <option value="@brand.Value">@brand.Text</option>
+                                                foreach (var brand in Model.BrandOptions)
+                                                {
+                                                    <option value="@brand.Value">@brand.Text</option>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <option disabled>No brands available</option>
                                             }
                                         </select>
                                     </div>
