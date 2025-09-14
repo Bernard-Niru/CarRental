@@ -41,7 +41,7 @@ namespace CarRental.Services.Implementations
                     UserID = r.UserID,
                     Username = _userService.GetbyId(r.UserID).UserName,
                     CarID = r.CarID,
-                    CarName = _carService.GetcarByID(r.CarID).CarName,
+                    CarName = _carService.GetByID(r.CarID).CarName,
                     PickupDate = r.PickupDate,
                     PickupTime = r.PickupTime,
                     ReturnDate = r.ReturnDate,

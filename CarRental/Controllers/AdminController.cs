@@ -1,4 +1,4 @@
-using CarRental.Enums.CarEnums;
+﻿using CarRental.Enums.CarEnums;
 using CarRental.Enums.UserEnums;
 using CarRental.DTOs;
 using CarRental.Models;
@@ -182,27 +182,38 @@ namespace CarRental.Controllers
 
             ViewBag.BrandList = brands;
 
-            return View("Car/AddCar");
+            return View("Car/AddCar", new CarViewModel());
         }
         [HttpPost]
         public IActionResult AddCar(CarViewModel model)
         {
-            ViewBag.RoleList = new SelectList(Enum.GetValues(typeof(CarType)));
-            ViewBag.RoleList = new SelectList(Enum.GetValues(typeof(FuelType)));
-            ViewBag.RoleList = new SelectList(Enum.GetValues(typeof(GearType)));
+            ViewBag.CarType = new SelectList(Enum.GetValues(typeof(CarType)));
+            ViewBag.FuelType = new SelectList(Enum.GetValues(typeof(FuelType)));
+            ViewBag.GearType = new SelectList(Enum.GetValues(typeof(GearType)));
+
+            var brands = _brandService.GetAll()
+                            .Select(b => new SelectListItem
+                            {
+                                Value = b.BrandID.ToString(),
+                                Text = b.BrandName
+                            }).ToList();
+            ViewBag.BrandList = brands;
 
             if (ModelState.IsValid)
             {
-                string Message = _carService.AddCar(model);
-                TempData["SuccessMessage"] = "Car added successfully!";
-                return RedirectToAction("ViewCars");
+                int newCarId = _carService.AddCar(model);
+                TempData["SuccessMessage"] = "Car added successfully! You can now upload images.";
 
+                model.CarID = newCarId;
+
+                // ✅ Return the view using the correct subfolder path
+                return View("Car/AddCar", model);
             }
 
             return View("Car/AddCar", model);
-           
-
         }
+
+
 
         public IActionResult ViewCars()
         {
@@ -212,7 +223,7 @@ namespace CarRental.Controllers
         [HttpGet]
         public IActionResult UpdateCar(int id)
         {
-            var car = _carService.GetcarByID(id);
+            var car = _carService.GetByID(id);
             if (car == null)
             {
                 return NotFound();
@@ -288,7 +299,7 @@ namespace CarRental.Controllers
 
         //=========================================== UNITS + IMAGES ======================================================
 
-        
+
         //[HttpPost]
         //public async Task<IActionResult> AddUnit(UnitImageViewModel model)
         //{
@@ -359,40 +370,65 @@ namespace CarRental.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> AddImage(ImageViewModel model)
+        public async Task<IActionResult> AddImage(int CarID, List<IFormFile> ImageFiles)
         {
-            if (model.ImageFiles == null || !model.ImageFiles.Any())
+            if (ImageFiles == null || !ImageFiles.Any())
             {
-                ModelState.AddModelError("", "Please upload at least one image.");
-                return View(model);
+                TempData["ErrorMessage"] = "Please upload at least one image.";
+                return RedirectToAction("AddCar", new { id = CarID });
             }
 
             var images = new List<Image>();
-
-            foreach (var file in model.ImageFiles)
+            foreach (var file in ImageFiles)
             {
-                using (var memoryStream = new MemoryStream())
+                using var ms = new MemoryStream();
+                await file.CopyToAsync(ms);
+
+                images.Add(new Image
                 {
-                    await file.CopyToAsync(memoryStream);
-                    images.Add(new Image
-                    {
-                        CarID = model.CarID,
-                        ImageData = memoryStream.ToArray(),
-                        IsDeleted = false
-                    });
-                }
+                    CarID = CarID,
+                    ImageData = ms.ToArray(),
+                    IsDeleted = false
+                });
             }
 
             _imageService.Add(images);
 
+            TempData["SuccessMessage"] = "Images uploaded successfully!";
             return RedirectToAction("ViewCars");
-
-
         }
+
         [HttpGet]
         public IActionResult GetImage()
         {
             return View("Car/_GetImagePartial");
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddUnit(int CarID, List<string> Units ) 
+        {
+            if (Units == null || !Units.Any())
+            {
+                TempData["ErrorMessage"] = "Please upload at least one Unit.";
+                return RedirectToAction("AddCar", new { id = CarID });
+            }
+            var unitlist = new List<Unit>();
+            foreach (var unit in Units)
+            {
+               
+                unitlist.Add(new Unit
+                {
+                    CarID = CarID,
+                    PlateNumber = unit,
+                    IsAvailble = true,
+                    IsDeleted = false
+                });
+            }
+
+            _unitService.Add(unitlist);
+
+            TempData["SuccessMessage"] = "Units uploaded successfully!";
+            return RedirectToAction("ViewCars");
+            
         }
 
 

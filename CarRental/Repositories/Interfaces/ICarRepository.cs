@@ -6,7 +6,7 @@ namespace CarRental.repo.Interfaces
     public interface ICarRepository
     {
 
-        string AddCar(Car car);
+        public int AddCar(Car car);
 
         IEnumerable<Car> GetAll();
 
