@@ -26,8 +26,8 @@ namespace CarRental.Controllers
         [HttpGet]
         public IActionResult login()
         {
-            TempData["LoginErrorMessage"] = "";
-            return View("Index");
+            
+            return View("Login");
         }
         [HttpPost]
         public async Task<IActionResult> Register(UserViewModel User)

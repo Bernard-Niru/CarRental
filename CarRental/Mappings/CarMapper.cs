@@ -24,6 +24,8 @@ namespace CarRental.Mappings
         }
         public static CarViewModel ToViewModel(Car car)
         {
+            if (car == null) return null;
+
             return new CarViewModel
             {
                 CarID = car.CarID,
