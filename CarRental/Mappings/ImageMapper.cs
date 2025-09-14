@@ -9,7 +9,7 @@ namespace CarRental.Mappings
         {
             return images.Select(image => new ImageViewModel
             {
-                ImageID = image.ImageID,
+               
                 ImageData = image.ImageData,
             }).ToList();
         }

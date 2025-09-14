@@ -9,14 +9,14 @@ namespace CarRental.Mappings
         {
             return new Car
             {
-                CarID = model.CarID,
+                
                 CarName = model.CarName,
                 BrandID = model.BrandID,
                 CarType = model.CarType,
                 FuelType = model.FuelType,
                 Color = model.Color,
                 No_of_Seats = model.No_of_Seats,
-                Ratings = model.Ratings,
+              
                 RentalRate = model.RentalRate,
                 IsDeleted = false,
 
@@ -33,7 +33,6 @@ namespace CarRental.Mappings
                 FuelType = car.FuelType,
                 Color = car.Color,
                 No_of_Seats = car.No_of_Seats,
-                Ratings = car.Ratings,
                 RentalRate = car.RentalRate,
 
             };

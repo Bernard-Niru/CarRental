@@ -2,6 +2,7 @@
 using CarRental.Models;
 using CarRental.repo.Interfaces;
 using CarRental.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.repo.Implementations
 {
@@ -13,24 +14,50 @@ namespace CarRental.repo.Implementations
         {
             _context = context;
         }
-        public string AddCar(Car car)
+        public int AddCar(Car car)
         {
             _context.Cars.Add(car);
             _context.SaveChanges();
-            return "Car added successfully!";
+            return car.CarID;
         }
         IEnumerable<Car> ICarRepository.GetAll()
         {
-            var cars = _context.Cars.
-                        Where(c => !c.IsDeleted)
+            var cars = _context.Cars
+                        .Where(c => !c.IsDeleted && !c.Brand.IsDeleted)
+                        .Include(c => c.Brand)
+                        .Include(c => c.Images)
+                        .Include(c => c.Units)
                         .ToList();
 
+            // Manually filter out deleted images and units
+            foreach (var car in cars)
+            {
+                car.Images = car.Images?.Where(img => !img.IsDeleted).ToList();
+                car.Units = car.Units?.Where(unit => !unit.IsDeleted).ToList();
+            }
+
             return cars;
-        }      
+        }
+
+
         public Car GetByID(int id)
         {
-            return _context.Cars.Find(id);
+            var car = _context.Cars
+                .Where(c => c.CarID == id && !c.IsDeleted && !c.Brand.IsDeleted)
+                .Include(c => c.Brand)
+                .Include(c => c.Images)
+                .Include(c => c.Units)
+                .FirstOrDefault();
+
+            if (car != null)
+            {
+                car.Images = car.Images?.Where(img => !img.IsDeleted).ToList();
+                car.Units = car.Units?.Where(unit => !unit.IsDeleted).ToList();
+            }
+
+            return car;
         }
+
         public string Update(Car car)
         {
             _context.Cars.Update(car);
