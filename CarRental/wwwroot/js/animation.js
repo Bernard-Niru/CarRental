@@ -1,0 +1,7 @@
+﻿
+
+AOS.init({
+    once: true
+});
+
+        

@@ -6,7 +6,7 @@ namespace CarRental.Services.Interfaces;
 public interface ICarService
 {
 
-    GuestPageViewModel GetGroupedCars();
+    GuestPageViewModel GetTopRatedCars();
 
     int AddCar(CarViewModel model);
 
