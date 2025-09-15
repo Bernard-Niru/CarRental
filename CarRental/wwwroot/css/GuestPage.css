@@ -1,77 +1,158 @@
-﻿body {
-    background-color: #86b7fe; /* Light gray */
+﻿/* General Body Styles */
+body {
+    background-color: #0a0a0a;
+    color: #e0e0e0; /* Light text for contrast */
+   background: linear-gradient(135deg, #0a0a0a, #1a0a36); 
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    scroll-behavior: smooth;
 }
+
+/* Hero Section */
 .hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('/image/road-blue-car-50704.jpg') center/cover no-repeat;
-    color: white;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url('/image/road-blue-car-50704.jpg') center/cover no-repeat;
+    color: #ffffff;
     padding: 100px 20px;
     text-align: center;
     border-radius: 0 0 20px 20px;
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.7);
 }
 
-.hero h1 {
-    font-size: 3rem;
-    font-weight: 700;
-}
+    .hero h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #00bfff; /* Blue accent */
+    }
 
-.hero p {
-    font-size: 1.25rem;
-}
+    .hero p {
+        font-size: 1.25rem;
+        color: #c0c0c0;
+    }
 
+    .hero .btn {
+        margin-top: 20px;
+        padding: 10px 30px;
+        font-size: 1rem;
+        color: #fff;
+        background-color: #00bfff;
+        border: none;
+        border-radius: 30px;
+        transition: all 0.3s ease-in-out;
+    }
 
-.hero .btn {
-    margin-top: 20px;
-    padding: 10px 30px;
-    font-size: 1rem;
-}
+        .hero .btn:hover {
+            background-color: #0080ff;
+            transform: translateY(-3px);
+        }
 
+/* Car Images */
 .car-image {
     height: 250px;
     object-fit: cover;
     width: 100%;
-    border-radius: 0.375rem;
+    border-radius: 0.5rem;
     user-select: none;
+    transition: transform 0.3s ease;
 }
 
-.section-title {
-    font-weight: 700;
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
+    .car-image:hover {
+        transform: scale(1.05);
+    }
+
+/* Section Titles */
+.search-section .bg-white {
+    background: linear-gradient(145deg, #0a0a0a, #001f3f) !important; /* dark + blue gradient */
+    color: #e0e0e0 !important;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0, 191, 255, 0.2); /* soft blue glow */
+    transition: all 0.3s ease;
 }
 
-html {
-    scroll-behavior: smooth;
+    /* On hover (subtle glow effect like cards) */
+    .search-section .bg-white:hover {
+        background: linear-gradient(145deg, #001f3f, #0040ff) !important;
+        box-shadow: 0 15px 30px rgba(0, 191, 255, 0.4);
+    }
+
+/* Form text and labels */
+.search-section .form-label,
+.search-section .form-control,
+.search-section .form-select,
+.search-section h2,
+.search-section p,
+.search-section small {
+    color: #e0e0e0 !important;
 }
+
+/* Input group backgrounds (keep slightly darker for contrast) */
+.search-section .input-group-text {
+    background-color: #001a33 !important;
+    border: none !important;
+    color: #00bfff !important;
+}
+
+/* Input/Select fields inside form */
+.search-section .form-control,
+.search-section .form-select {
+    background-color: #0a0a0a !important;
+    border: 1px solid #00bfff !important;
+    color: #e0e0e0 !important;
+    border-radius: 10px;
+}
+
+    /* On focus */
+    .search-section .form-control:focus,
+    .search-section .form-select:focus {
+        border-color: #00bfff !important;
+        box-shadow: 0 0 10px rgba(0, 191, 255, 0.4);
+    }
+
+/* Primary Button */
+.search-section .btn-primary {
+    background-color: #00bfff !important;
+    border: none !important;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+}
+
+    .search-section .btn-primary:hover {
+        background-color: #0080ff !important;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 191, 255, 0.5);
+    }
+
+/* Input Date */
 input[type="date"] {
     padding: 10px 12px;
     border-radius: 0.375rem;
-    border: 1px solid #ced4da;
+    border: 1px solid #1a1a1a;
     font-size: 1rem;
-    color: #495057;
+    color: #e0e0e0;
+    background-color: #1a1a1a;
 }
 
     input[type="date"]:focus {
-        border-color: #86b7fe;
+        border-color: #00bfff;
         outline: 0;
-        box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 0.25);
+        box-shadow: 0 0 0 0.25rem rgba(0, 191, 255, 0.3);
+        background-color: #0a0a0a;
     }
 
-body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Other body styles can remain */
-
+/* Footer */
 footer {
     margin-top: auto;
-    background: rgba(0, 0, 0, 0.6);
+    background: #0a0a0a;
     padding: 12px 0;
     text-align: center;
-    color: white;
+    color: #c0c0c0;
+    border-top: 1px solid #222;
 }
-/* Custom Datepicker Styles */
+
+/* Datepicker */
 .datepicker-container {
     position: relative;
 }
@@ -81,9 +162,10 @@ footer {
     top: 100%;
     left: 0;
     z-index: 1000;
-    background-color: #fff;
+    background-color: #1a1a1a;
+    color: #e0e0e0;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
     padding: 15px;
     display: none;
     flex-direction: column;
@@ -100,6 +182,7 @@ footer {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    color: #00bfff;
 }
 
 .datepicker-month, .datepicker-year {
@@ -117,20 +200,21 @@ footer {
     padding: 8px;
     cursor: pointer;
     border-radius: 4px;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, color 0.2s;
 }
 
     .datepicker-day.day-name {
         font-weight: 700;
-        color: #6c757d;
+        color: #00bfff;
     }
 
     .datepicker-day:not(.day-name):not(.disabled):hover {
-        background-color: #f0f0f0;
+        background-color: #00bfff;
+        color: #000;
     }
 
     .datepicker-day.selected {
-        background-color: #0d6efd;
+        background-color: #0080ff;
         color: #fff;
     }
 
@@ -139,12 +223,104 @@ footer {
     text-align: right;
 }
 
+/* Search Section */
 .search-section {
-    background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('/image/road-trip-with-car-car_670382-9370.jpg') center/cover no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)), url('/image/road-trip-with-car-car_670382-9370.jpg') center/cover no-repeat;
+    color: #fff;
+    border-radius: 20px;
 }
-/*.footer-links a {
-    background: none;  or transparent 
-    border-radius: 0;
-    padding: 0;
-    color: white;  or whatever color you want the text to be 
-}*/
+
+/* Other potential customizations can follow this same Black + Blue scheme */
+/* Target only the sidebar/info box */
+.info-box,
+.col-md-5 .h-100 {
+    background-color: #f8f9fa !important; /* keep light background */
+    color: #212529 !important; /* dark text */
+}
+
+    /* Icons in the box */
+    .info-box i,
+    .col-md-5 .h-100 i {
+        color: #0d6efd !important; /* keep Bootstrap blue for icons */
+    }
+
+    /* Optional: spacing and font weight adjustments */
+    .info-box h5,
+    .col-md-5 .h-100 h5 {
+        color: #000; /* heading darker */
+    }
+
+    .info-box ul li span,
+    .col-md-5 .h-100 ul li span {
+        color: #333; /* normal text */
+    }
+
+/* Car Catalog Cards - Modern Blue + Black Theme */
+.row.g-4 .card {
+    background: linear-gradient(145deg, #0a0a0a, #001f3f); /* black + deep blue gradient */
+    color: #e0e0e0;
+    border: none;
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+    .row.g-4 .card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 15px 30px rgba(0, 191, 255, 0.4); /* blue glow shadow */
+        background: linear-gradient(145deg, #001f3f, #0040ff); /* brighter blue on hover */
+    }
+
+/* Carousel Images inside cards */
+.row.g-4 .car-image {
+    border-radius: 15px 15px 0 0;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    filter: brightness(0.95);
+}
+
+.row.g-4 .card:hover .car-image {
+    transform: scale(1.05);
+    filter: brightness(1);
+}
+
+/* Badges */
+.row.g-4 .badge {
+    background-color: #0040ff;
+    color: #fff;
+    font-weight: 500;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.row.g-4 .card:hover .badge {
+    background-color: #00bfff;
+    transform: scale(1.1);
+}
+
+/* Card body text */
+.row.g-4 .card-body h5,
+.row.g-4 .card-body h6,
+.row.g-4 .card-body p {
+    color: #e0e0e0;
+    transition: color 0.3s ease;
+}
+
+.row.g-4 .card:hover .card-body h5,
+.row.g-4 .card:hover .card-body h6,
+.row.g-4 .card:hover .card-body p {
+    color: #00bfff;
+}
+
+/* Request Button */
+.row.g-4 .card-body .btn {
+    color: #00bfff;
+    border: 1px solid #00bfff;
+    transition: all 0.3s ease;
+}
+
+    .row.g-4 .card-body .btn:hover {
+        background-color: #00bfff;
+        color: #0a0a0a;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 191, 255, 0.4);
+    }

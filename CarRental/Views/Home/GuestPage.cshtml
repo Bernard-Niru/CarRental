@@ -58,3 +58,101 @@
         
     </script>
 </body>
+
+@*     <div class="container py-5">
+        <h2 class="text-center section-title" data-aos="fade-up">Browse Available Cars</h2>
+
+        @if (Model?.Cars != null && Model.Cars.Any())
+        {
+            <div class="row g-4">
+                @{
+                    int delay = 0;
+                }
+                @foreach (var car in Model.Cars)
+                {
+                    delay += 100;
+                    var carouselId = $"carousel_{car.CarID}";
+                    <div class="col-sm-6 col-md-4" data-aos="zoom-in" data-aos-delay="@delay">
+                        <div class="card h-100 shadow-sm border-0">
+                            <!-- Carousel -->
+                            <!-- Carousel -->
+                            <div id="@carouselId" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    @for (int i = 0; i < car.Images.Count; i++)
+                                    {
+                                        var imgBase64 = car.Images[i].ImageBase64;
+                                        <div class="carousel-item @(i == 0 ? "active" : "")">
+                                            <img src="data:image/jpeg;base64,@imgBase64" class="d-block car-image" alt="@car.Brand.BrandName @car.CarName Image @(i + 1)" />
+                                        </div>
+                                    }
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#@carouselId" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#@carouselId" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+
+
+                            <!-- Badges -->
+                            <div class="d-flex justify-content-center flex-wrap gap-2 p-2">
+                                <span class="badge bg-secondary">@car.CarType <i class="bi bi-car-front-fill ms-1"></i></span>
+                                <span class="badge bg-secondary">@car.FuelType <i class="bi bi-fuel-pump-fill ms-1"></i></span>
+                                <span class="badge bg-secondary">@car.GearType <i class="bi bi-gear-fill ms-1"></i></span>
+                                <span class="badge bg-secondary">@car.Ratings <i class="bi bi-star-fill ms-1"></i></span>
+                                <span class="badge bg-secondary">@car.No_of_Seats <i class="bi bi-people-fill ms-1"></i></span>
+                                <span class="badge" style="background-color: @car.Color; width: 20px; height: 20px; border-radius: 50%; border: 1px solid black;"></span>
+                            </div>
+
+                            <!-- Info -->
+                            <div class="card-body text-center">
+                                <h5 class="card-title">@car.Brand.BrandName</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@car.CarName</h6>
+                                <p class="text-success fw-bold fs-5">Rs @car.RentalRate.ToString("N0") / Day</p>
+                                <a asp-controller="Home" asp-action="login" class="btn btn-outline-success btn-sm px-4">Request</a>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="text-center text-muted">No cars available at the moment.</p>
+        }
+    </div> *@
+@*  <div class="swiper">
+        <div class="swiper-wrapper">
+            @if (Model.TopCars != null && Model.TopCars.Any())
+            {
+                foreach (var car in Model.TopCars)
+                {
+                    var img = car.Images.FirstOrDefault()?.ImageBase64;
+                    var imageUrl = img != null
+                    ? $"data:image/png;base64,{img}"
+                    : Url.Content("~/images/road-blue-car-50704.png");
+
+                    <text>
+                        <div class="swiper-slide" style="background-image:url('@imageUrl');">
+                            <div class="overlay">
+                                <h5>@car.CarName</h5>
+                                <p>Brand: @car.Brand.BrandName</p>
+                                <p>Seats: @car.No_of_Seats</p>
+                                <p>Rating: @car.Ratings</p>
+                                <p>Rent Per day: @car.RentalRate.ToString("C")</p>
+                            </div>
+                        </div>
+                    </text>
+                }
+            }
+            else
+            {
+                <p>No top cars found.</p>
+            }
+        </div>
+        <div class="swiper-pagination"></div>
+    </div> *@
