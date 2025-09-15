@@ -66,10 +66,10 @@
                     {
                         <div class="col-md-4 mb-3">
                             <div class="card">
-                                <img src="@car.ImageDataList.First()" class="card-img-top" alt="Car Image" />
+                                <img src="@car.Images.First()" class="card-img-top" alt="Car Image" />
                                 <div class="card-body">
                                     <h5 class="card-title">@car.CarName</h5>
-                                    <p>Brand: @car.BrandName</p>
+                                    <p>Brand: @car.Brand.BrandName</p>
                                     <p>Seats: @car.No_of_Seats</p>
                                     <p>Rating: @car.Ratings</p>
                                     <p>Price: @car.RentalRate.ToString("C")</p>
