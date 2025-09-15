@@ -23,6 +23,7 @@
         <div class="swiper-wrapper">
             @if (Model.TopCars != null && Model.TopCars.Any())
             {
+
                 foreach (var car in Model.TopCars)
                 {
                     var img = car.Images.FirstOrDefault()?.ImageBase64;
@@ -38,7 +39,6 @@
                                 <p>Seats: @car.No_of_Seats</p>
                                 <p>Rating: @car.Ratings</p>
                                 <p>Rent Per day: @car.RentalRate.ToString()</p>
-                            </div>
                         </div>
                     </text>
                 }
