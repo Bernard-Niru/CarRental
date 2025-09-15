@@ -26,7 +26,8 @@ namespace CarRental.Controllers
         [HttpGet]
         public IActionResult login()
         {
-            
+            var viewModel = _carService.GetGroupedCars();
+
             return View("Login");
         }
         [HttpPost]

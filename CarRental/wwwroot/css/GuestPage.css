@@ -56,14 +56,21 @@ input[type="date"] {
         box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 0.25);
     }
 
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Other body styles can remain */
+
 footer {
+    margin-top: auto;
     background: rgba(0, 0, 0, 0.6);
     padding: 12px 0;
     text-align: center;
     color: white;
-    margin-top: 30px;
 }
-
 /* Custom Datepicker Styles */
 .datepicker-container {
     position: relative;
@@ -135,3 +142,9 @@ footer {
 .search-section {
     background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('/image/road-trip-with-car-car_670382-9370.jpg') center/cover no-repeat;
 }
+/*.footer-links a {
+    background: none;  or transparent 
+    border-radius: 0;
+    padding: 0;
+    color: white;  or whatever color you want the text to be 
+}*/

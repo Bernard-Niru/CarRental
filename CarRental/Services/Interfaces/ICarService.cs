@@ -5,6 +5,8 @@ namespace CarRental.Services.Interfaces;
 
 public interface ICarService
 {
+    GuestPageViewModel GetGroupedCars();
+
     string AddCar(CarViewModel model);
 
     IEnumerable<CarDTO> GetAll();
