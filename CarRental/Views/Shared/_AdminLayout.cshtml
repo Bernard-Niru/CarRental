@@ -10,25 +10,89 @@
 </head>
 <body>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
+    @{
+        var currentController = ViewContext.RouteData.Values["Controller"]?.ToString();
+        var currentAction = ViewContext.RouteData.Values["Action"]?.ToString();
+    }
+
+@*     <!-- Sidebar -->
+    <div class="sidebar bg-dark text-white p-3" style="min-height: 100vh;">
         <div>
             <h4 class="text-white">Menu</h4>
-            <a asp-controller="Admin" asp-action="Dashboard" class="text-white d-block mb-2">Dashboard</a>
-            <a asp-controller="Admin" asp-action="ViewOrder">Orders</a>
-            <a asp-controller="Admin" asp-action="ViewCars">Cars</a>
-            <a asp-controller="Admin" asp-action="ViewUser">Users</a>
-            <a href="#">Reports</a>
+
+            <a asp-controller="Admin" asp-action="Dashboard" class="text-white d-block mb-2">
+                <i class="bi bi-speedometer2 me-2"></i> Dashboard
+            </a>
+            <a asp-controller="Admin" asp-action="ViewUser" class="text-white d-block mb-1">
+                <i class="bi bi-people me-2"></i> Users
+            </a>
+            <a asp-controller="Admin" asp-action="Request" class="text-white d-block mb-1">
+                <i class="bi bi-person-plus me-2"></i> Request
+            </a>
+            <a asp-controller="Admin" asp-action="Bookings" class="text-white d-block mb-1">
+                <i class="bi bi-journal-bookmark me-2"></i> Booking
+            </a>
+            <a asp-controller="Admin" asp-action="ActiveRental" class="text-white d-block mb-1">
+                <i class="bi bi-car-front me-2"></i> Active Rental
+            </a>
+            <a asp-controller="Admin" asp-action="RentalHistory" class="text-white d-block mb-1">
+                <i class="bi bi-clock-history me-2"></i> History
+            </a>
+            <a asp-controller="Admin" asp-action="ViewCars" class="text-white d-block mb-2">
+                <i class="bi bi-car-front-fill me-2"></i> Cars
+            </a>
+        </div> *@
+    <!-- Sidebar -->
+    <div class="sidebar bg-dark text-white p-3" style="min-height: 100vh;">
+        <div>
+            <h4 class="text-white">Menu</h4>
+
+            <a asp-controller="Admin" asp-action="Dashboard"
+               class="d-block mb-2 text-white @(currentAction == "Dashboard" ? "active-link" : "")">
+                <i class="bi bi-speedometer2 me-2"></i> Dashboard
+            </a>
+
+            <a asp-controller="Admin" asp-action="ViewUser"
+               class="d-block mb-1 text-white @(currentAction == "ViewUser" ? "active-link" : "")">
+                <i class="bi bi-people me-2"></i> Users
+            </a>
+
+            <a asp-controller="Admin" asp-action="Request"
+               class="d-block mb-1 text-white @(currentAction == "Request" ? "active-link" : "")">
+                <i class="bi bi-person-plus me-2"></i> Request
+            </a>
+
+            <a asp-controller="Admin" asp-action="Bookings"
+               class="d-block mb-1 text-white @(currentAction == "Bookings" ? "active-link" : "")">
+                <i class="bi bi-journal-bookmark me-2"></i> Booking
+            </a>
+
+            <a asp-controller="Admin" asp-action="ActiveRental"
+               class="d-block mb-1 text-white @(currentAction == "ActiveRental" ? "active-link" : "")">
+                <i class="bi bi-car-front me-2"></i> Active Rental
+            </a>
+
+            <a asp-controller="Admin" asp-action="RentalHistory"
+               class="d-block mb-1 text-white @(currentAction == "RentalHistory" ? "active-link" : "")">
+                <i class="bi bi-clock-history me-2"></i> History
+            </a>
+
+            <a asp-controller="Admin" asp-action="ViewCars"
+               class="d-block mb-2 text-white @(currentAction == "ViewCars" ? "active-link" : "")">
+                <i class="bi bi-car-front-fill me-2"></i> Cars
+            </a>
         </div>
+
+
 
         <div>
             <hr class="text-secondary" />
-            <a href="#">New Project</a>
-            <a href="#">Profile</a>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#signOutModal">Sign Out</a>
+            <a href="#" class="text-white d-block mb-2">New Project</a>
+            <a href="#" class="text-white d-block mb-2">Profile</a>
+            <a href="#" class="text-white d-block" data-bs-toggle="modal" data-bs-target="#signOutModal">Sign Out</a>
         </div>
     </div>
-
+   
     <div class="modal fade" id="signOutModal" tabindex="-1" aria-labelledby="signOutModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
