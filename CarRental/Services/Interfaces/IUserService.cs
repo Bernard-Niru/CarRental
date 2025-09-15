@@ -7,6 +7,7 @@ namespace CarRental.Services.Interfaces
     {
 
         Task<bool> CheckAsync(string UserName);
+        Task<bool> CheckEmailAsync(string Email);
         Task AddAsync(UserViewModel model);
         Task<IEnumerable<UserDTO>> GetallAsync();
         UserDTO GetbyId(int id);

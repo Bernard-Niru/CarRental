@@ -12,7 +12,7 @@ namespace CarRental.Mappings
             {
                 UserID = model.Id,
                 Name = model.Name,
-                Email = model.EmailAddress,
+                Email = model.EmailAddress.Trim(),
                 UserName = model.UserName.Trim(),
                 Password = hashedpassword,
                 Role = model.Role,

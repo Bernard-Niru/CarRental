@@ -24,16 +24,8 @@ namespace CarRental.Controllers
             _userservice = userService;
             _brandService = brandService;
         }
-        [HttpGet]
-        public IActionResult Login()
+        private CombinedViewModel open(UserViewModel user)
         {
-            TempData["LoginErrorMessage"] = "1";
-            return RedirectToAction("Index", "Home");
-        }
-        [HttpGet]
-        public IActionResult Index()
-        {
-            // 1?? Get brands
             var brands = _brandService.GetAll()
                                       .Select(b => new SelectListItem
                                       {
@@ -42,7 +34,6 @@ namespace CarRental.Controllers
                                       })
                                       .ToList();
 
-            // 2?? Get all cars (DTOs)
             var allCars = _carService.GetAll(); // IEnumerable<CarDTO>
 
             // 3?? Pick 6 daily cars
@@ -57,10 +48,95 @@ namespace CarRental.Controllers
                 Cars = dailyCars,       // only 6 cars
                 BrandOptions = brands,
                 TopCars = topCars
+            },
+                User = user 
             };
-
-            return View(guestViewModel);
         }
+
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+
+            var combinedViewModel = open(null);
+            TempData["LoginErrorMessage"] = "1";
+            return View("Index" , combinedViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(UserViewModel User)
+        {
+            User.Role = Enums.UserEnums.UserRole.Customer;
+
+                if (!ModelState.IsValid)
+                {
+                    TempData["RegisterErrorMessage"] = "Invalid Input";
+                    var combinedViewModel = open(User);
+                    return View("Index", combinedViewModel);
+                }
+
+                if (await _userservice.CheckEmailAsync(User.EmailAddress.Trim()))
+                {
+                    TempData["RegisterErrorMessage"] = "Email already exists";
+                    var combinedViewModel = open(User);
+                    return View("Index", combinedViewModel);
+                }
+
+                if (await _userservice.CheckAsync(User.UserName.Trim()))
+                {
+                    TempData["RegisterErrorMessage"] = "Username already exists";
+                    TempData["ShowRegisterModal"] = true;
+                    var combinedViewModel = open(User);
+                    return View("Index", combinedViewModel);
+                }
+
+                await _userservice.AddAsync(User);
+                return RedirectToAction("ViewUser", "Admin");
+            }
+
+        [HttpPost]
+        public async Task<IActionResult> login(UserViewModel login)
+        {
+            string username = login.UserName?.Trim();
+            bool userExists = await _userservice.CheckAsync(username);
+
+            if (userExists)
+            {
+                string role = _userservice.CheckPassword(login);
+
+                if (role.Contains(','))
+                {
+                    string[] user = role.Split(',');
+                    Role.RoleName = user[0].Trim();
+                    Role.Id = user[1].Trim();
+
+                    if (user[0] == "Admin")
+                        return RedirectToAction("Dashboard", "Admin");
+                    if (user[0] == "Customer")
+                        return RedirectToAction("HomePage", "Customer");
+                    if (user[0] == "Staff")
+                        return RedirectToAction("ViewCars", "Admin");
+                }
+                TempData["LoginErrorMessage"] = role;
+            }
+            else
+            {
+                TempData["LoginErrorMessage"] = "Incorrect UserName";
+            }
+            var combinedViewModel = open(null);
+            return View("Index", combinedViewModel);
+        }
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+
+            var combinedViewModel = open(null);
+            return View(combinedViewModel);
+        }
+
+
+            
         // Helper: pick daily 6 cars
         private List<CarDTO> GetDailyCars(IEnumerable<CarDTO> allCars, int maxCount)
         {
@@ -89,6 +165,7 @@ namespace CarRental.Controllers
 
         public IActionResult Privacy()
         {
+            TempData["LoginErrorMessage"] = "1";
             return View();
         }
 

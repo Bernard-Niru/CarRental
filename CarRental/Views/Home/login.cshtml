@@ -1,0 +1,25 @@
+﻿@model CarRental.ViewModels.UserViewModel
+
+<!-- your main page content -->
+@await Html.PartialAsync("_LoginRegisterPartial", Model)
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var loginError = '@(TempData["LoginErrorMessage"] ?? "")'.trim();
+
+            if (loginError) {
+                // Show the login modal
+                var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                loginModal.show();
+
+                // Show the error inside modal
+                var errorDiv = document.getElementById('loginError');
+                if (errorDiv) {
+                    errorDiv.innerText = loginError;
+                    errorDiv.style.display = "block";
+                }
+            }
+        });
+    </script>
+}

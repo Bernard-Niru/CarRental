@@ -1,5 +1,6 @@
-﻿
-@model CarRental.ViewModels.GuestPageViewModel
+
+﻿@model CarRental.ViewModels.CombinedViewModel
+
 
 
 @{
@@ -75,6 +76,7 @@
                                 <div class="carousel-item @(i == 0 ? "active" : "")">
                                     <img src="data:image/jpeg;base64,@imgBase64" class="d-block car-image"
                                          alt="@car.Brand.BrandName @car.CarName Image @(i + 1)" />
+
                                 </div>
                             }
                         </div>
@@ -133,9 +135,9 @@
                                         <span class="input-group-text"><i class="bi bi-tag"></i></span>
                                         <select id="brandFilter" class="form-select stylish-input">
                                             <option value="">-- All Brands --</option>
-                                            @if (Model?.BrandOptions != null && Model.BrandOptions.Any())
+                                            @if (Model?.GuestPage.BrandOptions != null && Model.GuestPage.BrandOptions.Any())
                                             {
-                                                foreach (var brand in Model.BrandOptions)
+                                                foreach (var brand in Model.GuestPage.BrandOptions)
                                                 {
                                                     <option value="@brand.Value">@brand.Text</option>
                                                 }
@@ -259,6 +261,136 @@
     <script src="~/js/Swiper.js"></script>
 
 
+
+
+        
+    </script>
+    @await Html.PartialAsync("_LoginRegisterPartial", Model.User)
+
+    @section Scripts {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const loginModalEl = document.getElementById("loginModal");
+                const registerModalEl = document.getElementById("registerModal");
+                const showRegisterLink = document.getElementById("showRegister");
+                const backToLoginLink = document.getElementById("backToLogin");
+
+                let suppressRedirect = false;
+
+                const errorMessagelogin = '@TempData["LoginErrorMessage"]';
+                const errorMessageRegister = '@TempData["RegisterErrorMessage"]';
+
+                const redirectToIndex = () => {
+                    window.location.href = '@Url.Action("Index", "Home")';
+                };
+
+                // 🔁 Show login modal if needed
+                if (errorMessagelogin === "1" || errorMessagelogin) {
+                    if (errorMessagelogin && errorMessagelogin !== "1") {
+                        const errorLogin = document.getElementById("loginError");
+                        if (errorLogin) {
+                            errorLogin.innerText = errorMessagelogin;
+                            errorLogin.style.display = "block";
+                        }
+                    }
+
+                    const loginModal = new bootstrap.Modal(loginModalEl);
+                    loginModal.show();
+                }
+
+                // 🔁 Show register modal if needed
+                if (errorMessageRegister) {
+                    const errorRegister = document.getElementById("RegisterError");
+                    if (errorRegister) {
+                        errorRegister.innerText = errorMessageRegister;
+                        errorRegister.style.display = "block";
+                    }
+
+                    const registerModal = new bootstrap.Modal(registerModalEl);
+                    registerModal.show();
+                }
+
+                // 🔁 Switch from login to register
+                if (showRegisterLink) {
+                    showRegisterLink.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        suppressRedirect = true;
+
+                        const loginModal = bootstrap.Modal.getInstance(loginModalEl) || new bootstrap.Modal(loginModalEl);
+                        loginModal.hide();
+
+                        const registerModal = new bootstrap.Modal(registerModalEl);
+
+                        // Clear register form inputs when switching to register
+                        const registerForm = registerModalEl.querySelector('form');
+                        if (registerForm) {
+                            registerForm.reset();
+                        }
+
+                        registerModal.show();
+                    });
+                }
+
+                if (backToLoginLink) {
+                    backToLoginLink.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        suppressRedirect = true;
+
+                        const registerModal = bootstrap.Modal.getInstance(registerModalEl) || new bootstrap.Modal(registerModalEl);
+                        registerModal.hide();
+
+                        const loginModal = new bootstrap.Modal(loginModalEl);
+
+                        // Clear login form inputs when switching back to login
+                        const loginForm = loginModalEl.querySelector('form');
+                        if (loginForm) {
+                            loginForm.reset();
+                        }
+
+                        loginModal.show();
+                    });
+                }
+
+
+                // 🔁 Refresh page when modal closes (unless suppressRedirect is set)
+                if (loginModalEl) {
+                    loginModalEl.addEventListener('hidden.bs.modal', function () {
+                        if (!suppressRedirect) {
+                            redirectToIndex();
+                        } else {
+                            suppressRedirect = false;
+                        }
+                    });
+                }
+
+                if (registerModalEl) {
+                    registerModalEl.addEventListener('hidden.bs.modal', function () {
+                        if (!suppressRedirect) {
+                            redirectToIndex();
+                        } else {
+                            suppressRedirect = false;
+                        }
+                    });
+                }
+
+                // ✅ Click outside modal (on backdrop) → refresh the page
+                document.addEventListener('click', function (e) {
+                    const isLoginOpen = loginModalEl && loginModalEl.classList.contains('show');
+                    const isRegisterOpen = registerModalEl && registerModalEl.classList.contains('show');
+
+                    if ((isLoginOpen || isRegisterOpen) && e.target.classList.contains('modal')) {
+                        redirectToIndex();
+                    }
+                });
+            });
+        </script>
+    }
+
+
+
+
+
+</body>
 
 
 

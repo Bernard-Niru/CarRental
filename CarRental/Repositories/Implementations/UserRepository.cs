@@ -19,6 +19,11 @@ namespace CarRental.repo.Implementations
             return await _context.Users.AnyAsync(u => u.UserName.ToLower() == userName.ToLower());
         }
 
+        public async Task<bool> CheckEmailAsync(string Email)
+        {
+            return await _context.Users.AnyAsync(u => u.Email == Email);
+        }
+
         public async Task AddAsync(User user)
         {
            await _context.Users.AddAsync(user);

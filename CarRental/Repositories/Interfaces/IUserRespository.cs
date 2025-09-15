@@ -7,6 +7,7 @@ namespace CarRental.Repositories.Interfaces
     public interface IUserRespository
     {
         Task<bool> CheckUserNameAsync(string userName);
+        Task<bool> CheckEmailAsync(string Email);
         Task AddAsync(User user);
         Task<IEnumerable<User>> GetAllAsync();
         User GetByID(int id);
