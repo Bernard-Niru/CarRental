@@ -133,8 +133,32 @@ namespace CarRental.Services.Implementations
             }
         }
 
+        private string GetRatingClass(double rating)
+        {
+            if (rating >= 4.5)
+                return "A";
+            if (rating >= 4.0)
+                return "B";
+            if (rating >= 3.5)
+                return "C";
+            if (rating >= 3.0)
+                return "D";
+            return "E";
+        }
+        public GuestPageViewModel GetGroupedCars()
+        {
+            var allCars = GetAll(); // Your existing method returns List<CarDTO>
 
+            var grouped = allCars
+                .GroupBy(car => GetRatingClass(car.Ratings))
+                .OrderBy(g => g.Key)
+                .ToDictionary(g => g.Key, g => g.ToList());
 
+            return new GuestPageViewModel
+            {
+                CarsByRatingClass = grouped
+            };
+        }
     }
 }
         
