@@ -43,36 +43,17 @@ namespace CarRental.Services.Implementations
 
             return dto.ToList();
         }
-
-        public async Task AddUnitsAsync(AddUnitsViewModel model)
+        public void Add(List<Unit> units)
         {
-            if (model == null || model.Units == null || model.Units.Count == 0)
-                throw new ArgumentException("No units provided.");
-
-
-            foreach (var unitGroup in model.Units)
+            foreach (var unit in units)
             {
-                //if (!_carRepo.Exists(unitGroup.CarID))
-                //    throw new Exception($"CarID {unitGroup.CarID} does not exist.");
-
-                // Add each plate number as a unit for this car
-                foreach (var plate in unitGroup.PlateNumbers)
-                {
-                    if (string.IsNullOrWhiteSpace(plate))
-                        continue;
-
-                    var unit = new Unit
-                    {
-                        CarID = unitGroup.CarID,
-                        PlateNumber = plate
-                    };
-
-                    _unitRepo.Add(unit);
-                }
-
-              
+                _unitRepo.Add(unit);
                 
             }
+            
         }
+
+
+
     }
 }

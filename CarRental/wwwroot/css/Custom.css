@@ -184,3 +184,30 @@
     .navbar-nav.flex-grow-1 li {
         margin: 0;
     }
+/*<nav class="site-nav" >
+<div class="container" >
+<a href="/" class="brand" >
+<img src="/images/logo.png" alt="Hot Wheelz" class="nav-logo" >
+</a >
+.nevbar-logo{
+    .site-nav { background:#fff; border-bottom:1px solid #eee; }
+  .site-nav .container { display:flex; align-items:center; justify-content:space-between; padding:8px 16px; }
+  .nav-logo { height:48px; width:auto; max-width:100%; display:block; }
+  .menu { list-style:none; margin:0; padding:0; display:flex; gap:12px; }
+  .menu a { text-decoration:none; color:#333; padding:6px 8px; }
+  @media (max-width:600px){
+    .menu { display:none; }*/ /* add mobile toggle JS if needed */
+    /*.nav-logo { height:36px; }
+}*/
+/*.nav-logo {
+    height: 48px;
+    width: auto;
+    max-width: 100%;
+    display: block;
+*//*}*/
+.logo-img {
+    height: 80px; /* increase/decrease as you want */
+    width: auto; /* keeps proportions */
+}
+
+    

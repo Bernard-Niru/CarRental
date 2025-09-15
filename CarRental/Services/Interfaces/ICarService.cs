@@ -5,7 +5,10 @@ namespace CarRental.Services.Interfaces;
 
 public interface ICarService
 {
-    string AddCar(CarViewModel model);
+
+    GuestPageViewModel GetGroupedCars();
+
+    int AddCar(CarViewModel model);
 
     IEnumerable<CarDTO> GetAll();
 
@@ -13,7 +16,7 @@ public interface ICarService
 
     void Delete(int id);
 
-    CarViewModel GetcarByID(int id);
+    CarDTO? GetByID(int id);
 
 
 }

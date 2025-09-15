@@ -6,6 +6,8 @@ namespace CarRental.ViewModels
 {
     public class GuestPageViewModel
     {
+        public Dictionary<string, List<CarDTO>> CarsByRatingClass { get; set; }
+
         public IEnumerable<CarDTO> Cars { get; set; }
         public IEnumerable<SelectListItem> BrandOptions { get; set; }
     }

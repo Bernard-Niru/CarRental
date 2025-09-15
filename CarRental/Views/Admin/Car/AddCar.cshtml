@@ -15,11 +15,13 @@
 <h2 class="mb-4 text-center text-gradient fw-bold">
     <i class="fas fa-car me-2"></i> Add New Car
 </h2>
-@await Html.PartialAsync("Brand/_AddBrandPartial")
+@await Html.PartialAsync("Brand/_AddBrandPartial", new CarRental.ViewModels.BrandViewModel())
+
 
 
 <link rel="stylesheet" href="~/css/AddCar.css" asp-append-version="true" />
 <!-- Glassmorphism Card -->
+
 <div class="card glass-card shadow-lg mx-auto" style="max-width: 700px;">
     <div class="card-body p-4">
         <form asp-action="AddCar" asp-controller="Admin" method="post">
@@ -38,7 +40,7 @@
                     <select asp-for="BrandID" class="form-select stylish-input" asp-items="ViewBag.BrandList" required>
                         <option value="">-- Select Brand --</option>
                     </select>
-                    <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#AddBrandModal">
+                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#AddBrandModal">
                         <i class="bi bi-plus-square-dotted"></i>
                     </button>
 
@@ -47,50 +49,45 @@
             </div>
 
 
-            <!-- Car Type -->
-            <div class="form-group mb-3">
-                <label asp-for="CarType" class="form-label fw-semibold">Car Type</label>
-                <select asp-for="CarType" class="form-select stylish-input" asp-items="ViewBag.CarType" required>
-                    <option value="">-- Select Car Type --</option>
-                </select>
-                <span asp-validation-for="CarType" class="text-danger small"></span>
+            <!-- Car Type & Fuel Type -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="CarType" class="form-label fw-semibold">Car Type</label>
+                    <select asp-for="CarType" class="form-select stylish-input" asp-items="ViewBag.CarType" required></select>
+                    <span asp-validation-for="CarType" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="FuelType" class="form-label fw-semibold">Fuel Type</label>
+                    <select asp-for="FuelType" class="form-select stylish-input" asp-items="ViewBag.FuelType" required></select>
+                    <span asp-validation-for="FuelType" class="text-danger small"></span>
+                </div>
             </div>
 
-            <!-- Fuel Type -->
-            <div class="form-group mb-3">
-                <label asp-for="FuelType" class="form-label fw-semibold">Fuel Type</label>
-                <select asp-for="FuelType" class="form-select stylish-input" asp-items="ViewBag.FuelType" required>
-                    <option value="">-- Select Fuel Type --</option>
-                </select>
-                <span asp-validation-for="FuelType" class="text-danger small"></span>
+            <!-- Gear Type & Color -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="GearType" class="form-label fw-semibold">Gear Type</label>
+                    <select asp-for="GearType" class="form-select stylish-input" asp-items="ViewBag.GearType" required></select>
+                    <span asp-validation-for="GearType" class="text-danger small"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Color" class="form-label fw-semibold">Color</label>
+                    <select asp-for="Color" class="form-select stylish-input" id="color-select" required>
+                        <option value="">-- Select Color --</option>
+                        <option value="White" style="background-color: white; color: black;">White</option>
+                        <option value="Black" style="background-color: black; color: white;">Black</option>
+                        <option value="Red" style="background-color: red; color: white;">Red</option>
+                        <option value="Blue" style="background-color: blue; color: white;">Blue</option>
+                        <option value="Silver" style="background-color: silver; color: black;">Silver</option>
+                        <option value="Gray" style="background-color: gray; color: white;">Gray</option>
+                        <option value="Green" style="background-color: green; color: white;">Green</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <input type="text" id="custom-color-input" class="form-control mt-2 stylish-input" placeholder="Enter new color" style="display: none;" />
+                    <span asp-validation-for="Color" class="text-danger small"></span>
+                </div>
             </div>
 
-            <!-- Gear Type -->
-            <div class="form-group mb-3">
-                <label asp-for="GearType" class="form-label fw-semibold">Gear Type</label>
-                <select asp-for="GearType" class="form-select stylish-input" asp-items="ViewBag.GearType" required>
-                    <option value="">-- Select Gear Type --</option>
-                </select>
-                <span asp-validation-for="GearType" class="text-danger small"></span>
-            </div>
-
-            <!-- Color -->
-            <div class="form-group mb-3">
-                <label asp-for="Color" class="form-label fw-semibold">Color</label>
-                <select asp-for="Color" class="form-select stylish-input" id="color-select" required>
-                    <option value="">-- Select Color --</option>
-                    <option value="White" style="background-color: white; color: black;">White</option>
-                    <option value="Black" style="background-color: black; color: white;">Black</option>
-                    <option value="Red" style="background-color: red; color: white;">Red</option>
-                    <option value="Blue" style="background-color: blue; color: white;">Blue</option>
-                    <option value="Silver" style="background-color: silver; color: black;">Silver</option>
-                    <option value="Gray" style="background-color: gray; color: white;">Gray</option>
-                    <option value="Green" style="background-color: green; color: white;">Green</option>
-                    <option value="Other">Other</option>
-                </select>
-                <input type="text" id="custom-color-input" class="form-control mt-2 stylish-input" placeholder="Enter new color" style="display: none;" />
-                <span asp-validation-for="Color" class="text-danger small"></span>
-            </div>
             
             <!-- Seats -->
             <div class="form-group mb-3">
@@ -105,7 +102,6 @@
                 <input asp-for="RentalRate" class="form-control stylish-input" placeholder="e.g:- 50 per day" required  />
                 <span asp-validation-for="RentalRate" class="text-danger small"></span>
             </div>
-
             <!-- Submit Button -->
             <button type="submit" class="btn btn-gradient w-100 fw-bold">
                 <i class="fas fa-plus-circle me-1"></i> Add Car
@@ -113,150 +109,53 @@
         </form>
     </div>
 </div>
+    
+@if (Model.CarID.HasValue)
+{
+    <div class="card glass-card shadow-lg mx-auto" style="max-width: 700px;">
+        <div class="card-body p-4">
+            <form asp-action="AddImage" asp-controller="Admin" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="CarID" value="@Model.CarID" />
+
+                <div class="form-group">
+                    <label for="ImageFiles">Upload Images</label>
+                    <input type="file" name="ImageFiles" multiple class="form-control" accept="image/*" />
+                </div>
+
+                <button type="submit" class="btn btn-gradient w-100 fw-bold">
+                    <i class="fas fa-plus-circle me-1"></i> Upload Images
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="card glass-card shadow-lg mx-auto" style="max-width: 700px;">
+        <div class="card-body p-4">
+            <form asp-action="AddUnit" asp-controller="Admin" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="CarID" value="@Model.CarID" />
+
+                <div id="units-container">
+                    <input type="text" name="Units" class="form-control mb-2" placeholder="Enter plate number" />
+                </div>
+
+                <button type="button" class="btn btn-sm btn-primary" id="add-unit-btn" style="margin-right: 5px;">
+                    <i class="bi bi-plus-square-dotted"></i>
+                   
+                </button>
+               
+                <button type="submit" class="btn btn-gradient w-100 fw-bold">
+                    <i class="fas fa-plus-circle me-1"></i> Add Units
+                </button>
+            </form>
+        </div>
+    </div>
+
+}
+           
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/AddCar.js"></script> 
 }
 
-@*  @model CarRental.ViewModels.CarViewModel
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        @TempData["ErrorMessage"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
-@{
-    ViewData["Title"] = "Add Car";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
-}
 
-<!-- Page Title -->
-<h2 class="mb-4 text-center text-gradient fw-bold">
-    <i class="fas fa-car me-2"></i> Add New Car
-</h2>
-@await Html.PartialAsync("Brand/_AddBrandPartial")
-
-<link rel="stylesheet" href="~/css/AddCar.css" asp-append-version="true" />
-
-<!-- Glassmorphism Card -->
-<div class="card glass-card shadow-lg mx-auto" style="max-width: 700px;">
-    <div class="card-body p-4">
-        <form id="addCarForm" asp-action="AddCar" asp-controller="Admin" method="post">
-
-            <!-- Car Name -->
-            <div class="form-group mb-3">
-                <label asp-for="CarName" class="form-label fw-semibold">Car Name</label>
-                <input asp-for="CarName" class="form-control stylish-input" placeholder="Enter car name..." />
-                <span asp-validation-for="CarName" class="text-danger small"></span>
-            </div>
-
-            <!-- Brand -->
-            <div class="form-group mb-3">
-                <label asp-for="BrandID" class="form-label fw-semibold">Brand</label>
-                <div class="d-flex align-items-center gap-2">
-                    <select asp-for="BrandID" class="form-select stylish-input" asp-items="ViewBag.BrandList" id="BrandID">
-                        <option value="">-- Select Brand --</option>
-                    </select>
-                    <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#AddBrandModal">
-                        <i class="bi bi-plus-square-dotted"></i>
-                    </button>
-                </div>
-                <span asp-validation-for="BrandID" class="text-danger small"></span>
-            </div>
-
-            <!-- Car Type -->
-            <div class="form-group mb-3">
-                <label asp-for="CarType" class="form-label fw-semibold">Car Type</label>
-                <select asp-for="CarType" class="form-select stylish-input" asp-items="ViewBag.CarType" id="CarType">
-                    <option value="">-- Select Car Type --</option>
-                </select>
-                <span asp-validation-for="CarType" class="text-danger small"></span>
-            </div>
-
-            <!-- Fuel Type -->
-            <div class="form-group mb-3">
-                <label asp-for="FuelType" class="form-label fw-semibold">Fuel Type</label>
-                <select asp-for="FuelType" class="form-select stylish-input" asp-items="ViewBag.FuelType" id="FuelType">
-                    <option value="">-- Select Fuel Type --</option>
-                </select>
-                <span asp-validation-for="FuelType" class="text-danger small"></span>
-            </div>
-
-            <!-- Gear Type -->
-            <div class="form-group mb-3">
-                <label asp-for="GearType" class="form-label fw-semibold">Gear Type</label>
-                <select asp-for="GearType" class="form-select stylish-input" asp-items="ViewBag.GearType" id="GearType">
-                    <option value="">-- Select Gear Type --</option>
-                </select>
-                <span asp-validation-for="GearType" class="text-danger small"></span>
-            </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="Color" class="form-label fw-semibold">Color</label>
-                <select asp-for="Color" class="form-select stylish-input" id="color-select">
-                    <option value="">-- Select Color --</option>
-                    <option value="White" style="background-color: white; color: black;">White</option>
-                    <option value="Black" style="background-color: black; color: white;">Black</option>
-                    <option value="Red" style="background-color: red; color: white;">Red</option>
-                    <option value="Blue" style="background-color: blue; color: white;">Blue</option>
-                    <option value="Silver" style="background-color: silver; color: black;">Silver</option>
-                    <option value="Gray" style="background-color: gray; color: white;">Gray</option>
-                    <option value="Green" style="background-color: green; color: white;">Green</option>
-                    <option value="Other">Other</option>
-                </select>
-                <input type="text" id="custom-color-input" class="form-control mt-2 stylish-input" placeholder="Enter new color" style="display: none;" />
-                <span asp-validation-for="Color" class="text-danger small"></span>
-            </div>
-
-            <!-- Seats -->
-            <div class="form-group mb-3">
-                <label asp-for="No_of_Seats" class="form-label fw-semibold">No. of Seats</label>
-                <input asp-for="No_of_Seats" class="form-control stylish-input" id="No_of_Seats" placeholder="e.g., 5" />
-                <span asp-validation-for="No_of_Seats" class="text-danger small"></span>
-            </div>
-
-            <!-- Rental Rate -->
-            <div class="form-group mb-4">
-                <label asp-for="RentalRate" class="form-label fw-semibold">Rental Rate</label>
-                <input asp-for="RentalRate" class="form-control stylish-input" id="RentalRate" placeholder="e.g., 50 per day" />
-                <span asp-validation-for="RentalRate" class="text-danger small"></span>
-            </div>
-
-            <!-- Submit Button -->
-            <button type="submit" class="btn btn-gradient w-100 fw-bold">
-                <i class="fas fa-plus-circle me-1"></i> Add Car
-            </button>
-        </form>
-
-        <!-- Error Alert (hidden initially) -->
-        <div id="errorAlert" class="alert alert-danger alert-dismissible fade show mt-3" role="alert" style="display:none;">
-            🚨 Please fill all required fields before adding a car.
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    </div>
-</div>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-    <script src="~/js/AddCar.js"></script>
-
-    <script>
-        document.getElementById("addCarForm").addEventListener("submit", function (e) {
-            let carName = document.getElementById("CarName").value.trim();
-            let brand = document.getElementById("BrandID").value.trim();
-            let carType = document.getElementById("CarType").value.trim();
-            let fuel = document.getElementById("FuelType").value.trim();
-            let gear = document.getElementById("GearType").value.trim();
-            let color = document.getElementById("Color").value.trim();
-            let seats = document.getElementById("No_of_Seats").value.trim();
-            let rate = document.getElementById("RentalRate").value.trim();
-
-            if (carName === "" || brand === "" || carType === "" || fuel === "" || gear === "" || color === "" || seats === "" || rate === "") {
-                e.preventDefault(); // stop form submit
-                document.getElementById("errorAlert").style.display = "block"; // show error
-            }
-        });
-    </script>
-} *@

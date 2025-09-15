@@ -21,7 +21,7 @@ namespace CarRental.Services.Implementations
             _brandService = brandService;
             _imageService = imageService;
         }
-        public string AddCar(CarViewModel model)
+        public int AddCar(CarViewModel model)
         {
             var car = CarMapper.ToModel(model);
             return _repo.AddCar(car);
@@ -29,48 +29,46 @@ namespace CarRental.Services.Implementations
         }
         public IEnumerable<CarDTO> GetAll()
         {
-            var cars = _repo.GetAll();
-            var brands = _brandService.GetAll();
-            var carlist = new List<CarDTO>();
+            var cars = _repo.GetAll(); // Already filtered at repo
 
-            foreach (var c in cars)
+            var carDTOs = cars.Select(car => new CarDTO
             {
-                var brandName = brands.FirstOrDefault(b => b.BrandID == c.BrandID)?.BrandName ?? "Unknown";
-                //var image = _imageService.GetImgsByCarID(c.CarID);
+                CarID = car.CarID,
+                CarName = car.CarName,
+                BrandID = car.BrandID,
+                CarType = car.CarType,
+                FuelType = car.FuelType,
+                GearType = car.GearType,
+                Color = car.Color,
+                No_of_Seats = car.No_of_Seats,
+                Ratings = car.Ratings,
+                RentalRate = car.RentalRate,
 
-                var images = _imageService.GetImgsByCarID(c.CarID);
-
-
-                var imageDataList = images != null && images.Any()
-                    ? images.Select(img => "data:image/jpeg;base64," + Convert.ToBase64String(img.ImageData)).ToList()
-                    : new List<string> { "/images/default-car.png" };
-
-                var imageIDs = images != null && images.Any()
-                    ? images.Select(img => img.ImageID).ToList()
-                    : new List<int>();
-
-
-                var model = new CarDTO
+                Brand = new BrandDTO
                 {
-                    CarID = c.CarID,
-                    CarName = c.CarName,
-                    BrandID = c.BrandID,
-                    BrandName = brandName,
-                    ImageDataList = imageDataList,
-                    ImageIDs = imageIDs,
-                    CarType= c.CarType,
-                    FuelType = c.FuelType,
-                    Color = c.Color,
-                    No_of_Seats = c.No_of_Seats,
-                    Ratings = c.Ratings,
-                    RentalRate = c.RentalRate,
-                };
+                    BrandID = car.Brand.BrandID,
+                    BrandName = car.Brand.BrandName
+                },
 
-                carlist.Add(model);
-            }
+                Images = car.Images?.Select(i => new ImageDTO
+                {
+                    Id = i.ImageID,
+                    CarId = i.CarID,
+                    ImageBase64 = Convert.ToBase64String(i.ImageData)
+                }).ToList() ?? new(),
 
-            return carlist;
+                Units = car.Units?.Select(u => new UnitDTO
+                {
+                    UnitID = u.UnitID,
+                    CarID = u.CarID,
+                    PlateNumber = u.PlateNumber,
+                    IsAvailble = u.IsAvailble
+                }).ToList() ?? new()
+            });
+
+            return carDTOs;
         }
+
 
         public string Update(CarViewModel model)
         {
@@ -78,17 +76,53 @@ namespace CarRental.Services.Implementations
             return _repo.Update(Car);
         }
 
-        public CarViewModel GetcarByID(int id)
+        public CarDTO? GetByID(int id)
         {
-            var car = _repo.GetByID(id);
-            //if (car == null)
-            //{
-            // Could throw an exception or return null
-            // return null;
-            //}
-            var user = CarMapper.ToViewModel(car);
-            return user;
+            var car = _repo.GetByID(id); // Assuming you updated your repo method to include related entities and filtering
+
+            if (car == null)
+            {
+                return null;
+            }
+
+            var carDTO = new CarDTO
+            {
+                CarID = car.CarID,
+                CarName = car.CarName,
+                BrandID = car.BrandID,
+                CarType = car.CarType,
+                FuelType = car.FuelType,
+                GearType = car.GearType,
+                Color = car.Color,
+                No_of_Seats = car.No_of_Seats,
+                Ratings = car.Ratings,
+                RentalRate = car.RentalRate,
+
+                Brand = new BrandDTO
+                {
+                    BrandID = car.Brand.BrandID,
+                    BrandName = car.Brand.BrandName
+                },
+
+                Images = car.Images?.Select(i => new ImageDTO
+                {
+                    Id = i.ImageID,
+                    CarId = i.CarID,
+                    ImageBase64 = Convert.ToBase64String(i.ImageData)
+                }).ToList() ?? new(),
+
+                Units = car.Units?.Select(u => new UnitDTO
+                {
+                    UnitID = u.UnitID,
+                    CarID = u.CarID,
+                    PlateNumber = u.PlateNumber,
+                    IsAvailble = u.IsAvailble
+                }).ToList() ?? new()
+            };
+
+            return carDTO;
         }
+
         public void Delete(int id)
         {
             var car = _repo.GetByID(id);
@@ -99,8 +133,32 @@ namespace CarRental.Services.Implementations
             }
         }
 
+        private string GetRatingClass(double rating)
+        {
+            if (rating >= 4.5)
+                return "A";
+            if (rating >= 4.0)
+                return "B";
+            if (rating >= 3.5)
+                return "C";
+            if (rating >= 3.0)
+                return "D";
+            return "E";
+        }
+        public GuestPageViewModel GetGroupedCars()
+        {
+            var allCars = GetAll(); // Your existing method returns List<CarDTO>
 
+            var grouped = allCars
+                .GroupBy(car => GetRatingClass(car.Ratings))
+                .OrderBy(g => g.Key)
+                .ToDictionary(g => g.Key, g => g.ToList());
 
+            return new GuestPageViewModel
+            {
+                CarsByRatingClass = grouped
+            };
+        }
     }
 }
         

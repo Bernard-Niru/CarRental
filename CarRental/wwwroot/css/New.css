@@ -1,5 +1,10 @@
 ﻿@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;700&display=swap");
-
+.footer-links a {
+    background: none; /* or transparent */
+    border-radius: 0;
+    padding: 0;
+    color: white; /* or whatever color you want the text to be */
+}
 * {
     margin: 0;
     padding: 0;

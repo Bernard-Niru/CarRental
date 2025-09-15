@@ -26,8 +26,11 @@ namespace CarRental.Controllers
         [HttpGet]
         public IActionResult login()
         {
+
             TempData["LoginErrorMessage"] = "1";
             return RedirectToAction("Index", "Home");
+            var viewModel = _carService.GetGroupedCars();
+
         }
         [HttpPost]
         public async Task<IActionResult> Register(UserViewModel User)

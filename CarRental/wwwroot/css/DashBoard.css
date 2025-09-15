@@ -1,12 +1,13 @@
 ﻿
 body {
+    background: #DFE8F3;
     min-height: 100vh;
     display: flex;
 }
 
 .sidebar {
     width: 280px;
-    background-color: #000;
+    background: linear-gradient(135deg, #007FFF, #333);
     padding: 1rem;
     display: flex;
     flex-direction: column;
