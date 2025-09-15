@@ -43,6 +43,17 @@ namespace CarRental.Services.Implementations
 
             return dto.ToList();
         }
+        public IEnumerable<UnitDTO> GetByCarID(int carid)
+        {
+            var units = _unitRepo.GetByCarID(carid);
+            var unitDTOs = units.Select(u => new UnitDTO {
+                UnitID = u.UnitID,
+                CarID = u.CarID,
+                PlateNumber = u.PlateNumber,
+                IsAvailble = u.IsAvailble
+                });
+            return unitDTOs;
+        }
         public void Add(List<Unit> units)
         {
             foreach (var unit in units)
@@ -52,7 +63,10 @@ namespace CarRental.Services.Implementations
             }
             
         }
-
+        public void ChangeAvailability (int id) 
+        {
+            _unitRepo.ChangeAvailability(id);
+        }
 
 
     }

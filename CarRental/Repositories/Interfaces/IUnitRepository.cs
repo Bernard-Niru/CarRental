@@ -10,8 +10,9 @@ namespace CarRental.Repositories.Interfaces
         void Add(Unit unit);
         Task AddPlatesAsync(int carId, List<string> plates);
         IEnumerable<Unit> GetAll();
-        Unit GetById(int id);
+        List<Unit> GetByCarID(int carId);
         void Update(Unit unit);
         void Delete(int id);
+        void ChangeAvailability(int id);
     }
 }

@@ -70,7 +70,7 @@
                 <td>@car.Brand.BrandName</td>
                 <td>@car.Color</td>
                 <td>@car.Ratings</td>
-                <td>@car.RentalRate.ToString("C")</td>  <!-- formatted as currency -->
+                <td>Rs. @car.RentalRate.ToString()</td>  <!-- formatted as currency -->
                 <td>
                     <a asp-action="UpdateCar" asp-route-id="@car.CarID" class="btn btn-sm btn-warning">
                         <i class="bi bi-pencil-fill"></i>
@@ -92,24 +92,16 @@
                         }
                     </div>
 
-                    <button 
-                        type="button" 
-                        class="btn btn-sm btn-success view-images-btn"
-                        data-bs-toggle="modal"
-                        data-bs-target="#carImagesModal"
-                        data-carname="@car.CarName"
-                        data-carid="@car.CarID">
+                    <a asp-action="ViewImageofCar" asp-route-CarID="@car.CarID" class="btn btn-sm btn-success">
                         <i class="bi bi-image-fill"></i>
-                    </button>
 
-                    <button type="button"
-                            class="btn btn-sm btn-primary view-units-btn"
-                            data-bs-toggle="modal"
-                            data-bs-target="#carUnitsModal"
-                            data-carname="@car.CarName"
-                            data-carid="@car.CarID">
+                    </a>
+                    <a asp-action="ViewUnitofCar" asp-route-CarID="@car.CarID" class="btn btn-sm btn-primary">
                         <i class="bi bi-puzzle-fill"></i>
-                    </button>                    
+
+                    </a>
+                    
+
                   
                 </td>
             </tr>
@@ -119,7 +111,7 @@
     </tbody>
 
 </table>
-<link rel="stylesheet" href="~/css/imageForm.css" />
+@* <link rel="stylesheet" href="~/css/imageForm.css" />
 
 <!-- Combined Modal -->
 <div class="modal fade" id="carImagesModal" tabindex="-1" aria-labelledby="carImagesModalLabel" aria-hidden="true">
@@ -159,45 +151,10 @@
 
         </div>
     </div>
-</div>
+</div> *@
 
-<link rel="stylesheet" href="~/css/imageForm.css" />
 
-<!-- Units Modal -->
-<div class="modal fade" id="carUnitsModal" tabindex="-1" aria-labelledby="carUnitsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content rounded-4 shadow-lg border-0">
 
-            <div class="modal-header">
-                <h5 class="modal-title" id="carUnitsModalLabel">Manage Units (Plate Numbers)</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body bg-white">
-                <!-- Display car name -->
-                <h5 id="carNameUnitsModal" class="mb-3"></h5>
-
-                <!-- Existing Units List -->
-                <ul id="carUnitsList" class="list-group mb-3">
-                    <!-- Plate numbers will be loaded here -->
-                </ul>
-
-                <!-- Add New Unit Form -->
-                <form id="addUnitForm" onsubmit="return false;">
-                    <input type="hidden" name="CarID" id="UnitCarID" />
-
-                    <div class="mb-3">
-                        <label for="newPlateNumber" class="form-label">Add New Plate Number</label>
-                        <input type="text" id="newPlateNumber" class="form-control" placeholder="Enter new plate number" required />
-                    </div>
-
-                    <button type="submit" id="addUnitButton" class="btn btn-success w-100">Add Unit</button>
-                </form>
-            </div>
-
-        </div>
-    </div>
-</div>
 
 
 @section Scripts {

@@ -370,71 +370,143 @@ namespace CarRental.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> AddImage(int CarID, List<IFormFile> ImageFiles)
+        public async Task<IActionResult> UploadCarData(int CarID, List<IFormFile> ImageFiles, List<string> Units)
         {
-            if (ImageFiles == null || !ImageFiles.Any())
+            if ((ImageFiles == null || !ImageFiles.Any()) &&
+                (Units == null || !Units.Any()))
             {
-                TempData["ErrorMessage"] = "Please upload at least one image.";
+                TempData["ErrorMessage"] = "Please upload at least one image or unit.";
                 return RedirectToAction("AddCar", new { id = CarID });
             }
 
-            var images = new List<Image>();
-            foreach (var file in ImageFiles)
+            // Handle image uploads
+            if (ImageFiles != null && ImageFiles.Any())
             {
-                using var ms = new MemoryStream();
-                await file.CopyToAsync(ms);
-
-                images.Add(new Image
+                var images = new List<Image>();
+                foreach (var file in ImageFiles)
                 {
-                    CarID = CarID,
-                    ImageData = ms.ToArray(),
-                    IsDeleted = false
-                });
+                    using var ms = new MemoryStream();
+                    await file.CopyToAsync(ms);
+
+                    images.Add(new Image
+                    {
+                        CarID = CarID,
+                        ImageData = ms.ToArray(),
+                        IsDeleted = false
+                    });
+                }
+
+                _imageService.Add(images);
             }
 
-            _imageService.Add(images);
+            // Handle unit uploads
+            if (Units != null && Units.Any())
+            {
+                var unitList = new List<Unit>();
+                foreach (var unit in Units)
+                {
+                    unitList.Add(new Unit
+                    {
+                        CarID = CarID,
+                        PlateNumber = unit,
+                        IsAvailble = true,
+                        IsDeleted = false
+                    });
+                }
 
-            TempData["SuccessMessage"] = "Images uploaded successfully!";
+                _unitService.Add(unitList);
+            }
+
+            TempData["SuccessMessage"] = "Data uploaded successfully!";
             return RedirectToAction("ViewCars");
         }
 
-        [HttpGet]
-        public IActionResult GetImage()
+
+
+        public IActionResult ViewUnitofCar(int CarID) 
         {
-            return View("Car/_GetImagePartial");
+            var units = _unitService.GetByCarID(CarID);
+            ViewBag.CarID = CarID;
+            return View("UnitofCar",units);
         }
+         
+        public IActionResult ChangeAvailability(int id,int CarID) 
+        {
+            _unitService.ChangeAvailability(id);
+            return RedirectToAction("ViewUnitofCar", "Admin", new { CarID = CarID });
+            
+           
+        }
+        public IActionResult ViewImageofCar(int CarID)
+        {
+            var images = _imageService.GetByCarID(CarID);
+            ViewBag.CarID = CarID;
+            return View("ImageofCar", images);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> AddUnit(int CarID, List<string> Units ) 
+        public async Task<IActionResult> UploadImage(int CarID, List<IFormFile> ImageFiles)
+        {
+            if (ImageFiles == null || !ImageFiles.Any())                 
+            {
+                TempData["ErrorMessage"] = "Please upload at least one image.";
+                return RedirectToAction("ViewImageofCar", "Admin", new { CarID = CarID });
+            }
+
+            // Handle image uploads
+            if (ImageFiles != null && ImageFiles.Any())
+            {
+                var images = new List<Image>();
+                foreach (var file in ImageFiles)
+                {
+                    using var ms = new MemoryStream();
+                    await file.CopyToAsync(ms);
+
+                    images.Add(new Image
+                    {
+                        CarID = CarID,
+                        ImageData = ms.ToArray(),
+                        IsDeleted = false
+                    });
+                }
+
+                _imageService.Add(images);
+            }
+            
+            TempData["SuccessMessage"] = "Data uploaded successfully!";
+            return RedirectToAction("ViewImageofCar", "Admin", new { CarID = CarID }); ;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddUnits(int CarID, List<string> Units)
         {
             if (Units == null || !Units.Any())
             {
-                TempData["ErrorMessage"] = "Please upload at least one Unit.";
-                return RedirectToAction("AddCar", new { id = CarID });
+                TempData["ErrorMessage"] = "Please upload at least one unit.";
+                return RedirectToAction("ViewUnitofCar", "Admin", new { CarID = CarID });
             }
-            var unitlist = new List<Unit>();
-            foreach (var unit in Units)
+
+            // Handle unit uploads
+            if (Units != null && Units.Any())
             {
-               
-                unitlist.Add(new Unit
+                var unitList = new List<Unit>();
+                foreach (var unit in Units)
                 {
-                    CarID = CarID,
-                    PlateNumber = unit,
-                    IsAvailble = true,
-                    IsDeleted = false
-                });
+                    unitList.Add(new Unit
+                    {
+                        CarID = CarID,
+                        PlateNumber = unit,
+                        IsAvailble = true,
+                        IsDeleted = false
+                    });
+                }
+
+                _unitService.Add(unitList);
             }
 
-            _unitService.Add(unitlist);
-
-            TempData["SuccessMessage"] = "Units uploaded successfully!";
-            return RedirectToAction("ViewCars");
-            
+            TempData["SuccessMessage"] = "Data uploaded successfully!";
+            return RedirectToAction("ViewUnitofCar", "Admin", new { CarID = CarID }); ;
         }
-
-
-
-
-
 
 
 

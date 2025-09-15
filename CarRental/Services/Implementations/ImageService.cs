@@ -1,3 +1,4 @@
+using CarRental.DTOs;
 using CarRental.Mappings;
 using CarRental.Models;
 using CarRental.Repositories.Interfaces;
@@ -14,18 +15,17 @@ namespace CarRental.Services.Implementations
         {
             _repo = repo;
         }
-    
-        public IEnumerable<ImageViewModel> GetImgsByCarID(int carID)
+
+        public IEnumerable<ImageDTO> GetByCarID(int carid)
         {
-            var images =  _repo.GetImgsByCarID(carID);
-    
-            if (images == null || !images.Any())
+            var images = _repo.GetByCarId(carid);
+            var imageDTOs = images.Select(u => new ImageDTO
             {
-                // Return empty list or null, depending on your preference
-                return Enumerable.Empty<ImageViewModel>();
-            }
-    
-            return ImageMapper.ToViewModelList(images);
+               Id = u.ImageID,
+               CarId = u.CarID,
+                ImageBase64 = Convert.ToBase64String(u.ImageData)
+            });
+            return imageDTOs;
         }
         public void Add(List<Image> images)
         {

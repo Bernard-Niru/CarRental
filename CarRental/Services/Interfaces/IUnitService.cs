@@ -13,9 +13,10 @@ namespace CarRental.Services.Interfaces
 
         void Add(List<Unit> images);
         //Task Add(AddUnitsViewModel model);
-
+        IEnumerable<UnitDTO> GetByCarID(int carid);
         IEnumerable<UnitDTO> GetAll();
-        
-       
+        void ChangeAvailability(int id);
+
+
     }
 }
