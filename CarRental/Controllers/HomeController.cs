@@ -23,73 +23,8 @@ namespace CarRental.Controllers
             _userservice = userService;
             _brandService = brandService;
         }
-        [HttpGet]
-        public IActionResult login()
+        private CombinedViewModel open(UserViewModel user)
         {
-
-            TempData["LoginErrorMessage"] = "1";
-            return RedirectToAction("Index", "Home");
-            var viewModel = _carService.GetGroupedCars();
-
-        }
-        [HttpPost]
-        public async Task<IActionResult> Register(UserViewModel User)
-        {
-            User.Role = Enums.UserEnums.UserRole.Customer;
-            if (ModelState.IsValid)
-            {
-                if (await _userservice.CheckAsync(User.UserName.Trim()))
-                {
-                    TempData["RegisterErrorMessage"] = "Username already exists";
-                    return View("login");
-                }
-
-                await _userservice.AddAsync(User);
-                return RedirectToAction("ViewUser", "Admin");
-            }
-            TempData["RegisterErrorMessage"] = "Invalid Input";
-            return View("Index");
-        }
-        [HttpPost]
-        public async Task<IActionResult> login(UserViewModel login)
-        {
-            string Username = login.UserName.Trim();
-            bool userExists = await _userservice.CheckAsync(Username);
-
-            if (userExists)
-            {
-                string role = _userservice.CheckPassword(login);
-
-                if (role.Contains(','))
-                {
-                    string[] User = role.Split(',');
-                    Role.RoleName = User[0].Trim();
-                    Role.Id = User[1].Trim();
-                    if (User[0] == "Admin")
-                    {
-                        return RedirectToAction("Dashboard", "Admin");
-                    }
-                    if (User[0] == "Customer")
-                    {
-                        return RedirectToAction("HomePage", "Customer");
-                    }
-                    if (User[0] == "Staff")
-                    {
-                        return RedirectToAction("ViewCars", "Admin");
-                    }
-                }
-                TempData["LoginErrorMessage"] = role;
-                return View("Index", login);
-
-            }
-            TempData["LoginErrorMessage"] = "Incorrect UserName";
-            return View("Index");
-        }
-        [HttpGet]
-        public IActionResult Index()
-        {
-
-            // Get all brands to populate the filter dropdown
             var brands = _brandService.GetAll()
                                       .Select(b => new SelectListItem
                                       {
@@ -98,18 +33,100 @@ namespace CarRental.Controllers
                                       })
                                       .ToList();
 
-            // Get all available cars
             var cars = _carService.GetAll();
 
-            // Create a ViewModel to hold both lists and pass it to the view
-            var guestViewModel = new GuestPageViewModel
+            return new CombinedViewModel
             {
-                Cars = cars,
-                BrandOptions = brands
+                GuestPage = new GuestPageViewModel
+                {
+                    Cars = cars,
+                    BrandOptions = brands
+                },
+                User = user 
             };
-
-            return View(guestViewModel);
         }
+
+
+        [HttpGet]
+        public IActionResult login()
+        {
+            var combinedViewModel = open(null);
+            TempData["LoginErrorMessage"] = "1";
+            return View("Index" , combinedViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(UserViewModel User)
+        {
+            User.Role = Enums.UserEnums.UserRole.Customer;
+
+                if (!ModelState.IsValid)
+                {
+                    TempData["RegisterErrorMessage"] = "Invalid Input";
+                    var combinedViewModel = open(User);
+                    return View("Index", combinedViewModel);
+                }
+
+                if (await _userservice.CheckEmailAsync(User.EmailAddress.Trim()))
+                {
+                    TempData["RegisterErrorMessage"] = "Email already exists";
+                    var combinedViewModel = open(User);
+                    return View("Index", combinedViewModel);
+                }
+
+                if (await _userservice.CheckAsync(User.UserName.Trim()))
+                {
+                    TempData["RegisterErrorMessage"] = "Username already exists";
+                    TempData["ShowRegisterModal"] = true;
+                    var combinedViewModel = open(User);
+                    return View("Index", combinedViewModel);
+                }
+
+                await _userservice.AddAsync(User);
+                return RedirectToAction("ViewUser", "Admin");
+            }
+
+        [HttpPost]
+        public async Task<IActionResult> login(UserViewModel login)
+        {
+            string username = login.UserName?.Trim();
+            bool userExists = await _userservice.CheckAsync(username);
+
+            if (userExists)
+            {
+                string role = _userservice.CheckPassword(login);
+
+                if (role.Contains(','))
+                {
+                    string[] user = role.Split(',');
+                    Role.RoleName = user[0].Trim();
+                    Role.Id = user[1].Trim();
+
+                    if (user[0] == "Admin")
+                        return RedirectToAction("Dashboard", "Admin");
+                    if (user[0] == "Customer")
+                        return RedirectToAction("HomePage", "Customer");
+                    if (user[0] == "Staff")
+                        return RedirectToAction("ViewCars", "Admin");
+                }
+                TempData["LoginErrorMessage"] = role;
+            }
+            else
+            {
+                TempData["LoginErrorMessage"] = "Incorrect UserName";
+            }
+            var combinedViewModel = open(null);
+            return View("Index", combinedViewModel);
+        }
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            var combinedViewModel = open(null);
+            return View(combinedViewModel);
+        }
+
+
         //[HttpPost]
         //public IActionResult Index(string Open = "defaultValue")
         //{
@@ -124,6 +141,7 @@ namespace CarRental.Controllers
 
         public IActionResult Privacy()
         {
+            TempData["LoginErrorMessage"] = "1";
             return View();
         }
 

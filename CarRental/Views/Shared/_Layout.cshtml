@@ -16,6 +16,7 @@
     @if (ViewData["HideNavbar"] as bool? != true)
     {
         <header>
+            @await Html.PartialAsync("/Views/Shared/_LoginRegisterPartial.cshtml", new CarRental.ViewModels.UserViewModel())
             <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
                 <div class="container-fluid d-flex justify-content-between align-items-center">
                     <h3 class="hotwheelz-heading mb-0">
@@ -27,9 +28,6 @@
                         <ul class="navbar-nav flex-grow-1 justify-content-end">
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ViewUser">User</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</a>
@@ -56,131 +54,13 @@
             &copy; 2025 - CarRental - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="wrapper">
-                    <form method="post" action="/Home/Login">
-                        <div id="loginError" class="alert alert-danger" style="display: none;"></div>
-                        <h2>Log In</h2>
-                        <div class="input-feild">
-                            <input type="text" name="UserName" required>
-                            <label>Enter Your UserName</label>
-                        </div>
-                        <div class="input-feild">
-                            <input type="password" name="Password" required>
-                            <label>Enter Your Password</label>
-                        </div>
-                        <div class="forget">
-                            <label>
-                                <input type="checkbox" name="RememberMe"> Remember Me
-                            </label>
-                            <a href="#">Forget Password</a>
-                        </div>
-                        <button type="submit">Log In</button>
-                        <div class="register">
-                            <a href="#" id="showRegister">Don't have an account? Register</a>
-
-
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content" style="background: transparent; border: none; box-shadow: none;">
-                <div class="wrapper">
-                    <form method="post" action="/Home/Register">
-                        <div id="RegisterError" class="alert alert-danger" style="display: none;"></div>
-                        <h2>Register</h2>
-                        <div class="input-feild">
-                            <input type="text" name="Name" required>
-                            <label>Enter Your Name</label>
-                        </div>
-                        <div class="input-feild">
-                            <input type="text" name="EmailAddress" required>
-                            <label>Enter Your Email</label>
-                        </div>
-                        <div class="input-feild">
-                            <input type="text" name="UserName" required>
-                            <label>Enter Your UserName</label>
-                        </div>
-                        <div class="input-feild">
-                            <input type="password" name="Password" required>
-                            <label>Enter Your Password</label>
-                        </div>
-                        <div class="forget">
-                            <label><input type="checkbox" name="RememberMe"> Remember Me</label>
-                        </div>
-                        <button type="submit">Register</button>
-                        <div class="register">
-                            <a href="#" id="backToLogin">Back to Login</a>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-        </div>
-    </div>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-
-            var errorMessagelogin = '@TempData["LoginErrorMessage"]';
-            var errorMessageRegister = '@TempData["RegisterErrorMessage"]';
-
-            if (errorMessagelogin === "1") {
-                var loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
-                loginModal.show();
-                errorMessagelogin = null
-            }
-
-            if (errorMessagelogin) {
-                var errorlogin = document.getElementById("loginError");
-                if (errorlogin) {
-                    errorlogin.innerText = errorMessagelogin;
-                    errorlogin.style.display = "block";
-                }
-
-                var loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
-                loginModal.show();
-            }
-
-            if (errorMessageRegister) {
-                var errorRegister = document.getElementById("RegisterError");
-                if (errorRegister) {
-                    errorRegister.innerText = errorMessageRegister;
-                    errorRegister.style.display = "block";
-                }
-
-                var registerModal = new bootstrap.Modal(document.getElementById("registerModal"));
-                registerModal.show();
-            }
-        });
+        <script />
 
 
-        document.getElementById("showRegister").addEventListener("click", function (e) {
-            e.preventDefault();
-            var loginModal = bootstrap.Modal.getInstance(document.getElementById("loginModal"));
-            loginModal.hide();
-
-            var registerModal = new bootstrap.Modal(document.getElementById("registerModal"));
-            registerModal.show();
-        });
-
-        document.getElementById("backToLogin").addEventListener("click", function (e) {
-            e.preventDefault();
-            var registerModal = bootstrap.Modal.getInstance(document.getElementById("registerModal"));
-            registerModal.hide();
-
-            var loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
-            loginModal.show();
-        });
-    </script>
-
+    @section Scripts {
+        <script src="~/js/AddCar.js"></script>
+    }
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

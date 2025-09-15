@@ -22,6 +22,10 @@ namespace CarRental.Services.Implementations
         {
             return await _repo.CheckUserNameAsync(UserName);
         }
+        public async Task<bool> CheckEmailAsync(string Email)
+        {
+            return await _repo.CheckEmailAsync(Email);
+        }
         public async Task AddAsync(UserViewModel model)
         {
             string hashedPassword = Convert.ToBase64String(

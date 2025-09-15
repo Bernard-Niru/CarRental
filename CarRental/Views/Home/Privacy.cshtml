@@ -1,6 +1,72 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
-}
-<h1>@ViewData["Title"]</h1>
+﻿@* @model CarRental.ViewModels.UserViewModel
 
-<p>Use this page to detail your site's privacy policy.</p>
+<!-- your main page content -->
+@await Html.PartialAsync("_LoginRegisterPartial", Model)
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var errorMessagelogin = '@TempData["LoginErrorMessage"]';
+            var errorMessageRegister = '@TempData["RegisterErrorMessage"]';
+
+            if (errorMessagelogin === "1") {
+                var loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
+                loginModal.show();
+                errorMessagelogin = null;
+            }
+
+            if (errorMessagelogin) {
+                var errorlogin = document.getElementById("loginError");
+                if (errorlogin) {
+                    errorlogin.innerText = errorMessagelogin;
+                    errorlogin.style.display = "block";
+                }
+
+                var loginModal = new bootstrap.Modal(document.getElementById("loginModal"));
+                loginModal.show();
+            }
+
+            if (errorMessageRegister) {
+                var errorRegister = document.getElementById("RegisterError");
+                if (errorRegister) {
+                    errorRegister.innerText = errorMessageRegister;
+                    errorRegister.style.display = "block";
+                }
+
+                var registerModal = new bootstrap.Modal(document.getElementById("registerModal"));
+                registerModal.show();
+            }
+
+            // Now get the elements AFTER the DOM is loaded
+            const loginModalEl = document.getElementById("loginModal");
+            const registerModalEl = document.getElementById("registerModal");
+
+            const showRegisterLink = document.getElementById('showRegister');
+            if (showRegisterLink && loginModalEl && registerModalEl) {
+                showRegisterLink.addEventListener('click', e => {
+                    e.preventDefault();
+                    const loginModal = bootstrap.Modal.getInstance(loginModalEl) || new bootstrap.Modal(loginModalEl);
+                    loginModal.hide();
+
+                    const registerModal = new bootstrap.Modal(registerModalEl);
+                    registerModal.show();
+                });
+            }
+
+            const backToLoginLink = document.getElementById('backToLogin');
+            if (backToLoginLink && loginModalEl && registerModalEl) {
+                backToLoginLink.addEventListener('click', e => {
+                    e.preventDefault();
+                    const registerModal = bootstrap.Modal.getInstance(registerModalEl) || new bootstrap.Modal(registerModalEl);
+                    registerModal.hide();
+
+                    const loginModal = new bootstrap.Modal(loginModalEl);
+                    loginModal.show();
+                });
+            }
+        });
+
+    </script>
+}
+
+ *@
