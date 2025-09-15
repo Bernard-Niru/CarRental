@@ -140,6 +140,7 @@
                                 <h5 class="card-title">@car.Brand.BrandName</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">@car.CarName</h6>
                                 <p class="text-success fw-bold fs-5">Rs @car.RentalRate.ToString("N0") / Day</p>
+                                <a asp-controller="Home" asp-action="login" class="btn btn-outline-success btn-sm px-4">Request</a>
                                 <button type="button" class="btn btn-outline-success btn-sm px-4" data-bs-toggle="modal" data-bs-target="#loginModal">
                                     Request
                                 </button>

@@ -26,9 +26,11 @@ namespace CarRental.Controllers
         [HttpGet]
         public IActionResult login()
         {
+
+            TempData["LoginErrorMessage"] = "1";
+            return RedirectToAction("Index", "Home");
             var viewModel = _carService.GetGroupedCars();
 
-            return View("Login");
         }
         [HttpPost]
         public async Task<IActionResult> Register(UserViewModel User)
@@ -81,12 +83,12 @@ namespace CarRental.Controllers
 
             }
             TempData["LoginErrorMessage"] = "Incorrect UserName";
-            return View("Index", login);
+            return View("Index");
         }
-
+        [HttpGet]
         public IActionResult Index()
         {
-            
+
             // Get all brands to populate the filter dropdown
             var brands = _brandService.GetAll()
                                       .Select(b => new SelectListItem
@@ -108,7 +110,17 @@ namespace CarRental.Controllers
 
             return View(guestViewModel);
         }
-    
+        //[HttpPost]
+        //public IActionResult Index(string Open = "defaultValue")
+        //{
+        //    if (login != null)
+        //    {
+        //        return RedirectToAction("ViewCars", "Admin");
+
+        //     }
+        //    return View("Index");
+
+        //}
 
         public IActionResult Privacy()
         {
