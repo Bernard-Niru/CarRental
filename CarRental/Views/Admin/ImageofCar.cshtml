@@ -1,0 +1,66 @@
+﻿@model IEnumerable<CarRental.DTOs.ImageDTO>
+
+@{
+    ViewData["Title"] = "Images";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@{
+    int counter = 1;
+}
+@if (!Model.Any())
+{
+    <p>No Images found for this car.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Images</th>               
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var image in Model)
+            {
+                <tr>
+                    <td>@counter</td>
+                    <td><img src="data:image/jpeg;base64,@image.ImageBase64" class="img-thumbnail" style="max-width:150px; max-height:150px;" /></td>
+                    <td>
+                        <form asp-action="DeleteBrand" asp-controller="Admin" method="post"
+                              onsubmit="return confirm('Are you sure you want to delete this brand?');"
+                              style="display:inline;">
+                            <input type="hidden" name="id" value="@image.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="bi bi-trash3-fill"></i>
+                            </button>
+                        </form>
+
+                    </td>
+                </tr>
+                counter++;
+            }
+        </tbody>
+    </table>
+  
+}
+<link rel="stylesheet" href="~/css/AddCar.css" asp-append-version="true" />
+
+<div class="card glass-card shadow-lg mx-auto" style="max-width: 700px;">
+    <div class="card-body p-4">
+        <form asp-action="UploadImage" asp-controller="Admin" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="CarID" value="@ViewBag.CarID" />
+
+            <!-- Image Upload -->
+            <div class="form-group mb-3">
+                <label for="ImageFiles">Upload Images</label>
+                <input type="file" name="ImageFiles" multiple class="form-control" accept="image/*" />
+            </div>
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-gradient w-100 fw-bold">
+                <i class="fas fa-plus-circle me-1"></i> Upload Images
+            </button>
+        </form>
+    </div>
+</div>

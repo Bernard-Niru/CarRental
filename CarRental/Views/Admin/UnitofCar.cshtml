@@ -1,0 +1,87 @@
+﻿@model IEnumerable<CarRental.DTOs.UnitDTO>
+
+@{
+    ViewData["Title"] = "Units";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@{
+    int counter = 1;
+}
+@if (!Model.Any())
+{
+    <p>No units found for this car.</p>
+}
+else
+{
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Units</th>
+            <th>Availability</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var unit in Model)
+        {
+            <tr>
+                <td>@counter</td>
+                <td>@unit.PlateNumber</td>
+                <td>
+                    @if (unit.IsAvailble)
+                    {
+                        <a asp-action="ChangeAvailability" asp-controller="Admin" asp-route-id="@unit.UnitID" asp-route-CarID="@unit.CarID" class="btn btn-sm btn-success">
+                            Available
+                        </a>
+                    }
+                    else
+                    {
+                            <a asp-action="ChangeAvailability" asp-controller="Admin" asp-route-id="@unit.UnitID" asp-route-CarID="@unit.CarID" class="btn btn-sm btn-danger">
+                                Unavailable
+                            </a>
+                    }
+                </td>
+                <td>
+                    <form asp-action="DeleteBrand" asp-controller="Admin" method="post"
+                          onsubmit="return confirm('Are you sure you want to delete this brand?');"
+                          style="display:inline;">
+                        <input type="hidden" name="id" value="@unit.UnitID" />
+                        <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="bi bi-trash3-fill"></i>
+                        </button>
+                    </form>
+
+                </td>
+            </tr>
+            counter++;
+        }
+    </tbody>
+</table>
+
+}
+
+    <link rel="stylesheet" href="~/css/AddCar.css" asp-append-version="true" />
+
+    <div class="card glass-card shadow-lg mx-auto" style="max-width: 700px;">
+        <div class="card-body p-4">
+            <form asp-action="AddUnits" asp-controller="Admin" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="CarID" value="@ViewBag.CarID" />
+
+                <label>Enter Units (Plate Numbers)</label>
+                <div id="units-container">
+                    <input type="text" name="Units" class="form-control mb-2" placeholder="Enter plate number" />
+                </div>
+
+                <!-- Add More Units Button -->
+                <button type="button" class="btn btn-sm btn-primary mb-3" id="add-unit-btn">
+                    <i class="bi bi-plus-square-dotted"></i> Add Another Unit
+                </button>
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-gradient w-100 fw-bold">
+                    <i class="fas fa-plus-circle me-1"></i> Add Units
+                </button>
+            </form>
+        </div>
+    </div>
+<script src="~/js/AddCar.js"></script>

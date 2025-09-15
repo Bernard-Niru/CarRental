@@ -39,6 +39,7 @@
                                 <p>Seats: @car.No_of_Seats</p>
                                 <p>Rating: @car.Ratings</p>
                                 <p>Rent Per day: @car.RentalRate.ToString()</p>
+
                         </div>
                     </text>
                 }
@@ -97,12 +98,15 @@
                         <span class="badge" style="background-color: @car.Color; width: 20px; height: 20px; border-radius: 50%; border: 1px solid black;"></span>
                     </div>
 
+                        
+
                     <!-- Info -->
                     <div class="card-body text-center">
                     <h5 class="card-title">@car.CarName</h5>
                     <h6 class="card-subtitle mb-2 text-muted">@car.Brand.BrandName</h6>
                         <p class="text-success fw-bold fs-5">Rs @car.RentalRate.ToString("N0") / Day</p>
                         <a asp-controller="Home" asp-action="login" class="btn btn-outline-success btn-sm px-4">Request</a>
+
                     </div>
                 </div>
             </div>
