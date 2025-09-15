@@ -1,4 +1,6 @@
+
 ﻿@model CarRental.ViewModels.CombinedViewModel
+
 
 
 @{
@@ -6,7 +8,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<head>
+
     <meta charset="UTF-8" />
     <title>Car Rentals</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -18,138 +20,105 @@
     <link rel="stylesheet" href="~/css/Header.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/GuestPage.css" asp-append-version="true" />
 
-    
-</head>
-<body>
-    <!-- Hero Section -->
-   @*  <div class="swiper">
+    <div class="swiper">
         <div class="swiper-wrapper">
-            <div class="swiper-slide swiper-slide--one">
-                <h2>A Class</h2>
-                <a>explore</a>
-            </div>
-            <div class="swiper-slide swiper-slide--two">
-                <h2>B Class</h2>
-                <a>explore</a>
-            </div>
-            <div class="swiper-slide swiper-slide--two">
-                <h2>C Class</h2>
-                <a>explore</a>
-            </div>
-            <div class="swiper-slide swiper-slide--two">
-                <h2>D Class</h2>
-                <a>explore</a>
-            </div>
-            <div class="swiper-slide swiper-slide--two">
-                <h2>E Class</h2>
-                <a>explore</a>
-            </div>
+            @if (Model.TopCars != null && Model.TopCars.Any())
+            {
+
+                foreach (var car in Model.TopCars)
+                {
+                    var img = car.Images.FirstOrDefault()?.ImageBase64;
+                    var imageUrl = img != null
+                    ? $"data:image/png;base64,{img}"
+                    : Url.Content("~/images/road-blue-car-50704.png");
+
+                    <text>
+                        <div class="swiper-slide" style="background-image:url('@imageUrl');">
+                            <div class="overlay">
+                                <h5>@car.CarName</h5>
+                                <p>Brand: @car.Brand.BrandName</p>
+                                <p>Seats: @car.No_of_Seats</p>
+                                <p>Rating: @car.Ratings</p>
+                                <p>Rent Per day: @car.RentalRate.ToString()</p>
+
+                        </div>
+                    </text>
+                }
+            }
+            else
+            {
+                <p>No top cars found.</p>
+            }
         </div>
         <div class="swiper-pagination"></div>
     </div>
- *@
+    <!-- Car Catalog -->
+    <!-- Car Catalog -->
+  
 
- 
-
-<div class="swiper">
-    <div class="swiper-wrapper">
-            @if (Model.GuestPage.CarsByRatingClass != null)
-            {
-                @foreach (var group in Model.GuestPage.CarsByRatingClass.OrderBy(g => g.Key))
+    <div class="row g-4">
+        @{
+            int delay = 0;
+        }
+        @foreach (var car in Model.Cars)
         {
-            <div class="swiper-slide swiper-slide--@group.Key.ToLower()">
-                <h2>@group.Key Class</h2>
-                <div class="row">
-                    @foreach (var car in group.Value)
-                    {
-                        <div class="col-md-4 mb-3">
-                            <div class="card">
-                                <img src="@car.Images.First()" class="card-img-top" alt="Car Image" />
-                                <div class="card-body">
-                                    <h5 class="card-title">@car.CarName</h5>
-                                    <p>Brand: @car.Brand.BrandName</p>
-                                    <p>Seats: @car.No_of_Seats</p>
-                                    <p>Rating: @car.Ratings</p>
-                                    <p>Price: @car.RentalRate.ToString("C")</p>
+            delay += 100;
+            var carouselId = $"carousel_{car.CarID}";
+
+            <div class="col-sm-6 col-md-4" data-aos="zoom-in" data-aos-delay="@delay">
+                <div class="card h-100 shadow-sm border-0">
+                    <!-- Carousel -->
+                    <div id="@carouselId" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            @for (int i = 0; i < car.Images.Count; i++)
+                            {
+                                var imgBase64 = car.Images[i].ImageBase64;
+                                <div class="carousel-item @(i == 0 ? "active" : "")">
+                                    <img src="data:image/jpeg;base64,@imgBase64" class="d-block car-image"
+                                         alt="@car.Brand.BrandName @car.CarName Image @(i + 1)" />
+
                                 </div>
-                            </div>
+                            }
                         </div>
-                    }
+                        <button class="carousel-control-prev" type="button" data-bs-target="#@carouselId" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#@carouselId" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+
+                    <!-- Badges -->
+                    <div class="d-flex justify-content-center flex-wrap gap-2 p-2">
+                        <span class="badge bg-secondary">@car.CarType <i class="bi bi-car-front-fill ms-1"></i></span>
+                        <span class="badge bg-secondary">@car.FuelType <i class="bi bi-fuel-pump-fill ms-1"></i></span>
+                        <span class="badge bg-secondary">@car.GearType <i class="bi bi-gear-fill ms-1"></i></span>
+                        <span class="badge bg-secondary">@car.Ratings <i class="bi bi-star-fill ms-1"></i></span>
+                        <span class="badge bg-secondary">@car.No_of_Seats <i class="bi bi-people-fill ms-1"></i></span>
+                        <span class="badge" style="background-color: @car.Color; width: 20px; height: 20px; border-radius: 50%; border: 1px solid black;"></span>
+                    </div>
+
+                        
+
+                    <!-- Info -->
+                    <div class="card-body text-center">
+                    <h5 class="card-title">@car.CarName</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@car.Brand.BrandName</h6>
+                        <p class="text-success fw-bold fs-5">Rs @car.RentalRate.ToString("N0") / Day</p>
+                        <a asp-controller="Home" asp-action="login" class="btn btn-outline-success btn-sm px-4">Request</a>
+
+                    </div>
                 </div>
             </div>
         }
-            }
     </div>
-    <div class="swiper-pagination"></div>
-</div>
-    
 
-    <!-- Car Catalog -->
-    <div class="container py-5">
-        <h2 class="text-center section-title" data-aos="fade-up">Browse Available Cars</h2>
-
-        @if (Model?.GuestPage.Cars != null && Model.GuestPage.Cars.Any())
-        {
-            <div class="row g-4">
-                @{
-                    int delay = 0;
-                }
-                @foreach (var car in Model.GuestPage.Cars)
-                {
-                    delay += 100;
-                    var carouselId = $"carousel_{car.CarID}";
-                    <div class="col-sm-6 col-md-4" data-aos="zoom-in" data-aos-delay="@delay">
-                        <div class="card h-100 shadow-sm border-0">
-                            <!-- Carousel -->
-                            <!-- Carousel -->
-                            <div id="@carouselId" class="carousel slide" data-bs-ride="carousel">
-                                <div class="carousel-inner">
-                                    @for (int i = 0; i < car.Images.Count; i++)
-                                    {
-                                        var imgBase64 = car.Images[i].ImageBase64;
-                                        <div class="carousel-item @(i == 0 ? "active" : "")">
-                                            <img src="data:image/jpeg;base64,@imgBase64" class="d-block car-image" alt="@car.Brand.BrandName @car.CarName Image @(i + 1)" />
-                                        </div>
-                                    }
-                                </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#@carouselId" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#@carouselId" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                            </div>
+    <br />
+    <br />
 
 
-                            <!-- Badges -->
-                            <div class="d-flex justify-content-center flex-wrap gap-2 p-2">
-                                <span class="badge bg-secondary">@car.CarType <i class="bi bi-car-front-fill ms-1"></i></span>
-                                <span class="badge bg-secondary">@car.FuelType <i class="bi bi-fuel-pump-fill ms-1"></i></span>
-                                <span class="badge bg-secondary">@car.GearType <i class="bi bi-gear-fill ms-1"></i></span>
-                                <span class="badge bg-secondary">@car.Ratings <i class="bi bi-star-fill ms-1"></i></span>
-                                <span class="badge bg-secondary">@car.No_of_Seats <i class="bi bi-people-fill ms-1"></i></span>
-                                <span class="badge" style="background-color: @car.Color; width: 20px; height: 20px; border-radius: 50%; border: 1px solid black;"></span>
-                            </div>
-
-                            <!-- Info -->
-                            <div class="card-body text-center">
-                                <h5 class="card-title">@car.Brand.BrandName</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">@car.CarName</h6>
-                                <p class="text-success fw-bold fs-5">Rs @car.RentalRate.ToString("N0") / Day</p>
-                                <a asp-controller="Home" asp-action="login" class="btn btn-outline-success btn-sm px-4">Request</a>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-        }
-        else
-        {
-            <p class="text-center text-muted">No cars available at the moment.</p>
-        }
-    </div>
     <section class="search-section py-5">
         <div class="container">
             <div class="row justify-content-center">
@@ -245,7 +214,7 @@
                             </form>
                         </div>
                         <div class="col-md-5 ps-lg-5 pt-4 pt-lg-0 d-none d-lg-block">
-                            <div class="h-100 p-4 rounded" style="background-color: #f8f9fa;">
+                            <div class="h-100 p-4 rounded info-box">
                                 <h5 class="fw-bold mb-3">Drive Your Dream</h5>
                                 <ul class="list-unstyled mb-0">
                                     <li class="d-flex align-items-center mb-2">
@@ -265,9 +234,9 @@
                                         <span>Safe, clean cars for your peace of mind</span>
                                     </li>
                                 </ul>
-
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -281,51 +250,18 @@
     <br />
     <br />
     <!-- Footer -->
- @*    <footer>
-        <p>&copy; @DateTime.Now.Year CarRental Co. | All Rights Reserved</p>
-    </footer>
- *@
+ 
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script>
-        flatpickr("#pickup-date-input", {
-            dateFormat: "Y-m-d",
-            minDate: "today"
-        });
-        flatpickr("#dropoff-date-input", {
-            dateFormat: "Y-m-d",
-            minDate: "today"
-        });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script>
-        var swiper = new Swiper(".swiper", {
-            effect: "coverflow",
-            grabCursor: true,
-            centeredSlides: true,
-            slidesPerView: 2.75,
-            speed: 600,
-            coverflowEffect: {
-                rotate: 10,
-                stretch: 0,
-                depth: 100,
-                modifier: 3,
-                slideShadows: true,
-            },
-            loop: true,
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: false,
-            },
-        });
 
-    </script>
-    <script>
-        AOS.init({
-            once: true
-        });
+    <script src="~/js/animation.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="~/js/Swiper.js"></script>
+
+
+
 
         
     </script>
@@ -457,3 +393,5 @@
 </body>
 
 
+
+   

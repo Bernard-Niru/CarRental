@@ -103,53 +103,43 @@
                 <span asp-validation-for="RentalRate" class="text-danger small"></span>
             </div>
             <!-- Submit Button -->
-            <button type="submit" class="btn btn-gradient w-100 fw-bold">
+            <button type="submit" class="btn btn-gradient w-100 fw-bold" @(Model.CarID.HasValue ? "disabled" : "")>
                 <i class="fas fa-plus-circle me-1"></i> Add Car
             </button>
         </form>
     </div>
 </div>
     
-@if (Model.CarID.HasValue)
-{
-    <div class="card glass-card shadow-lg mx-auto" style="max-width: 700px;">
-        <div class="card-body p-4">
-            <form asp-action="AddImage" asp-controller="Admin" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="CarID" value="@Model.CarID" />
+<<div class="card glass-card shadow-lg mx-auto" style="max-width: 700px;">
+    <div class="card-body p-4">
+        <form asp-action="UploadCarData" asp-controller="Admin" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="CarID" value="@Model.CarID" />
 
-                <div class="form-group">
-                    <label for="ImageFiles">Upload Images</label>
-                    <input type="file" name="ImageFiles" multiple class="form-control" accept="image/*" />
-                </div>
+            <!-- Image Upload -->
+            <div class="form-group mb-3">
+                <label for="ImageFiles">Upload Images</label>
+                <input type="file" name="ImageFiles" multiple class="form-control" accept="image/*" @(Model.CarID.HasValue ? "" : "disabled") />
+            </div>
 
-                <button type="submit" class="btn btn-gradient w-100 fw-bold">
-                    <i class="fas fa-plus-circle me-1"></i> Upload Images
-                </button>
-            </form>
-        </div>
+            <!-- Unit Inputs -->
+            <label>Enter Units (Plate Numbers)</label>
+            <div id="units-container">
+                <input type="text" name="Units" class="form-control mb-2" placeholder="Enter plate number" @(Model.CarID.HasValue ? "" : "disabled") />
+            </div>
+
+            <!-- Add More Units Button -->
+            <button type="button" class="btn btn-sm btn-primary mb-3" id="add-unit-btn" @(Model.CarID.HasValue ? "" : "disabled")>
+                <i class="bi bi-plus-square-dotted"></i> Add Another Unit
+            </button>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-gradient w-100 fw-bold" @(Model.CarID.HasValue ? "" : "disabled")>
+                <i class="fas fa-plus-circle me-1"></i> Upload Images & Units
+            </button>
+        </form>
     </div>
-    <div class="card glass-card shadow-lg mx-auto" style="max-width: 700px;">
-        <div class="card-body p-4">
-            <form asp-action="AddUnit" asp-controller="Admin" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="CarID" value="@Model.CarID" />
+</div>
 
-                <div id="units-container">
-                    <input type="text" name="Units" class="form-control mb-2" placeholder="Enter plate number" />
-                </div>
-
-                <button type="button" class="btn btn-sm btn-primary" id="add-unit-btn" style="margin-right: 5px;">
-                    <i class="bi bi-plus-square-dotted"></i>
-                   
-                </button>
-               
-                <button type="submit" class="btn btn-gradient w-100 fw-bold">
-                    <i class="fas fa-plus-circle me-1"></i> Add Units
-                </button>
-            </form>
-        </div>
-    </div>
-
-}
            
 
 

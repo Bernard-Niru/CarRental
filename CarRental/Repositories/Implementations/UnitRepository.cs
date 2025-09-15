@@ -38,12 +38,13 @@ namespace CarRental.Repositories.Implementations
                 .ToList();
         }
 
-        public Unit GetById(int id)
+        public List<Unit> GetByCarID(int carId)
         {
-            return _context.Units
-                .Include(u => u.Car)
-                .FirstOrDefault(u => u.UnitID == id && !u.IsDeleted);
+            return _context.Units              
+                .Where(u => u.CarID == carId && !u.IsDeleted)
+                .ToList();
         }
+
 
         public void Update(Unit unit)
         {
@@ -60,6 +61,24 @@ namespace CarRental.Repositories.Implementations
                 unit.IsDeleted = true;
                 _context.SaveChanges();
             }
+        }
+        public void ChangeAvailability(int id) 
+        {
+            var unit = _context.Units.FirstOrDefault(u =>u.UnitID == id);
+            if (unit != null)
+            {
+                if (unit.IsAvailble == false)
+                {
+                    unit.IsAvailble = true;
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    unit.IsAvailble = false;
+                    _context.SaveChanges();
+                }
+            }
+                                            
         }
     }
 }

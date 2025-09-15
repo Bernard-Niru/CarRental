@@ -10,5 +10,7 @@ namespace CarRental.ViewModels
 
         public IEnumerable<CarDTO> Cars { get; set; }
         public IEnumerable<SelectListItem> BrandOptions { get; set; }
+
+        public IEnumerable<CarDTO> TopCars { get; set; }
     }
 }

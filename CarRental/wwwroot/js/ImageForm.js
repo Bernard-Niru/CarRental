@@ -49,90 +49,78 @@
             const backdrop = document.querySelector('.modal-backdrop');
             if (backdrop) backdrop.classList.add('blur-backdrop');
         });
-    }
+    });
+});
 
-    // New: Units Modal Elements
-    const carUnitsModal = document.getElementById('carUnitsModal');
-    const carNameUnitsModal = document.getElementById('carNameUnitsModal');
-    const unitsList = document.getElementById('carUnitsList');
-    const unitCarIdInput = document.getElementById('UnitCarID');
-    const addUnitForm = document.getElementById('addUnitForm');
-    const newPlateInput = document.getElementById('newPlateNumber');
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('carUnitsModal');
 
-    if (carUnitsModal) {
-        carUnitsModal.addEventListener('show.bs.modal', event => {
-            const button = event.relatedTarget;  // button that triggered the modal
-            const carId = button.getAttribute('data-carid');
-            const carName = button.getAttribute('data-carname');
+    const carIdInput = document.getElementById('CarID');
+    const carNameInput = document.getElementById('CarName');
+    const unitsTableBody = document.getElementById('unitsTableBody');
 
-            // Set car name
-            if (carNameUnitsModal && carName) {
-                carNameUnitsModal.textContent = carName;
-            }
-
-            // Set hidden input
-            if (unitCarIdInput && carId) {
-                unitCarIdInput.value = carId;
-            }
-
-            // Clear old units list
-            if (unitsList) {
-                unitsList.innerHTML = '';
-            }
-
-            // TODO: Load existing units from backend, for now let's simulate
-            if (carId && unitsList) {
-                // Replace this with real AJAX call to get units for carId
-                // Example simulated units:
-                const exampleUnits = ['ABC-123', 'XYZ-789']; // Dummy data
-                exampleUnits.forEach(unit => {
-                    const li = document.createElement('li');
-                    li.className = 'list-group-item';
-                    li.textContent = unit;
-                    unitsList.appendChild(li);
-                });
-            }
-        });
-
-        carUnitsModal.addEventListener('hidden.bs.modal', () => {
-            // Clear units list and form inputs on close
-            if (unitsList) {
-                unitsList.innerHTML = '';
-            }
-            if (unitCarIdInput) {
-                unitCarIdInput.value = '';
-            }
-            if (newPlateInput) {
-                newPlateInput.value = '';
-            }
-            const backdrop = document.querySelector('.modal-backdrop');
-            if (backdrop) backdrop.classList.remove('blur-backdrop');
-        });
-
-        carUnitsModal.addEventListener('shown.bs.modal', () => {
+    // Handle blur effect
+    if (modal) {
+        modal.addEventListener('shown.bs.modal', () => {
             const backdrop = document.querySelector('.modal-backdrop');
             if (backdrop) backdrop.classList.add('blur-backdrop');
         });
 
-        // Handle adding a new plate number unit
-        if (addUnitForm) {
-            addUnitForm.addEventListener('submit', e => {
-                e.preventDefault();
+        modal.addEventListener('hidden.bs.modal', () => {
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) backdrop.classList.remove('blur-backdrop');
+            if (unitsTableBody) unitsTableBody.innerHTML = ''; // clear old data
+        });
+    }
 
-                const plateNumber = newPlateInput.value.trim();
-                const carId = unitCarIdInput.value;
+    // Click handler for each button
+    const viewButtons = document.querySelectorAll('.view-units-btn');
 
-                if (!plateNumber || !carId) return;
+    const unitsModal = document.getElementById('carUnitsModal');
 
+    if (unitsModal) {
+        unitsModal.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget; // The button that triggered the modal
+            const carId = button.getAttribute('data-carid');
+            const carName = button.getAttribute('data-carname');
 
+            const carIdInput = document.getElementById('CarID');
+            const carNameInput = document.getElementById('CarName');
+            const unitsTableBody = document.getElementById('unitsTableBody');
 
-                // For demo, we'll just append without backend call:
-                const li = document.createElement('li');
-                li.className = 'list-group-item';
-                li.textContent = plateNumber;
-                unitsList.appendChild(li);
-                newPlateInput.value = '';
-            });
-        }
+            if (carIdInput) carIdInput.value = carId;
+            if (carNameInput) carNameInput.value = carName;
+
+            const unitDivs = button.querySelectorAll('.unit-data .unit');
+            if (unitsTableBody) {
+                unitsTableBody.innerHTML = ''; // Clear previous rows
+
+                unitDivs.forEach(unit => {
+                    const plate = unit.getAttribute('data-plate');
+                    const available = unit.getAttribute('data-available');
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                    <td>${plate}</td>
+                    <td>${available}</td>
+                `;
+                    unitsTableBody.appendChild(row);
+                });
+            }
+        });
+
+        unitsModal.addEventListener('hidden.bs.modal', () => {
+            const unitsTableBody = document.getElementById('unitsTableBody');
+            if (unitsTableBody) unitsTableBody.innerHTML = ''; // clean up
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) backdrop.classList.remove('blur-backdrop');
+        });
+
+        unitsModal.addEventListener('shown.bs.modal', () => {
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) backdrop.classList.add('blur-backdrop');
+        });
     }
 });
+
+    

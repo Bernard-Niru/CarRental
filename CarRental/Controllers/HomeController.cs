@@ -1,5 +1,6 @@
 using System.Data;
 using System.Diagnostics;
+using CarRental.DTOs;
 using CarRental.Models;
 using CarRental.Services.Implementations;
 using CarRental.Services.Interfaces;
@@ -33,23 +34,30 @@ namespace CarRental.Controllers
                                       })
                                       .ToList();
 
-            var cars = _carService.GetAll();
+            var allCars = _carService.GetAll(); // IEnumerable<CarDTO>
 
-            return new CombinedViewModel
+            // 3?? Pick 6 daily cars
+            var dailyCars = GetDailyCars(allCars, 6);
+
+            // 4?? Top 5 cars for Swiper
+            var topCars = _carService.GetTopRatedCars().Cars;
+
+            // 5?? Build ViewModel
+            var guestViewModel = new GuestPageViewModel
             {
-                GuestPage = new GuestPageViewModel
-                {
-                    Cars = cars,
-                    BrandOptions = brands
-                },
+                Cars = dailyCars,       // only 6 cars
+                BrandOptions = brands,
+                TopCars = topCars
+            },
                 User = user 
             };
         }
 
 
         [HttpGet]
-        public IActionResult login()
+        public IActionResult Login()
         {
+
             var combinedViewModel = open(null);
             TempData["LoginErrorMessage"] = "1";
             return View("Index" , combinedViewModel);
@@ -122,10 +130,26 @@ namespace CarRental.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+
             var combinedViewModel = open(null);
             return View(combinedViewModel);
         }
 
+
+            
+        // Helper: pick daily 6 cars
+        private List<CarDTO> GetDailyCars(IEnumerable<CarDTO> allCars, int maxCount)
+        {
+            if (allCars == null || !allCars.Any())
+                return new List<CarDTO>();
+
+            // Seed based on today's date ? same 6 cars per day
+            int seed = DateTime.Today.Year * 10000 + DateTime.Today.Month * 100 + DateTime.Today.Day;
+            var rng = new Random(seed);
+
+            // Shuffle and take top 'maxCount'
+            return allCars.OrderBy(c => rng.Next()).Take(maxCount).ToList();
+        }
 
         //[HttpPost]
         //public IActionResult Index(string Open = "defaultValue")
@@ -152,11 +176,11 @@ namespace CarRental.Controllers
         }
 
 
-        //public IActionResult GuestPage()
-        //{
-        //    var Car = _carService.GetAll();
-        //    return View(Car);
-        //}
+        public IActionResult GuestPage()
+        {
+            var Car = _carService.GetAll();
+            return View(Car);
+        }
 
         //public IActionResult GuestPage()
         //{
