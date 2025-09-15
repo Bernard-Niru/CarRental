@@ -136,6 +136,12 @@
         .nav-links a:hover {
             background: rgba(255, 255, 255, 0.2);
         }*/
+.navbar-collapse.collapse.d-sm-inline-flex.justify-content-between {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center;
+    width: 100%;
+}
 
 /* Make the container flex and space-between */
 .navbar-collapse.collapse.d-sm-inline-flex.justify-content-between {
@@ -167,16 +173,28 @@
 
     /* Style the links */
     .navbar-nav.flex-grow-1 li a.nav-link {
-        color: #333;
+        color: #e0e0e0;
         font-weight: 600;
         font-size: 15px;
         padding: 8px 12px;
         border-radius: 4px;
         transition: background 0.3s ease;
     }
+.navbar-nav .nav-link {
+    color: #00bfff !important; /* bright blue */
+    font-weight: 600;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
 
+    /* On hover */
+    .navbar-nav .nav-link:hover {
+        color: #0080ff !important; /* deeper blue on hover */
+        transform: translateY(-2px);
+    }
         .navbar-nav.flex-grow-1 li a.nav-link:hover {
-            background-color: rgba(59, 130, 246, 0.1); /* light blue hover */
+            
+            box-shadow: 0 15px 30px rgba(0, 191, 255, 0.4); /* blue glow shadow */
+            background: linear-gradient(145deg, #001f3f, #0040ff); /* brighter blue on hover */
             color: #1e40af;
         }
 
@@ -184,6 +202,9 @@
     .navbar-nav.flex-grow-1 li {
         margin: 0;
     }
+.navbar {
+    background: linear-gradient(135deg, #0a0a0a, #1a0a36);
+}
 /*<nav class="site-nav" >
 <div class="container" >
 <a href="/" class="brand" >
@@ -197,14 +218,14 @@
   .menu a { text-decoration:none; color:#333; padding:6px 8px; }
   @media (max-width:600px){
     .menu { display:none; }*/ /* add mobile toggle JS if needed */
-    /*.nav-logo { height:36px; }
+/*.nav-logo { height:36px; }
 }*/
 /*.nav-logo {
     height: 48px;
     width: auto;
     max-width: 100%;
     display: block;
-*//*}*/
+*/ /*}*/
 .logo-img {
     height: 80px; /* increase/decrease as you want */
     width: auto; /* keeps proportions */
