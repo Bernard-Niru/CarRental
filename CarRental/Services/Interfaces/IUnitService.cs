@@ -11,7 +11,7 @@ namespace CarRental.Services.Interfaces
     public interface IUnitService
     {
 
-        Task AddUnitsAsync(AddUnitsViewModel model);
+        void Add(List<Unit> images);
         //Task Add(AddUnitsViewModel model);
 
         IEnumerable<UnitDTO> GetAll();

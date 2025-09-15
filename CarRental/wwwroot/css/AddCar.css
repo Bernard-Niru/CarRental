@@ -28,13 +28,20 @@
     border: none;
     padding: 0.75rem;
     border-radius: 0.5rem;
-    transition: background 0.3s, transform 0.2s;
+    transition: background 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(102, 16, 242, 0.3); /* subtle shadow */
 }
 
-    .btn-gradient:hover {
-        background: linear-gradient(135deg, #0056b3, #520dc2);
-        transform: scale(1.03);
+    .btn-gradient:hover,
+    .btn-gradient:focus,
+    .btn-gradient:active {
+        background: linear-gradient(135deg, #3399ff, #8a44ff);
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px rgba(51, 153, 255, 0.6); /* stronger shadow */
+        color: #fff;
+        outline: none;
     }
+
 
 .fw-semibold {
     font-weight: 600;

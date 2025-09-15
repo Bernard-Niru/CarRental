@@ -103,13 +103,14 @@
                     <div class="col-sm-6 col-md-4" data-aos="zoom-in" data-aos-delay="@delay">
                         <div class="card h-100 shadow-sm border-0">
                             <!-- Carousel -->
+                            <!-- Carousel -->
                             <div id="@carouselId" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner">
-                                    @for (int i = 0; i < car.ImageDataList.Count; i++)
+                                    @for (int i = 0; i < car.Images.Count; i++)
                                     {
-                                        var imgSrc = car.ImageDataList[i];
+                                        var imgBase64 = car.Images[i].ImageBase64;
                                         <div class="carousel-item @(i == 0 ? "active" : "")">
-                                            <img src="@imgSrc" class="d-block car-image" alt="@car.BrandName @car.CarName Image @(i + 1)" />
+                                            <img src="data:image/jpeg;base64,@imgBase64" class="d-block car-image" alt="@car.Brand.BrandName @car.CarName Image @(i + 1)" />
                                         </div>
                                     }
                                 </div>
@@ -123,6 +124,7 @@
                                 </button>
                             </div>
 
+
                             <!-- Badges -->
                             <div class="d-flex justify-content-center flex-wrap gap-2 p-2">
                                 <span class="badge bg-secondary">@car.CarType <i class="bi bi-car-front-fill ms-1"></i></span>
@@ -135,7 +137,7 @@
 
                             <!-- Info -->
                             <div class="card-body text-center">
-                                <h5 class="card-title">@car.BrandName</h5>
+                                <h5 class="card-title">@car.Brand.BrandName</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">@car.CarName</h6>
                                 <p class="text-success fw-bold fs-5">Rs @car.RentalRate.ToString("N0") / Day</p>
                                 <button type="button" class="btn btn-outline-success btn-sm px-4" data-bs-toggle="modal" data-bs-target="#loginModal">

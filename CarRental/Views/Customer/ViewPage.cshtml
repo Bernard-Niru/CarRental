@@ -37,7 +37,7 @@
                         <div class="card h-100 shadow-sm">
                             <div id="@carouselId" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-indicators">
-                                    @for (int i = 0; i < car.ImageDataList.Count; i++)
+                                    @for (int i = 0; i < car.Images.Count; i++)
                                     {
                                         <button type="button"
                                                 data-bs-target="#@carouselId"
@@ -49,10 +49,10 @@
                                 </div>
 
                                 <div class="carousel-inner">
-                                    @for (int i = 0; i < car.ImageDataList.Count; i++)
+                                    @for (int i = 0; i < car.Images.Count; i++)
                                     {
                                         <div class="carousel-item @(i == 0 ? "active" : "")">
-                                            <img src="@car.ImageDataList[i]" class="d-block car-image" alt="Car image" />
+                                            <img src="data:image/jpeg;base64,@car.Images[i].ImageBase64" class="d-block car-image" alt="Car image" />
                                         </div>
                                     }
                                 </div>
@@ -68,7 +68,6 @@
                             </div>
 
                             <div class="d-flex justify-content-center flex-wrap gap-2 mb-2">
-
                                 <span class="badge bg-secondary text-light">
                                     @car.CarType<i class="bi bi-car-front-fill" style="margin-left: 4px;"></i>
                                 </span>
@@ -92,18 +91,16 @@
                                 <span class="badge"
                                       style="background-color: @car.Color; width: 20px; height: 20px; border-radius: 50%; border: 1px solid black; display: inline-block;">
                                 </span>
-
                             </div>
 
                             <div class="card-body text-center d-flex flex-column justify-content-between">
                                 <div>
-                                    <h5 class="card-title mb-1">@car.BrandName</h5>
+                                    <h5 class="card-title mb-1">@car.Brand.BrandName</h5>
                                     <h6 class="card-subtitle text-muted mb-2">@car.CarName</h6>
                                 </div>
                                 <div>
                                     <p class="text-success fw-bold fs-5 mb-3">Rs @car.RentalRate.ToString("N0") /Day</p>
 
-                                    <!-- Button opens modal and sets car details via JS -->
                                     <button type="button"
                                             class="btn btn-success btn-sm px-4 request-btn"
                                             data-bs-toggle="modal"
@@ -111,13 +108,15 @@
                                             data-carname="@car.CarName"
                                             data-carid="@car.CarID"
                                             data-rentalrate="@car.RentalRate"
-                                            data-brand="@car.BrandName">
+                                            data-brand="@car.Brand.BrandName">
                                         Request
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                }
+
                 }
             </div>
         }
