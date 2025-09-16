@@ -6,6 +6,7 @@ using CarRental.Repositories.Interfaces;
 using CarRental.Services.Interfaces;
 using CarRental.ViewModels;
 using Humanizer;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CarRental.Services.Implementations
 {
@@ -67,6 +68,72 @@ namespace CarRental.Services.Implementations
             });
 
             return carDTOs;
+        }
+        public GuestPageViewModel GetAvailableCar()
+        {
+            List<int> Carid = new List<int>();
+            Carid = _repo.GetCarIdsWithavailableUnits();
+
+            var cars = _repo.GetCarsByCarIds(Carid);
+
+            var carDTOs = cars.Select(car => new CarDTO
+            {
+                CarID = car.CarID,
+                CarName = car.CarName,
+                BrandID = car.BrandID,
+                CarType = car.CarType,
+                FuelType = car.FuelType,
+                GearType = car.GearType,
+                Color = car.Color,
+                No_of_Seats = car.No_of_Seats,
+                Ratings = car.Ratings,
+                RentalRate = car.RentalRate,
+
+                Brand = new BrandDTO
+                {
+                    BrandID = car.Brand.BrandID,
+                    BrandName = car.Brand.BrandName
+                },
+
+                Images = car.Images?.Select(i => new ImageDTO
+                {
+                    Id = i.ImageID,
+                    CarId = i.CarID,
+                    ImageBase64 = Convert.ToBase64String(i.ImageData)
+                }).ToList() ?? new(),
+
+                Units = car.Units?.Select(u => new UnitDTO
+                {
+                    UnitID = u.UnitID,
+                    CarID = u.CarID,
+                    PlateNumber = u.PlateNumber,
+                    IsAvailble = u.IsAvailble
+                }).ToList() ?? new()
+            });
+            //==================GetTopRatedCars==========
+            var topCars = carDTOs
+               .OrderByDescending(c => c.Ratings)
+               .Take(5)
+               .ToList();
+
+            var dailyCars = GetDailyCars(carDTOs, 6);
+
+            //============GetBrand=============
+            var brands = _brandService.GetAll()
+                          .Select(b => new SelectListItem
+                          {
+                              Value = b.BrandID.ToString(),
+                              Text = b.BrandName
+                          })
+                          .ToList();
+
+            return new GuestPageViewModel
+            {
+                Cars = dailyCars,
+                BrandOptions = brands,
+                TopCars = topCars
+            };
+
         }
 
 
@@ -133,20 +200,44 @@ namespace CarRental.Services.Implementations
             }
         }
 
-        public GuestPageViewModel GetTopRatedCars()
+        //public GuestPageViewModel GetTopRatedCars()
+        //{ 
+        //    var allCars = GetAll(); // existing method that gets all cars
+
+        //    var topCars = allCars
+        //        .OrderByDescending(c => c.Ratings)
+        //        .Take(5)
+        //        .ToList();
+
+        //    return new GuestPageViewModel
+        //    {
+        //        Cars = topCars
+        //    };
+        //}
+        private List<CarDTO> GetDailyCars(IEnumerable<CarDTO> allCars, int maxCount)
         {
-            var allCars = GetAll(); // existing method that gets all cars
+            if (allCars == null || !allCars.Any())
+                return new List<CarDTO>();
 
-            var topCars = allCars
-                .OrderByDescending(c => c.Ratings)
-                .Take(5)
-                .ToList();
+            // Seed based on today's date ? same 6 cars per day
+            int seed = DateTime.Today.Year * 10000 + DateTime.Today.Month * 100 + DateTime.Today.Day;
+            var rng = new Random(seed);
 
-            return new GuestPageViewModel
-            {
-                Cars = topCars
-            };
+            // Shuffle and take top 'maxCount'
+            return allCars.OrderBy(c => rng.Next()).Take(maxCount).ToList();
         }
+
+        //public List<UnitDTO> GetUnit(int id)
+        //{
+        //    var Units = _repo.GetUnitsByCarId(id);
+        //    var units = Units.Select(unit => new UnitDTO
+        //    {
+        //        UnitID = unit.UnitID,              // ✅ Include UnitID
+        //        PlateNumber = unit.PlateNumber,
+        //        CarID = unit.CarID,
+        //    }).ToList();
+        //    return units;
+        //}
 
 
     }

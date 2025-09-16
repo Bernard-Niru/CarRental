@@ -38,6 +38,37 @@ namespace CarRental.repo.Implementations
 
             return cars;
         }
+        public List<int> GetCarIdsWithavailableUnits()
+        {
+            var carIds = _context.Units
+                .Where(u => !u.IsDeleted && u.IsAvailble)
+                .Select(u => u.CarID)
+                .Distinct()
+                .ToList();
+
+            return carIds;
+        }
+
+        IEnumerable<Car> ICarRepository.GetCarsByCarIds(List<int> CarId)
+        {
+            var cars = _context.Cars
+                        .Where(c => !c.IsDeleted
+                                    && !c.Brand.IsDeleted
+                                    && CarId.Contains(c.CarID)) // <-- Filter by userIds
+                        .Include(c => c.Brand)
+                        .Include(c => c.Images)
+                        .Include(c => c.Units)
+                        .ToList();
+
+            foreach (var car in cars)
+            {
+                car.Images = car.Images?.Where(img => !img.IsDeleted).ToList();
+                car.Units = car.Units?.Where(unit => !unit.IsDeleted).ToList();
+            }
+
+            return cars;
+        }
+
 
 
         public Car GetByID(int id)
@@ -64,5 +95,22 @@ namespace CarRental.repo.Implementations
             _context.SaveChanges();
             return "Car update successfully!";
         }
+        //public List<Unit> GetUnitsByCarId(int carId)
+        //{
+        //    var units = _context.Units
+        //        .Where(u => !u.IsDeleted && u.IsAvailble && u.CarID == carId)
+        //        .Select(u => new Unit
+        //        {
+        //            UnitID = u.UnitID,               // ✅ Include UnitID here too
+        //            CarID = u.CarID,
+        //            PlateNumber = u.PlateNumber
+        //        })
+        //        .ToList();
+
+        //    return units;
+        //}
+
+
+
     }
 }

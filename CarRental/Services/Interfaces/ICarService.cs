@@ -6,7 +6,8 @@ namespace CarRental.Services.Interfaces;
 public interface ICarService
 {
 
-    GuestPageViewModel GetTopRatedCars();
+    //GuestPageViewModel GetTopRatedCars();
+    GuestPageViewModel GetAvailableCar();
 
     int AddCar(CarViewModel model);
 
@@ -17,6 +18,7 @@ public interface ICarService
     void Delete(int id);
 
     CarDTO? GetByID(int id);
+    //List<UnitDTO> GetUnit(int id);
 
 
 }

@@ -1,4 +1,4 @@
-using CarRental.DTOs;
+﻿using CarRental.DTOs;
 using CarRental.Models;
 using CarRental.repo.Interfaces;
 using CarRental.Repositories.Interfaces;
@@ -67,7 +67,17 @@ namespace CarRental.Services.Implementations
         {
             _unitRepo.ChangeAvailability(id);
         }
-
+        public List<UnitDTO> GetUnit(int id)
+        {
+            var Units = _unitRepo.GetUnitsByCarId(id);
+            var units = Units.Select(unit => new UnitDTO
+            {
+                UnitID = unit.UnitID,              // ✅ Include UnitID
+                PlateNumber = unit.PlateNumber,
+                CarID = unit.CarID,
+            }).ToList();
+            return units;
+        }
 
     }
 }

@@ -28,11 +28,9 @@
                 <td>@(req.PickupDate.ToString("yyyy-MM-dd") + " : " + req.PickupTime.ToString("hh:mm tt"))</td>
                 <td>@(req.ReturnDate.ToString("yyyy-MM-dd") + " : " + req.ReturnTime.ToString("hh:mm tt"))</td>
                 <td>
-                    <a asp-action="AcceptRequest" asp-route-id="@req.RequestID" class="btn btn-sm btn-success">
-                        <i class="bi bi-check-lg"></i>
-                    </a>  
-                    
-                    <a asp-action="RejectRequest" asp-route-id="@req.RequestID" class="btn btn-sm btn-danger">
+                    <button class="btn btn-success" onclick="openPlateModal('@req.CarID', '@req.RequestID')">Accept</button>
+
+                    <a asp-action="Numberplat" asp-route-id="@req.CarID" class="btn btn-sm btn-danger">
                         <i class="bi bi-x-lg"></i>                        
                     </a>
                 </td>
@@ -41,3 +39,64 @@
         }
     </tbody>
 </table>
+<<!-- Modal -->
+<div id="unitModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div id="modal-body"></div>
+    </div>
+</div>
+
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+        background: white;
+        padding: 20px;
+        margin: 10% auto;
+        width: 400px;
+        border-radius: 5px;
+        position: relative;
+    }
+
+    .close {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+</style>
+
+<script>
+    function openPlateModal(carId, requestId) {
+        console.log("carId:", carId, "requestId:", requestId);
+        fetch(`/Admin/Numberplat?carId=${carId}&requestId=${requestId}`)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById("modal-body").innerHTML = html;
+                document.getElementById("unitModal").style.display = "block";
+            });
+    }
+
+
+    function closeModal() {
+        document.getElementById("unitModal").style.display = "none";
+        document.getElementById("modal-body").innerHTML = "";
+    }
+
+    window.onclick = function (event) {
+        const modal = document.getElementById("unitModal");
+        if (event.target === modal) closeModal();
+    };
+</script>
+

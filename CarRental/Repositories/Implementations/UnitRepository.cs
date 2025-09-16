@@ -80,5 +80,19 @@ namespace CarRental.Repositories.Implementations
             }
                                             
         }
+        public List<Unit> GetUnitsByCarId(int carId)
+        {
+            var units = _context.Units
+                .Where(u => !u.IsDeleted && u.IsAvailble && u.CarID == carId)
+                .Select(u => new Unit
+                {
+                    UnitID = u.UnitID,
+                    CarID = u.CarID,
+                    PlateNumber = u.PlateNumber
+                })
+                .ToList();
+
+            return units;
+        }
     }
 }
