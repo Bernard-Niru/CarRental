@@ -2,6 +2,8 @@
 using CarRental.Services.Interfaces;
 using CarRental.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Collections.Generic;
 
 namespace CarRental.Controllers
 {
@@ -51,5 +53,16 @@ namespace CarRental.Controllers
             return RedirectToAction("ViewPage");
         }
 
+
+
+
+        public IActionResult Ratings(int rating)
+        {
+            int CarID = 2;
+           _carService.AddRating(rating, CarID);
+            return View("Ratings");
+        }
+
     }
+    
 }
