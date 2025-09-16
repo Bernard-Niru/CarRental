@@ -147,9 +147,19 @@ namespace CarRental.Services.Implementations
                 Cars = topCars
             };
         }
-
+        public void AddRating(int rating,int CarId) 
+        {           
+            var car = _repo.GetByID(CarId);
+            if (car != null)
+            {
+                double OldRatings = car.Ratings;
+                car.Ratings = (OldRatings + Convert.ToDouble(rating)) / 2 ;
+                _repo.Update(car);
+            }
+        }
 
     }
 }
         
+
 
