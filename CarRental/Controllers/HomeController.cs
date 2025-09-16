@@ -24,6 +24,37 @@ namespace CarRental.Controllers
             _userservice = userService;
             _brandService = brandService;
         }
+        //private CombinedViewModel open(UserViewModel user)
+        //{
+        //    var brands = _brandService.GetAll()
+        //                              .Select(b => new SelectListItem
+        //                              {
+        //                                  Value = b.BrandID.ToString(),
+        //                                  Text = b.BrandName
+        //                              })
+        //                              .ToList();
+
+        //    var allCars = _carService.GetAll(); // IEnumerable<CarDTO>
+
+        //    // 3?? Pick 6 daily cars
+        //    var dailyCars = GetDailyCars(allCars, 6);
+
+        //    // 4?? Top 5 cars for Swiper
+        //    var topCars = _carService.GetTopRatedCars().Cars;
+
+        //    // 5?? Build ViewModel
+        //    var Users = new UserViewModel();
+        //    var guestViewModel = new GuestPageViewModel
+        //    {
+        //        Cars = dailyCars,       // only 6 cars
+        //        BrandOptions = brands,
+        //        TopCars = topCars,
+        //        User = Users
+        //    };
+
+
+        //}
+
         private CombinedViewModel open(UserViewModel user)
         {
             var brands = _brandService.GetAll()
@@ -34,24 +65,25 @@ namespace CarRental.Controllers
                                       })
                                       .ToList();
 
-            var allCars = _carService.GetAll(); // IEnumerable<CarDTO>
-
-            // 3?? Pick 6 daily cars
+            var allCars = _carService.GetAll();
             var dailyCars = GetDailyCars(allCars, 6);
-
-            // 4?? Top 5 cars for Swiper
             var topCars = _carService.GetTopRatedCars().Cars;
 
-            // 5?? Build ViewModel
             var guestViewModel = new GuestPageViewModel
             {
-                Cars = dailyCars,       // only 6 cars
+                Cars = dailyCars,
                 BrandOptions = brands,
                 TopCars = topCars
-            },
-                User = user 
+            };
+
+            return new CombinedViewModel
+            {
+                GuestPage = guestViewModel,
+                User = user ?? new UserViewModel(),
+                Login = new LoginViewModels()
             };
         }
+
 
 
         [HttpGet]
