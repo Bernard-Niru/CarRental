@@ -1,4 +1,5 @@
-﻿using CarRental.Services.Implementations;
+﻿using CarRental.Models;
+using CarRental.Services.Implementations;
 using CarRental.Services.Interfaces;
 using CarRental.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -45,7 +46,7 @@ namespace CarRental.Controllers
                 ViewData["FormErrors"] = "Please fix the form errors.";
                 return View("ViewPage", cars); // Pass the cars list again
             }
-            int id = int.Parse(Role.Id);
+            int id = Session.UserID;
             model.UserID = id;
             _requestService.Add(model);
             return RedirectToAction("ViewPage");

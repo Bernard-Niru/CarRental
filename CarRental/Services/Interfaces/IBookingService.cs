@@ -1,7 +1,10 @@
-﻿namespace CarRental.Services.Interfaces
+﻿using CarRental.DTOs;
+
+namespace CarRental.Services.Interfaces
 {
     public interface IBookingService
     {
-        // Define your methods here
+        void AddBooking(int id);
+        IEnumerable<BookingDTO> GetAll();
     }
 }

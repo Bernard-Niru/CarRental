@@ -55,5 +55,23 @@ namespace CarRental.Services.Implementations
 
             return requestlist;
         }
+        public void AcceptRequest(int id) 
+        {
+            var request = _repo.GetRequestByID(id);
+            if (request != null)
+            {
+                request.IsAccepted = true;
+                _repo.Update(request); // reuse update method
+            }
+        }
+        public void RejectRequest(int id)
+        {
+            var request = _repo.GetRequestByID(id);
+            if (request != null)
+            {
+                request.IsRejected = true;
+                _repo.Update(request); // reuse update method
+            }
+        }
     }
 }

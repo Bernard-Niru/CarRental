@@ -8,6 +8,7 @@ using CarRental.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
+
 namespace CarRental.Controllers
 {//username
     public class HomeController : Controller
@@ -139,8 +140,8 @@ namespace CarRental.Controllers
                 if (role.Contains(','))
                 {
                     string[] user = role.Split(',');
-                    Role.RoleName = user[0].Trim();
-                    Role.Id = user[1].Trim();
+                    Session.Role = user[0].Trim();
+                    Session.UserID = int.Parse(user[1].Trim());
 
                     if (user[0] == "Admin")
                         return RedirectToAction("Dashboard", "Admin");
