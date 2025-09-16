@@ -8,5 +8,9 @@ namespace CarRental.Services.Interfaces
     {
         void Add(RequestViewModel model);
         IEnumerable<RequestDTO> GetAll();
-    }
+        void AcceptRequest(int id);
+        void RejectRequest(int id);
+
+
+        }
 }

@@ -538,6 +538,19 @@ namespace CarRental.Controllers
             return View("Request/ViewRequests", request);
 
         }
+
+        public IActionResult AcceptRequest(int id)
+        {
+            _requestService.AcceptRequest(id);
+            _bookingService.AddBooking(id);
+            return RedirectToAction("ViewRequests");
+        }
+        public IActionResult RejectRequest(int id)
+        {
+            _requestService.RejectRequest(id);
+            return RedirectToAction("ViewRequests");
+        }
+
         public IActionResult Numberplat([FromQuery] int carId, [FromQuery] int requestId)
         {
             var units = _unitService.GetUnit(carId);
@@ -553,11 +566,7 @@ namespace CarRental.Controllers
 
 
 
-        //public IActionResult AcceptRequest(int RequestID)
-        //{
-        //    _bookingService.AddBooking(RequestID);
-        //    return RedirectToAction("ViewRequests");
-        //}
+    
 
 
 
@@ -580,6 +589,13 @@ namespace CarRental.Controllers
 
 
 
+        //=============================================================== BOOKINGS ======================================================
+        public IActionResult ViewBookings()
+        {
+            var booking = _bookingService.GetAll();
+            return View("Booking/ViewBookings",booking);
+
+        }
 
 
     }

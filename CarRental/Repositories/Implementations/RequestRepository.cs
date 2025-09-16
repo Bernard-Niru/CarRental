@@ -20,10 +20,20 @@ namespace CarRental.Repositories.Implementations
         IEnumerable<Request> IRequestRepository.GetAll()
         {
             var requests = _context.Requests.
-                         Where(b => !b.IsRejected)
+                         Where(r => !r.IsRejected && !r.IsAccepted)
                          .ToList();
 
             return requests;
+        }
+        public void Update(Request request)
+        {
+            _context.Requests.Update(request);
+            _context.SaveChanges();
+        }
+
+        public Request GetRequestByID(int id)
+        {
+            return _context.Requests.Find(id);
         }
     }
 }
