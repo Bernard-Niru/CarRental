@@ -1,0 +1,90 @@
+﻿@model CarRental.DTOs.CarDTO
+@{
+    ViewData["Title"] = "Rate Us";
+}
+<link rel="stylesheet" href="~/css/Rating.css" asp-append-version="true" />
+
+<h2>Rate Our Service</h2>
+
+<form method="post" asp-action="Ratings" asp-controller="Customer" class="rating-form">
+    <div class="rating-wrapper">
+        <h2>How was your experience?</h2>
+            @* <label class="rating-label">Please rate:</label> *@
+            <div class="star-rating" role="radiogroup" aria-label="Star Rating">
+                <input type="radio" id="5-stars" name="rating" value="5" />
+                <label for="5-stars" class="star" title="5 stars">&#9733;</label>
+
+                <input type="radio" id="4-stars" name="rating" value="4" />
+                <label for="4-stars" class="star" title="4 stars">&#9733;</label>
+
+                <input type="radio" id="3-stars" name="rating" value="3" />
+                <label for="3-stars" class="star" title="3 stars">&#9733;</label>
+
+                <input type="radio" id="2-stars" name="rating" value="2" />
+                <label for="2-stars" class="star" title="2 stars">&#9733;</label>
+
+                <input type="radio" id="1-star" name="rating" value="1" />
+                <label for="1-star" class="star" title="1 star">&#9733;</label>
+            </div>
+    </div>
+
+    <button type="submit" class="btn-submit">Submit Rating</button>
+</form>
+
+@* <h2>Rate Our Service</h2>
+
+<form method="post" asp-action="SubmitRating">
+    <div>
+        <label>Please rate:</label>
+        <div class="star-rating" role="radiogroup" aria-label="Star Rating">
+            <input type="radio" id="5-stars" name="rating" value="5" required />
+            <label for="5-stars" class="star" title="5 stars">&#9733;</label>
+
+            <input type="radio" id="4-stars" name="rating" value="4" />
+            <label for="4-stars" class="star" title="4 stars">&#9733;</label>
+
+            <input type="radio" id="3-stars" name="rating" value="3" />
+            <label for="3-stars" class="star" title="3 stars">&#9733;</label>
+
+            <input type="radio" id="2-stars" name="rating" value="2" />
+            <label for="2-stars" class="star" title="2 stars">&#9733;</label>
+
+            <input type="radio" id="1-star" name="rating" value="1" />
+            <label for="1-star" class="star" title="1 star">&#9733;</label>
+        </div>
+    </div>
+
+    <div style="margin-top:1em;">
+        <label for="comment">Additional Feedback (optional):</label><br />
+        <textarea id="comment" name="comment" rows="4" cols="50" placeholder="Write your feedback here..."></textarea>
+    </div>
+
+    <br />
+    <button type="submit">Submit Rating</button>
+</form>
+
+<style>
+    .star-rating {
+        direction: rtl;
+        font-size: 2.5em;
+        unicode-bidi: bidi-override;
+        user-select: none;
+    }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            color: #ccc;
+            cursor: pointer;
+            transition: color 0.2s ease-in-out;
+        }
+
+            .star-rating input:checked ~ label,
+            .star-rating label:hover,
+            .star-rating label:hover ~ label {
+                color: gold;
+            }
+</style>
+ *@

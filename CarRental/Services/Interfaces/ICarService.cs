@@ -20,5 +20,8 @@ public interface ICarService
     CarDTO? GetByID(int id);
     //List<UnitDTO> GetUnit(int id);
 
+    void AddRating(int rating, int CarId);
+    
 
-}
+
+    }

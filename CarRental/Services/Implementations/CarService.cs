@@ -227,6 +227,7 @@ namespace CarRental.Services.Implementations
             return allCars.OrderBy(c => rng.Next()).Take(maxCount).ToList();
         }
 
+
         //public List<UnitDTO> GetUnit(int id)
         //{
         //    var Units = _repo.GetUnitsByCarId(id);
@@ -240,7 +241,20 @@ namespace CarRental.Services.Implementations
         //}
 
 
+        public void AddRating(int rating,int CarId) 
+        {           
+            var car = _repo.GetByID(CarId);
+            if (car != null)
+            {
+                double OldRatings = car.Ratings;
+                car.Ratings = (OldRatings + Convert.ToDouble(rating)) / 2 ;
+                _repo.Update(car);
+            }
+        }
+
+
     }
 }
         
+
 

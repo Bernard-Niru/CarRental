@@ -1,0 +1,89 @@
+﻿/*.star-rating {
+    direction: rtl;
+    font-size: 2em;
+    unicode-bidi: bidi-override;
+}
+
+    .star-rating input {
+        display: none;
+    }
+
+    .star-rating label {
+        color: #ccc;
+        cursor: pointer;
+    }
+
+        .star-rating input:checked ~ label,
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: gold;
+        }*/
+/* General container styling */
+.rating-wrapper {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+    /* Title */
+    .rating-wrapper h2 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+/* Star rating container */
+.star-rating {
+    direction: rtl;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+    /* Hide radio inputs */
+    .star-rating input {
+        display: none;
+    }
+
+    /* Style each star label */
+    .star-rating label {
+        font-size: 2.5rem;
+        color: #ccc;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+        /* Hover effect */
+        .star-rating label:hover,
+        .star-rating label:hover ~ label {
+            color: #ffb400;
+        }
+
+    /* When selected */
+    .star-rating input:checked ~ label {
+        color: #ffb400;
+    }
+
+/* Submit button */
+.btn-submit {
+    margin-top: 25px;
+    padding: 10px 25px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-submit:hover {
+        background-color: #0056b3;
+        border-radius: 1000px;
+        padding-left: 26px;
+    }
+
