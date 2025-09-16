@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="~/css/Header.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/GuestPage.css" asp-append-version="true" />
 
+  
 <div class="swiper">
     <div class="swiper-wrapper">
         @if (Model.TopCars != null && Model.TopCars.Any())
@@ -36,7 +37,7 @@
                             <h5>@car.CarName</h5>
                             <p>Brand: @car.Brand.BrandName</p>
                             <p>Seats: @car.No_of_Seats</p>
-                            <p>Rating: @car.Ratings</p>
+                            <p class="rating-line">Rating: @car.Ratings <span>⭐</span></p>
                             <p>Rent Per day: @car.RentalRate.ToString()</p>
                         </div>
                     </div>
@@ -48,6 +49,7 @@
             <p>No top cars found.</p>
         }
     </div>
+
     <div class="swiper-pagination"></div>
 </div>
 <!-- Car Catalog -->

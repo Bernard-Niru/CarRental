@@ -1,5 +1,6 @@
-﻿/* Swiper Carousel - Modern Black + Blue Theme */
+﻿/* Corrected Swiper Carousel CSS */
 .swiper {
+  
     width: 100%;
     height: 400px;
     margin-bottom: 50px;
@@ -11,13 +12,13 @@
     background-position: center;
     border-radius: 20px;
     display: flex;
-    align-items: flex-end; /* overlay at bottom */
-    justify-content: center; /* center overlay horizontally */
+    align-items: flex-end;
+    justify-content: center;
     color: white;
     position: relative;
     height: 382px;
     overflow: hidden;
-    filter: grayscale(0.1); /* subtle desaturation for modern look */
+    filter: grayscale(0.1);
     transition: transform 0.5s ease, filter 0.5s ease;
 }
 
@@ -26,46 +27,71 @@
         filter: grayscale(0);
     }
 
-    /* Overlay on slide */
+    /* Updated Overlay on slide */
     .swiper-slide .overlay {
-        background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(10, 10, 10, 0.85) 100%);
-        padding: 20px 25px;
-        border-radius: 15px;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.9) 100%); /* Darker, more visible gradient */
+        padding: 25px 30px; /* Slightly larger padding */
+        border-radius: 20px; /* Slightly more rounded corners */
         text-align: center;
-        width: 50%;
+        width: 40%; /* Wider overlay for better text display */
         margin-bottom: 25px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8); /* More pronounced shadow */
         transition: all 0.3s ease;
     }
 
         .swiper-slide .overlay h5 {
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 1.8rem; /* Larger font size */
+            font-weight: 800; /* Bolder font weight */
             color: #00bfff; /* Bright blue accent */
             margin-bottom: 10px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Added text shadow for visibility */
         }
 
         .swiper-slide .overlay p {
             color: #d0d0d0;
-            font-size: 0.95rem;
+            font-size: 1rem; /* Slightly larger font size */
             margin-bottom: 5px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3); /* Added text shadow */
         }
 
-        /* Overlay buttons */
+        /* New CSS for the rating line */
+        .swiper-slide .overlay .rating-line {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2px; /* Adds space between the star and text */
+            position: relative;
+            top: -1px;
+        }
+
+            /* Make the star black and white */
+            .swiper-slide .overlay .rating-line span {
+                filter: grayscale(100%);
+                display: inline-block; /* Ensure filter applies correctly */
+                position: relative;
+                top: -2px;
+            }
+
+
+        /* Updated Overlay buttons */
         .swiper-slide .overlay a {
             display: inline-block;
             color: #fff;
             background-color: #00bfff;
             border-radius: 30px;
-            padding: 8px 25px;
-            font-size: 0.9rem;
-            margin-top: 10px;
+            padding: 10px 30px; /* Larger padding for a better click area */
+            font-size: 1rem; /* Larger font size */
+            font-weight: 600; /* Bolder text */
+            margin-top: 15px; /* More space from text */
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.4);
             transition: all 0.3s ease;
         }
 
             .swiper-slide .overlay a:hover {
                 background-color: #0080ff;
-                transform: translateY(-2px);
+                transform: translateY(-3px) scale(1.05); /* More engaging animation */
+                box-shadow: 0 6px 20px rgba(0, 128, 255, 0.6);
             }
 
 /* Pagination */
@@ -87,13 +113,13 @@
 }
 
 /* Smooth fade-in animation for overlay content */
-.swiper-slide div {
-    transition: opacity 0.4s ease, transform 0.4s ease;
+.swiper-slide .overlay {
+    transition: opacity 0.6s ease, transform 0.6s ease;
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
 }
 
-.swiper-slide-active div {
+.swiper-slide-active .overlay {
     opacity: 1;
     transform: translateY(0);
 }
@@ -102,7 +128,7 @@
 @media (max-width: 992px) {
     .swiper-slide .overlay {
         width: 70%;
-        padding: 15px 20px;
+        padding: 20px 25px;
     }
 }
 
@@ -113,19 +139,19 @@
 
         .swiper-slide .overlay {
             width: 90%;
-            padding: 12px 15px;
+            padding: 15px 20px;
         }
 
             .swiper-slide .overlay h5 {
-                font-size: 1.2rem;
+                font-size: 1.5rem;
             }
 
             .swiper-slide .overlay p {
-                font-size: 0.85rem;
+                font-size: 0.9rem;
             }
 
             .swiper-slide .overlay a {
-                padding: 6px 20px;
-                font-size: 0.8rem;
+                padding: 8px 25px;
+                font-size: 0.9rem;
             }
 }

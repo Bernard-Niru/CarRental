@@ -1,8 +1,8 @@
 ﻿@model CarRental.ViewModels.UserViewModel
 
-
+<link rel="stylesheet" href="~/css/New.css" asp-append-version="true" />
 <!-- LOGIN MODAL -->
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+@* <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="wrapper">
@@ -92,7 +92,99 @@
             </div>
         </div>
     </div>
+</div> *@
+
+
+
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content custom-modal">
+            <div class="wrapper">
+                <form asp-action="login" asp-controller="Home" method="post">
+                    <div id="loginError" class="alert alert-danger" style="display:none;"></div>
+                    <h2>Log In</h2>
+
+                    <div class="input-field">
+                        <input asp-for="UserName" type="text" required />
+                        <label asp-for="UserName">Enter Your UserName</label>
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+
+                    <div class="input-field">
+                        <input asp-for="Password" type="password" required />
+                        <label asp-for="Password">Enter Your Password</label>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="forget">
+                        <label>
+                            <input type="checkbox" name="RememberMe" />
+                            Remember Me
+                        </label>
+                        <a href="#">Forget Password</a>
+                    </div>
+
+                    <button type="submit">Log In</button>
+
+                    <div class="register">
+                        <a href="#" id="showRegister">Don't have an account? Register</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content custom-modal">
+            <div class="wrapper">
+                <form asp-action="Register" asp-controller="Home" method="post">
+                    <div id="RegisterError" class="alert alert-danger" style="display:none;"></div>
+                    <h2>Register</h2>
+
+                    <div class="input-field">
+                        <input asp-for="Name" type="text" required />
+                        <label asp-for="Name">Enter Your Name</label>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="input-field">
+                        <input asp-for="EmailAddress" type="email" required />
+                        <label asp-for="EmailAddress">Enter Your Email</label>
+                        <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                    </div>
+
+                    <div class="input-field">
+                        <input asp-for="UserName" type="text" required />
+                        <label asp-for="UserName">Enter Your UserName</label>
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+
+                    <div class="input-field">
+                        <input asp-for="Password" type="password" required />
+                        <label asp-for="Password">Enter Your Password</label>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="forget">
+                        <label>
+                            <input type="checkbox" name="RememberMe" />
+                            Remember Me
+                        </label>
+                    </div>
+
+                    <button type="submit">Register</button>
+
+                    <div class="register">
+                        <a href="#" id="backToLogin">Back to Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @* @section Scripts {
     <script>
@@ -121,4 +213,4 @@
             }
         });
     </script> *@
-}
+
