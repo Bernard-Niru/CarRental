@@ -1,0 +1,46 @@
+﻿@model CarRental.ViewModels.UnitSelectionViewModel
+
+
+<form id="selectPlateForm" onsubmit="submitPlateSelection(event)">
+    <div class="mb-3">
+        <label for="unitSelect" class="form-label">Choose Plate Number</label>
+        <select class="form-select" id="unitSelect" name="UnitID" required>
+            <option value="">-- Select Plate Number --</option>
+            @foreach(var unit in Model.Units)
+            {
+                <option value="@unit.UnitID">@unit.PlateNumber</option>
+            }
+        </select>
+    </div>
+
+    <input type="hidden" name="RequestID" value="@Model.RequestId" />
+
+    <button type="submit" class="btn btn-primary w-100">Confirm</button>
+</form>
+
+<script>
+    function submitPlateSelection(event) {
+        event.preventDefault();
+        const form = event.target;
+        const data = new FormData(form);
+
+        fetch('/Request/AcceptRequest', {
+            method: 'POST',
+            body: data
+        })
+        .then(res => {
+            if (!res.ok) throw new Error('Network error');
+            return res.json();
+        })
+        .then(result => {
+            alert('Request accepted successfully!');
+            closeModal();
+            location.reload(); // refresh or update UI as needed
+        })
+        .catch(err => {
+            alert('Error accepting request');
+            console.error(err);
+        });
+    }
+</script>
+

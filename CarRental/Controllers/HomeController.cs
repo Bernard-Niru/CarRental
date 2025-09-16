@@ -58,25 +58,7 @@ namespace CarRental.Controllers
 
         private CombinedViewModel open(UserViewModel user)
         {
-            var brands = _brandService.GetAll()
-                                      .Select(b => new SelectListItem
-                                      {
-                                          Value = b.BrandID.ToString(),
-                                          Text = b.BrandName
-                                      })
-                                      .ToList();
-
-            var allCars = _carService.GetAll();
-            var dailyCars = GetDailyCars(allCars, 6);
-            var topCars = _carService.GetTopRatedCars().Cars;
-
-            var guestViewModel = new GuestPageViewModel
-            {
-                Cars = dailyCars,
-                BrandOptions = brands,
-                TopCars = topCars
-            };
-
+            var guestViewModel = _carService.GetAvailableCar();
             return new CombinedViewModel
             {
                 GuestPage = guestViewModel,

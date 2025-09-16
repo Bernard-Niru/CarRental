@@ -6,6 +6,7 @@ using CarRental.Services.Interfaces;
 using CarRental.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Azure.Core;
 
 namespace CarRental.Controllers
 {
@@ -537,6 +538,7 @@ namespace CarRental.Controllers
             return View("Request/ViewRequests", request);
 
         }
+
         public IActionResult AcceptRequest(int id)
         {
             _requestService.AcceptRequest(id);
@@ -548,6 +550,24 @@ namespace CarRental.Controllers
             _requestService.RejectRequest(id);
             return RedirectToAction("ViewRequests");
         }
+
+        public IActionResult Numberplat([FromQuery] int carId, [FromQuery] int requestId)
+        {
+            var units = _unitService.GetUnit(carId);
+            var model = new UnitSelectionViewModel
+            {
+                Units = units,
+                RequestId = requestId
+            };
+
+            return PartialView("Request/_SelectUnitPartial", model);
+        }
+
+
+
+
+    
+
 
 
 
