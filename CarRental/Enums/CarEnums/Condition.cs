@@ -2,10 +2,10 @@
 {
     public enum Condition
     {
-        AllGood,        
-        MinorDamage,    
-        MajorDamage,    
-        NeedsCleaning,  
-        MechanicalIssue
+        All_Good,        
+        Minor_Damage,    
+        Major_Damage,    
+        Needs_Cleaning,  
+        Mechanical_Issue
     }
 }

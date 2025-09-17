@@ -6,5 +6,9 @@ namespace CarRental.Repositories.Interfaces
     {
         void AddBooking(Booking booking);
         IEnumerable<Booking> GetAll();
+        Booking GetBookingByID(int id);
+        void Update(Booking booking);
+        IEnumerable<Booking> GetAllPicked();
+        IEnumerable<Booking> GetAllReturned();
     }
 }

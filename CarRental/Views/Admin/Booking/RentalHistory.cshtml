@@ -1,0 +1,56 @@
+﻿@model IEnumerable<CarRental.DTOs.BookingDTO>
+
+
+@{
+    ViewData["Title"] = "History";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@{
+    int counter = 1;
+}
+
+<h2>Bookings</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Username</th>
+            <th>Car Name</th>
+            <th>Unit</th>
+            <th scope="col" style="width: 20%;">Pickup</th>
+            <th scope="col" style="width: 20%;">Return</th>
+            <th>Rental Amount</th>
+            <th>Condition</th>
+            <th>Ratings</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var booking in Model)
+        {
+            <tr>
+                <td>@counter</td>
+                <td>@booking.Request.Username</td>
+                <td>@booking.Request.CarName</td>
+                <td>@booking.Unit</td>
+                <td>@(booking.ActualPickupDate.ToString("yyyy-MM-dd") + " : " + booking.ActualPickupTime.ToString("hh:mm tt"))</td>
+                <td>@(booking.ActualReturnDate.ToString("yyyy-MM-dd") + " : " + booking.ActualReturnTime.ToString("hh:mm tt"))</td>
+                <td>@booking.RentalAmount</td>
+                <td>@booking.Condition</td>
+                <td>@booking.Ratings</td>
+                <td>
+                    <a asp-action="" asp-route-CarID="" class="btn btn-sm btn-outline-warning">
+                        <i class="bi bi-pencil-fill"></i>
+
+                    </a>
+                    <a asp-action="" asp-route-CarID="" class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash"></i>
+
+                    </a>
+                </td>
+            </tr>
+            counter++;
+        }
+    </tbody>
+</table>

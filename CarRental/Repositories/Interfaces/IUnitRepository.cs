@@ -15,5 +15,6 @@ namespace CarRental.Repositories.Interfaces
         void Delete(int id);
         void ChangeAvailability(int id);
         List<Unit> GetUnitsByCarId(int carId);
+        bool CheckUnit(string unit);
     }
 }

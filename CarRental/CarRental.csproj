@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <Content Remove="Views\Admin\AddUnit.cshtml" />
+    <Content Remove="Views\Admin\RentalHistory.cshtml" />
     <Content Remove="wwwroot\js\ImageForm.js" />
   </ItemGroup>
 
@@ -24,10 +25,12 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Admin\AddUnit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Admin\RentalHistory.cshtml" />
     <_ContentIncludedByDefault Remove="wwwroot\js\ImageForm.js" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Admin\Booking\RentalHistory.cshtml" />
     <None Include="Views\Admin\Unit\AddUnit.cshtml" />
     <None Include="wwwroot\js\ImageForm.js" />
   </ItemGroup>
@@ -46,6 +49,11 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\Admin\AddUnit.cshtml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Admin\RentalHistory.cshtml" />
   </ItemGroup>
 
 
