@@ -54,15 +54,27 @@ namespace CarRental.Services.Implementations
                 });
             return unitDTOs;
         }
-        public void Add(List<Unit> units)
+        public List<string> Add(List<Unit> units)
         {
+            var duplicates = new List<string>();
+
             foreach (var unit in units)
             {
-                _unitRepo.Add(unit);
-                
+                bool isPresent = _unitRepo.CheckUnit(unit.PlateNumber);
+
+                if (!isPresent)
+                {
+                    _unitRepo.Add(unit);
+                }
+                else
+                {
+                    duplicates.Add(unit.PlateNumber);
+                }
             }
-            
+
+            return duplicates;
         }
+
         public void ChangeAvailability (int id) 
         {
             _unitRepo.ChangeAvailability(id);

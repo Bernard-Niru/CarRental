@@ -7,6 +7,8 @@ using CarRental.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Azure.Core;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 namespace CarRental.Controllers
 {
@@ -404,16 +406,17 @@ namespace CarRental.Controllers
             if (Units != null && Units.Any())
             {
                 var unitList = new List<Unit>();
-                foreach (var unit in Units)
+                foreach (var unit in Units.Where(u => !string.IsNullOrWhiteSpace(u)))
                 {
                     unitList.Add(new Unit
                     {
                         CarID = CarID,
-                        PlateNumber = unit,
+                        PlateNumber = unit.Trim(), // Optional: removes leading/trailing spaces
                         IsAvailble = true,
                         IsDeleted = false
                     });
                 }
+
 
                 _unitService.Add(unitList);
             }
@@ -428,7 +431,7 @@ namespace CarRental.Controllers
         {
             var units = _unitService.GetByCarID(CarID);
             ViewBag.CarID = CarID;
-            return View("UnitofCar",units);
+            return View("Car/UnitofCar",units);
         }
          
         public IActionResult ChangeAvailability(int id,int CarID) 
@@ -442,7 +445,7 @@ namespace CarRental.Controllers
         {
             var images = _imageService.GetByCarID(CarID);
             ViewBag.CarID = CarID;
-            return View("ImageofCar", images);
+            return View("Car/ImageofCar", images);
         }
 
         [HttpPost]
@@ -595,6 +598,43 @@ namespace CarRental.Controllers
             var booking = _bookingService.GetAll();
             return View("Booking/ViewBookings",booking);
 
+        }
+        public IActionResult PickedUp(int id) 
+        {
+            _bookingService.PickedUp(id);
+            return RedirectToAction("ViewBookings"); 
+        }
+        public IActionResult ActiveRentals()
+        {
+            var conditions = Enum.GetValues(typeof(Condition))
+                             .Cast<Condition>()
+                             .Select(c => new SelectListItem
+                             {
+                                 Value = c.ToString(),
+                                 Text = c.GetType()
+                                         .GetMember(c.ToString())
+                                         .First()
+                                         .GetCustomAttribute<DisplayAttribute>()?
+                                         .GetName() ?? c.ToString()
+                             }).ToList();
+
+            ViewBag.Condition = new SelectList(conditions, "Value", "Text");
+
+            var booking = _bookingService.GetAllPicked();
+            return View("Booking/ActiveRentals", booking);
+
+        }
+        public IActionResult Returned(BookingDTO bookingDTO)
+        {
+            ViewBag.Condition = new SelectList(Enum.GetValues(typeof(Condition)));
+            _bookingService.Returned(bookingDTO);
+            return RedirectToAction("ActiveRentals");
+        }
+        public IActionResult RentalHistory() 
+        {
+            ViewBag.Condition = new SelectList(Enum.GetValues(typeof(Condition)));
+            var booking = _bookingService.GetAllReturned();
+            return View("Booking/RentalHistory", booking);
         }
 
 

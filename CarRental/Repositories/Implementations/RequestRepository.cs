@@ -1,6 +1,7 @@
 ﻿using CarRental.Data;
 using CarRental.Models;
 using CarRental.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRental.Repositories.Implementations
 {
@@ -21,6 +22,8 @@ namespace CarRental.Repositories.Implementations
         {
             var requests = _context.Requests.
                          Where(r => !r.IsRejected && !r.IsAccepted)
+                         .Include(r => r.Car)
+                         .Include(r => r.User)
                          .ToList();
 
             return requests;

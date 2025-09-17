@@ -106,7 +106,7 @@ namespace CarRental.Controllers
                 }
 
                 await _userservice.AddAsync(User);
-                return RedirectToAction("ViewUser", "Admin");
+                return RedirectToAction("Login", "Home");
             }
 
         [HttpPost]

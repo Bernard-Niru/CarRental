@@ -22,7 +22,7 @@ namespace CarRental.Repositories.Implementations
         IEnumerable<Booking> IBookingRepository.GetAll()
         {
             var bookings = _context.Bookings
-                        .Where(b => !b.IsDeleted  && !b.IsPicked)
+                        .Where(b => !b.IsDeleted  && !b.IsPicked && !b.IsReturned)
                         .Include(b => b.Request)
                         .Include(b => b.Request.Car)
                         .Include(b => b.Request.User)
@@ -30,6 +30,36 @@ namespace CarRental.Repositories.Implementations
 
             return bookings;
         }
+        public Booking GetBookingByID(int id)
+        {
+            return _context.Bookings.Find(id);
+        }
+        public void Update(Booking booking)
+        {
+            _context.Bookings.Update(booking);
+            _context.SaveChanges();
+        }
+        IEnumerable<Booking> IBookingRepository.GetAllPicked()
+        {
+            var bookings = _context.Bookings
+                        .Where(b => !b.IsDeleted && b.IsPicked && !b.IsReturned)
+                        .Include(b => b.Request)
+                        .Include(b => b.Request.Car)
+                        .Include(b => b.Request.User)
+                        .ToList();
 
+            return bookings;
+        }
+        IEnumerable<Booking> IBookingRepository.GetAllReturned()
+        {
+            var bookings = _context.Bookings
+                        .Where(b => !b.IsDeleted && b.IsPicked && b.IsReturned)
+                        .Include(b => b.Request)
+                        .Include(b => b.Request.Car)
+                        .Include(b => b.Request.User)
+                        .ToList();
+
+            return bookings;
+        }
     }
 }

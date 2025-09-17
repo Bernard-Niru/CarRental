@@ -13,6 +13,7 @@ namespace CarRental.DTOs
         public TimeOnly PickupTime { get; set; }
         public DateOnly ReturnDate { get; set; }
         public TimeOnly ReturnTime { get; set; }
+        public decimal RentalRate { get; set; }
 
         public CarDTO Car { get; set; }
         public UserDTO User { get; set; }

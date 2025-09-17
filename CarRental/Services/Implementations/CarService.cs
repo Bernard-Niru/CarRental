@@ -49,32 +49,19 @@ namespace CarRental.Services.Implementations
                 {
                     BrandID = car.Brand.BrandID,
                     BrandName = car.Brand.BrandName
-                },
-
-                Images = car.Images?.Select(i => new ImageDTO
-                {
-                    Id = i.ImageID,
-                    CarId = i.CarID,
-                    ImageBase64 = Convert.ToBase64String(i.ImageData)
-                }).ToList() ?? new(),
-
-                Units = car.Units?.Select(u => new UnitDTO
-                {
-                    UnitID = u.UnitID,
-                    CarID = u.CarID,
-                    PlateNumber = u.PlateNumber,
-                    IsAvailble = u.IsAvailble
-                }).ToList() ?? new()
+                }
             });
+
+               
 
             return carDTOs;
         }
         public GuestPageViewModel GetAvailableCar()
         {
             List<int> Carid = new List<int>();
-            Carid = _repo.GetCarIdsWithavailableUnits();
+            
 
-            var cars = _repo.GetCarsByCarIds(Carid);
+            var cars = _repo.GetAvailableCars();
 
             var carDTOs = cars.Select(car => new CarDTO
             {

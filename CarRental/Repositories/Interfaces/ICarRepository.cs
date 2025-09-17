@@ -13,8 +13,8 @@ namespace CarRental.repo.Interfaces
         string Update(Car car);
 
         Car GetByID(int id);
-        List<int> GetCarIdsWithavailableUnits();
-        IEnumerable<Car> GetCarsByCarIds(List<int> CarId);
+        //List<int> GetCarIdsWithavailableUnits();
+        IEnumerable<Car> GetAvailableCars();
         //List<Unit> GetUnitsByCarId(int carId);
     }
 }

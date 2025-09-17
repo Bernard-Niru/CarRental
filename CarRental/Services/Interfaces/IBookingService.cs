@@ -6,5 +6,9 @@ namespace CarRental.Services.Interfaces
     {
         void AddBooking(int id);
         IEnumerable<BookingDTO> GetAll();
+        void PickedUp(int id);
+        IEnumerable<BookingDTO> GetAllPicked();
+        void Returned(BookingDTO bookingDTO);
+        IEnumerable<BookingDTO> GetAllReturned();
     }
 }

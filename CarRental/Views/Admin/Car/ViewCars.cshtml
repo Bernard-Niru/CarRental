@@ -85,12 +85,12 @@
                         </button>
                     </form>
 
-                    <div id="images-container-@car.CarID" class="d-none">
+                    @* <div id="images-container-@car.CarID" class="d-none">
                         @foreach (var img in car.Images)
                         {
                             <img src="data:image/jpeg;base64,@img.ImageBase64" class="img-thumbnail" style="max-width:150px; max-height:150px;" />
                         }
-                    </div>
+                    </div> *@
 
                     <a asp-action="ViewImageofCar" asp-route-CarID="@car.CarID" class="btn btn-sm btn-success">
                         <i class="bi bi-image-fill"></i>

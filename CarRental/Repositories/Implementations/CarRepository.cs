@@ -25,48 +25,44 @@ namespace CarRental.repo.Implementations
             var cars = _context.Cars
                         .Where(c => !c.IsDeleted && !c.Brand.IsDeleted)
                         .Include(c => c.Brand)
-                        .Include(c => c.Images)
-                        .Include(c => c.Units)
+                     
                         .ToList();
 
             // Manually filter out deleted images and units
-            foreach (var car in cars)
-            {
-                car.Images = car.Images?.Where(img => !img.IsDeleted).ToList();
-                car.Units = car.Units?.Where(unit => !unit.IsDeleted).ToList();
-            }
+
 
             return cars;
         }
-        public List<int> GetCarIdsWithavailableUnits()
+        //public List<int> GetCarIdsWithavailableUnits()
+        //{
+        //    var carIds = _context.Units
+        //        .Where(u => !u.IsDeleted && u.IsAvailble)
+        //        .Select(u => u.CarID)
+        //        .Distinct()
+        //        .ToList();
+
+        //    return carIds;
+        //}
+
+        IEnumerable<Car> ICarRepository.GetAvailableCars()
         {
-            var carIds = _context.Units
-                .Where(u => !u.IsDeleted && u.IsAvailble)
-                .Select(u => u.CarID)
-                .Distinct()
-                .ToList();
+                    var cars = _context.Cars
+                                .Where(c => !c.IsDeleted
+                                            && !c.Brand.IsDeleted
+                                            && c.Units.Any(unit => !unit.IsDeleted && unit.IsAvailble)) // at least one available unit
+                                .Include(c => c.Brand)
+                                .Include(c => c.Images)
+                                .Include(c => c.Units)
+                                .ToList();
 
-            return carIds;
-        }
+                    foreach (var car in cars)
+                    {
+                        car.Images = car.Images?.Where(img => !img.IsDeleted).ToList();
+                        car.Units = car.Units?.Where(unit => !unit.IsDeleted && unit.IsAvailble).ToList(); // also filter units here
+                    }
 
-        IEnumerable<Car> ICarRepository.GetCarsByCarIds(List<int> CarId)
-        {
-            var cars = _context.Cars
-                        .Where(c => !c.IsDeleted
-                                    && !c.Brand.IsDeleted
-                                    && CarId.Contains(c.CarID)) // <-- Filter by userIds
-                        .Include(c => c.Brand)
-                        .Include(c => c.Images)
-                        .Include(c => c.Units)
-                        .ToList();
-
-            foreach (var car in cars)
-            {
-                car.Images = car.Images?.Where(img => !img.IsDeleted).ToList();
-                car.Units = car.Units?.Where(unit => !unit.IsDeleted).ToList();
-            }
-
-            return cars;
+                    return cars;
+                    ;
         }
 
 

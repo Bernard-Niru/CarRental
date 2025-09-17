@@ -94,5 +94,12 @@ namespace CarRental.Repositories.Implementations
 
             return units;
         }
+        public bool CheckUnit(string unit) 
+        {
+            
+            return _context.Units.Any(u => u.PlateNumber == unit);
+            
+
+        }
     }
 }

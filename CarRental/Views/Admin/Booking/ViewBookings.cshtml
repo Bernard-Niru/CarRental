@@ -19,7 +19,7 @@
             <th>Car Name</th>
             <th scope="col" style="width: 20%;">Pickup</th>
             <th scope="col" style="width: 20%;">Return</th>
-            <th>Accept / Reject</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -32,12 +32,12 @@
                 <td>@(booking.Request.PickupDate.ToString("yyyy-MM-dd") + " : " + booking.Request.PickupTime.ToString("hh:mm tt"))</td>
                 <td>@(booking.Request.ReturnDate.ToString("yyyy-MM-dd") + " : " + booking.Request.ReturnTime.ToString("hh:mm tt"))</td>
                 <td>
-                    <a asp-action="AcceptRequest" asp-route-id="@booking.Request.RequestID" class="btn btn-sm btn-success me-3">
-                        <i class="bi bi-check-lg"></i>
+                    <a asp-action="PickedUp" asp-route-id="@booking.BookingID" class="btn btn-sm btn-success me-3">
+                        Picked Up
                     </a>
 
-                    <a asp-action="RejectRequest" asp-route-id="@booking.Request.RequestID" class="btn btn-sm btn-danger">
-                        <i class="bi bi-x-lg"></i>
+                    <a asp-action="DeleteBooking" asp-route-id="@booking.BookingID" class="btn btn-sm btn-danger">
+                       Cancel
                     </a>
                 </td>
             </tr>

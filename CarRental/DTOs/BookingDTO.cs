@@ -18,6 +18,9 @@ namespace CarRental.DTOs
         public decimal RentalAmount { get; set; }
         public Condition Condition { get; set; }
         public double Ratings { get; set; }
+        public decimal Discount { get; set; }
+        public decimal AdditionalCharges { get; set; }
+        
 
         public RequestDTO Request { get; set; }
         
