@@ -119,7 +119,27 @@ namespace CarRental.Controllers
 
             return View("ProfileEdit" , vm);
         }
+        public IActionResult Profile() 
+        {
+            {
+                int userId = Session.UserID; // from session
+                var userDto = _userService.GetUserById(userId);
 
+                if (userDto == null)
+                    return NotFound();
+
+                var vm = new ProfileViewModel
+                {
+                    Id = userDto.Id,
+                    Name = userDto.Name,
+                    Email = userDto.Email,
+                    UserName = userDto.UserName,
+                    Role = userDto.Role.ToString()
+                };
+
+                return View(vm);
+            }
+        }
         [HttpPost]
         public IActionResult Update(ProfileViewModel vm)
         {
