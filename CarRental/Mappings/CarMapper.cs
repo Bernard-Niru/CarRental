@@ -1,4 +1,5 @@
-﻿using CarRental.Models;
+﻿using CarRental.DTOs;
+using CarRental.Models;
 using CarRental.ViewModels;
 
 namespace CarRental.Mappings
@@ -39,7 +40,23 @@ namespace CarRental.Mappings
 
             };
         }
+        public static Car DTOToModel(CarDTO model)
+        {
+            return new Car
+            {
+                CarID = model.CarID,
+                CarName = model.CarName,
+                BrandID = model.BrandID,
+                CarType = model.CarType,
+                FuelType = model.FuelType,
+                Color = model.Color,
+                No_of_Seats = model.No_of_Seats,
 
-        
+                RentalRate = model.RentalRate,
+
+            };
+        }
+
+
     }
 }

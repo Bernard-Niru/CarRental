@@ -13,7 +13,7 @@ public interface ICarService
 
     IEnumerable<CarDTO> GetAll();
 
-    string Update(CarViewModel model);
+    string Update(CarDTO model);
 
     void Delete(int id);
 

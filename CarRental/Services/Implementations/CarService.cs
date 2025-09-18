@@ -124,9 +124,9 @@ namespace CarRental.Services.Implementations
         }
 
 
-        public string Update(CarViewModel model)
+        public string Update(CarDTO model)
         {
-            var Car = CarMapper.ToModel(model);
+            var Car = CarMapper.DTOToModel(model);
             return _repo.Update(Car);
         }
 
