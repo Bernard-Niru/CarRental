@@ -226,6 +226,7 @@ namespace CarRental.Controllers
         [HttpGet]
         public IActionResult UpdateCar(int id)
         {
+
             var car = _carService.GetByID(id);
             if (car == null)
             {
@@ -249,23 +250,10 @@ namespace CarRental.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateCar(CarViewModel model)
+        public IActionResult UpdateCar(CarDTO model)
         {
-            if (!ModelState.IsValid)
-            {
-                // Repopulate ViewBags in case of validation failure
-                ViewBag.CarType = new SelectList(Enum.GetValues(typeof(CarType)));
-                ViewBag.FuelType = new SelectList(Enum.GetValues(typeof(FuelType)));
-                ViewBag.GearType = new SelectList(Enum.GetValues(typeof(GearType)));
-
-                return View("Car/UpdateCar", model);
-            }
-
-
-            // Update the car properties
-
             string message = _carService.Update(model);
-            TempData["SuccessMessage"] = "Car updated successfully!";
+            TempData["SuccessMessage"] = message;
             return RedirectToAction("ViewCars"); 
         }
 
