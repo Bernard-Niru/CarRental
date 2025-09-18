@@ -18,6 +18,7 @@ namespace CarRental.Services.Interfaces
         string ChangePassword(int userId, string oldPassword, string newPassword);
         UserDTO GetUserById(int id);
         string UpdateUser(ProfileViewModel vm);
+        string ViewUser(ProfileViewModel VM);
 
     }
 }
