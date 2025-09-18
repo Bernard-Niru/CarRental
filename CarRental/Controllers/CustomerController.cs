@@ -16,12 +16,14 @@ namespace CarRental.Controllers
         private readonly ICarService _carService;
         private readonly IRequestService _requestService;
         private readonly IBrandService _brandService;
+        private readonly IUserService _userService;
 
-        public CustomerController(ICarService carService , IRequestService requestService ,IBrandService brandService)
+        public CustomerController(ICarService carService , IRequestService requestService, IBrandService brandService, IUserService userService)
         {
             _carService = carService;
             _requestService = requestService;
             _brandService = brandService;
+            _userService = userService;
         }
 
         public IActionResult SignOut()
@@ -97,7 +99,44 @@ namespace CarRental.Controllers
             return View("Ratings");
         }
 
+      
+        public IActionResult ProfileEdit()
+        {
+            int userId = Session.UserID; // from session
+            var userDto = _userService.GetUserById(userId);
 
+            if (userDto == null)
+                return NotFound();
+
+            var vm = new ProfileViewModel
+            {
+                Id = userDto.Id,
+                Name = userDto.Name,
+                Email = userDto.Email,
+                UserName = userDto.UserName,
+                Role = userDto.Role.ToString()
+            };
+
+            return View("ProfileEdit" , vm);
+        }
+
+        [HttpPost]
+        public IActionResult Update(ProfileViewModel vm)
+        {
+            //if (!ModelState.IsValid)
+            //{
+            //    return View("Profile", vm);
+            //}
+
+            var result = _userService.UpdateUser(vm);
+
+            if (result == "Profile updated successfully!")
+                TempData["Success"] = result;
+            else
+                TempData["Error"] = result;
+
+            return RedirectToAction("ProfileEdit");
+        }
     }
-    
+
 }

@@ -136,43 +136,56 @@
         .nav-links a:hover {
             background: rgba(255, 255, 255, 0.2);
         }*/
-.navbar-collapse.collapse.d-sm-inline-flex.justify-content-between {
+/*.navbar-collapse.collapse.d-sm-inline-flex.justify-content-between {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center;
     width: 100%;
-}
+}*/
 
 /* Make the container flex and space-between */
-.navbar-collapse.collapse.d-sm-inline-flex.justify-content-between {
+/*.navbar-collapse.collapse.d-sm-inline-flex.justify-content-between {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center;
     width: 100%;
-}
+}*/
 
 /* Style for h3 on the left */
-.hotwheelz-heading {
+/*.hotwheelz-heading {
     margin: 0;
     font-size: 28px;
     font-weight: 700;
-    color: #3b82f6; /* Example color */
-    flex-shrink: 0; /* Prevent shrinking */
+    color: #3b82f6;*/ /* Example color */
+    /*flex-shrink: 0;*/ /* Prevent shrinking */
+/*}
+.navbar .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 0;
+    height: 2px;
+    background: #00bfff;
+    transition: width 0.3s ease;
 }
 
+.navbar .nav-link:hover::after {
+    width: 100%;
+}*/
 /* Make the ul nav take minimal width and align right */
-.navbar-nav.flex-grow-1 {
+/*.navbar-nav.flex-grow-1 {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 20px; /* space between links */
-    padding-left: 0;
+    gap: 20px;*/ /* space between links */
+    /*padding-left: 0;
     margin-bottom: 0;
     list-style: none;
-}
+}*/
 
     /* Style the links */
-    .navbar-nav.flex-grow-1 li a.nav-link {
+    /*.navbar-nav.flex-grow-1 li a.nav-link {
         color: #e0e0e0;
         font-weight: 600;
         font-size: 15px;
@@ -181,30 +194,117 @@
         transition: background 0.3s ease;
     }
 .navbar-nav .nav-link {
-    color: #00bfff !important; /* bright blue */
+    color: #e0e0e0;
     font-weight: 600;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
+    font-size: 15px;
+    padding: 8px 14px;
+    transition: all 0.3s ease;
+    position: relative;
+}*/
 
     /* On hover */
-    .navbar-nav .nav-link:hover {
-        color: #0080ff !important; /* deeper blue on hover */
+    /*.navbar-nav .nav-link:hover {
+        color: #00bfff;
+        text-shadow: 0 0 10px rgba(0, 191, 255, 0.8);
         transform: translateY(-2px);
     }
         .navbar-nav.flex-grow-1 li a.nav-link:hover {
             
-            box-shadow: 0 15px 30px rgba(0, 191, 255, 0.4); /* blue glow shadow */
-            background: linear-gradient(145deg, #001f3f, #0040ff); /* brighter blue on hover */
-            color: #1e40af;
-        }
+            box-shadow: 0 15px 30px rgba(0, 191, 255, 0.4);*/ /* blue glow shadow */
+            /*background: linear-gradient(145deg, #001f3f, #0040ff);*/ /* brighter blue on hover */
+            /*color: #1e40af;
+        }*/
 
     /* Optional: remove default margin from li */
-    .navbar-nav.flex-grow-1 li {
+    /*.navbar-nav.flex-grow-1 li {
         margin: 0;
     }
 .navbar {
-    background: linear-gradient(135deg, #0a0a0a, #1a0a36);
+    background: rgba(10, 10, 10, 0.85);*/ /* glossy black */
+    /*backdrop-filter: blur(8px);*/ /* glassy effect */
+    /*border-bottom: 2px solid #00bfff;*/ /* glowing blue line */
+    /*box-shadow: 0 4px 20px rgba(0, 191, 255, 0.2);
 }
+
+.hotwheelz-heading {
+    font-size: 28px;
+    font-weight: 700;
+    color: #00bfff;
+    text-shadow: 0 0 10px #00bfff, 0 0 20px #0080ff;
+    animation: pulse 2.5s infinite alternate;
+}
+
+@keyframes pulse {
+    from {
+        text-shadow: 0 0 5px #00bfff, 0 0 15px #0080ff;
+    }
+
+    to {
+        text-shadow: 0 0 15px #00bfff, 0 0 30px #0080ff;
+    }
+}*/
+
+
+.Navbar {
+    background: rgba(10, 10, 10, 0.85); /* glossy black */
+    backdrop-filter: blur(8px); /* glassy effect */
+    border-bottom: 2px solid #00bfff; /* glowing blue line */
+    box-shadow: 0 4px 20px rgba(0, 191, 255, 0.2);
+}
+
+    /* Navbar links */
+    .Navbar .nav-link {
+        color: #e0e0e0;
+        font-weight: 600;
+        font-size: 15px;
+        padding: 8px 14px;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+        /* Neon glow on hover */
+        .Navbar .nav-link:hover {
+            color: #00bfff;
+            text-shadow: 0 0 10px rgba(0, 191, 255, 0.8);
+            transform: translateY(-2px);
+        }
+
+        /* Animated underline effect */
+        .Navbar .nav-link::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 0;
+            height: 2px;
+            background: #00bfff;
+            transition: width 0.3s ease;
+        }
+
+        .Navbar .nav-link:hover::after {
+            width: 100%;
+        }
+
+/* Logo text styling */
+.hotwheelz-heading {
+    font-size: 28px;
+    font-weight: 700;
+    color: #00bfff;
+    text-shadow: 0 0 10px #00bfff, 0 0 20px #0080ff;
+    animation: pulse 2.5s infinite alternate;
+}
+
+@keyframes pulse {
+    from {
+        text-shadow: 0 0 5px #00bfff, 0 0 15px #0080ff;
+    }
+
+    to {
+        text-shadow: 0 0 15px #00bfff, 0 0 30px #0080ff;
+    }
+}
+
+
 /*<nav class="site-nav" >
 <div class="container" >
 <a href="/" class="brand" >

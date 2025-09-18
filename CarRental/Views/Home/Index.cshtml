@@ -16,11 +16,11 @@
     <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="~/css/Header.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/Header.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/GuestPage.css" asp-append-version="true" />
 
   
-<div class="swiper">
+@* <div class="swiper">
     <div class="swiper-wrapper">
         @if (Model.TopCars != null && Model.TopCars.Any())
         {
@@ -51,7 +51,7 @@
     </div>
 
     <div class="swiper-pagination"></div>
-</div>
+</div> *@
 <!-- Car Catalog -->
 <!-- Car Catalog -->
 
@@ -60,6 +60,9 @@
     @{
         int delay = 0;
     }
+    @if (Model?.TopCars != null && Model.TopCars.Any())
+    {
+   
     @foreach (var car in Model.Cars)
     {
         delay += 100;
@@ -108,6 +111,7 @@
                 </div>
             </div>
         </div>
+    }
     }
 </div>
 
