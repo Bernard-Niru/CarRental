@@ -1,4 +1,5 @@
 ﻿using CarRental.DTOs;
+using CarRental.Models;
 using CarRental.ViewModels;
 
 namespace CarRental.Services.Interfaces
@@ -14,6 +15,9 @@ namespace CarRental.Services.Interfaces
         void Edit(UserDTO userDTO);
         void Delete(int id);
         string CheckPassword(UserViewModel login);
+        string ChangePassword(int userId, string oldPassword, string newPassword);
+        UserDTO GetUserById(int id);
+        string UpdateUser(ProfileViewModel vm);
 
     }
 }

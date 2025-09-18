@@ -225,7 +225,7 @@ footer {
 
 /* Search Section */
 .search-section {
-    background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)), url('/image/road-trip-with-car-car_670382-9370.jpg') center/cover no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)), /*url('/image/road-trip-with-car-car_670382-9370.jpg')*/ center/cover no-repeat;
     color: #fff;
     border-radius: 20px;
 }
