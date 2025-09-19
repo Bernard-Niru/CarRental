@@ -18,5 +18,6 @@ namespace CarRental.Data
         public DbSet<Unit> Units { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
     }
 }

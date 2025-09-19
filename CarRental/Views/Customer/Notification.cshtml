@@ -1,0 +1,129 @@
+﻿@model IEnumerable<CarRental.DTOs.NotificationDTO>
+
+@using CarRental.Enums.UserEnums
+
+@{
+    ViewData["Title"] = "Notification";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@functions {
+    public string GetTimeAgo(DateTime dateTime)
+    {
+        var timeSpan = DateTime.Now - dateTime;
+
+        if (timeSpan.TotalMinutes < 1)
+            return "just now";
+        if (timeSpan.TotalMinutes < 60)
+            return $"{(int)timeSpan.TotalMinutes} minutes";
+        if (timeSpan.TotalHours < 24)
+            return $"{(int)timeSpan.TotalHours} hours";
+        if (timeSpan.TotalDays < 30)
+            return $"{(int)timeSpan.TotalDays} days";
+
+        return dateTime.ToString("MMM dd, yyyy");
+    }
+}
+
+
+<style>
+    .notification-row > td {
+        padding-top: 1.25rem;
+        padding-bottom: 1.25rem;
+    }
+
+    .notification-row {
+        border-bottom: 10px solid transparent;
+    }
+</style>
+
+<h2>Notifications</h2>
+
+<table class="table table-striped">
+    <tbody>
+        @foreach (var notification in Model)
+        {
+            if ((Purpose)notification.purpose == Purpose.RequestAccepted)
+            {
+                <tr class="table-success notification-row">
+                    <td class="d-flex align-items-center">
+                        <i class="bi bi-check-circle-fill text-success me-2" style="font-size: 1.2rem;"></i>
+                        <span>Your request for the car <strong>@notification.CarName</strong> was accepted.</span>
+                    </td>
+                    <td class="text-muted text-end">
+                        <small>@(GetTimeAgo(notification.DateTime)) ago</small>
+                    </td>
+                </tr>
+            }
+            if ((Purpose)notification.purpose == Purpose.RequestRejected)
+            {
+                <tr class="table-danger notification-row">
+                    <td class="d-flex align-items-center">
+                        <i class="bi bi-x-circle-fill text-danger me-2" style="font-size: 1.2rem;"></i>
+                        <span>Unfortunately, the car <strong>@notification.CarName</strong> is not available. Your request was rejected.</span>
+                    </td>
+                    <td class="text-muted text-end">
+                        <small>@(GetTimeAgo(notification.DateTime)) ago</small>
+                    </td>
+                </tr>
+            }
+            @if ((Purpose)notification.purpose == Purpose.BookingCancel)
+            {
+                <tr class="table-warning notification-row">
+                    <td class="d-flex align-items-center">
+                        <i class="bi bi-exclamation-triangle-fill text-warning me-2" style="font-size: 1.2rem;"></i>
+                        <span>Your booking for the car <strong>@notification.CarName</strong> has been cancelled.</span>
+                    </td>
+                    <td class="text-muted text-end">
+                        <small>@(GetTimeAgo(notification.DateTime)) ago</small>
+                    </td>
+                </tr>
+            }
+            @if ((Purpose)notification.purpose == Purpose.PickupDelay)
+            {
+                <tr class="table-warning notification-row">
+                    <td class="d-flex align-items-center">
+                        <i class="bi bi-exclamation-triangle-fill text-warning me-2" style="font-size: 1.2rem;"></i>
+                        <span>Your booking for the car <strong>@notification.CarName</strong> is ready for pickup, but there is a delay from your side.</span>
+                    </td>
+                    <td class="text-muted text-end">
+                        <small>@(GetTimeAgo(notification.DateTime)) ago</small>
+                    </td>
+                </tr>
+            }
+            @if ((Purpose)notification.purpose == Purpose.ReturnDelay)
+            {
+                <tr class="table-warning notification-row">
+                    <td class="d-flex align-items-center">
+                        <i class="bi bi-exclamation-triangle-fill text-warning me-2" style="font-size: 1.2rem;"></i>
+                        <span>
+                            Your return for the car <strong>@notification.CarName</strong> is delayed. Please return it as soon as possible.
+                        </span>
+                    </td>
+                    <td class="text-muted text-end">
+                        <small>@(GetTimeAgo(notification.DateTime)) ago</small>
+                    </td>
+                </tr>
+            }
+            @if ((Purpose)notification.purpose == Purpose.Feedback)
+            {
+                <tr class="table-info notification-row">
+                    <td class="d-flex align-items-center">
+                        <i class="bi bi-star-fill text-primary me-2" style="font-size: 1.2rem;"></i>
+                        <span>
+                            Please submit your rating for the car <strong>@notification.CarName</strong>.
+                        </span>
+                    </td>
+                    <td class="text-muted text-end">
+                        <small>@(GetTimeAgo(notification.DateTime)) ago</small>
+                    </td>
+                </tr>
+            }
+
+
+
+
+        }
+    </tbody>
+</table>
+
+

@@ -34,14 +34,72 @@
                 <td>
                     <a asp-action="PickedUp" asp-route-id="@booking.BookingID" class="btn btn-sm btn-success me-3">
                         Picked Up
-                    </a>
-
-                    <a asp-action="DeleteBooking" asp-route-id="@booking.BookingID" class="btn btn-sm btn-danger">
-                       Cancel
-                    </a>
+                    </a>                   
+                    <button type="button"
+                            class="btn btn-danger me-3 btn-sm px-4 booking-btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#CancelBookingModal"
+                            data-bookingid="@booking.BookingID"
+                            data-carid="@booking.Request.CarID"
+                            data-userid="@booking.Request.UserID">
+                        Cancel
+                    </button>
+                    @if (booking.Request.PickupDate < DateOnly.FromDateTime(DateTime.Now))
+                    {
+                        <a asp-action="PickupDelay" asp-route-UserID="@booking.Request.UserID" asp-route-CarID="@booking.Request.CarID" class="btn btn-sm btn-warning me-3">
+                            <i class="bi bi-bell-fill"></i> Notify
+                        </a>
+                    }
                 </td>
             </tr>
             counter++;
         }
     </tbody>
 </table>
+
+
+<div class="modal fade" id="CancelBookingModal" tabindex="-1" aria-labelledby="CancelBookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CancelBookingModalLabel">Confirm Cancel</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <p>Are you sure you want to cancel this booking for <strong id="booking-username">user</strong>?</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                <a id="confirmCancelBtn" class="btn btn-danger">
+                    Cancel Booking
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const cancelModal = document.getElementById('CancelBookingModal');
+
+    cancelModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+
+        const bookingId = button.getAttribute('data-bookingid');
+        const carId = button.getAttribute('data-carid');
+        const userId = button.getAttribute('data-userid');
+
+
+        const confirmBtn = document.getElementById('confirmCancelBtn');
+        const usernameText = document.getElementById('modal-username');
+
+        // Update modal text
+       
+
+        // Build dynamic URL
+        const url = `/Admin/DeleteBooking?id=${bookingId}&CarID=${carId}&UserID=${userId}`;
+        confirmBtn.setAttribute('href', url);
+    });
+</script>
+

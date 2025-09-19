@@ -52,5 +52,7 @@ namespace CarRental.Models
         public ICollection<Unit>? Units { get; set; }
 
         public ICollection<Request>? Requests { get; set; }
+
+        public ICollection<Notification>? notifications { get; set; }
     }
 }

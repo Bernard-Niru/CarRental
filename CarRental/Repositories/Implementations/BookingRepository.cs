@@ -61,5 +61,15 @@ namespace CarRental.Repositories.Implementations
 
             return bookings;
         }
+        public void Delete(int id)
+        {
+            var booking = _context.Bookings.Find(id);
+            if (booking != null)
+            {
+                _context.Bookings.Remove(booking);
+                _context.SaveChanges();
+            }
+        }
+
     }
 }

@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Collections.Generic;
+using CarRental.Enums.CarEnums;
+using CarRental.Enums.UserEnums;
 
 namespace CarRental.Controllers
 {
@@ -16,12 +18,14 @@ namespace CarRental.Controllers
         private readonly ICarService _carService;
         private readonly IRequestService _requestService;
         private readonly IBrandService _brandService;
+        private readonly INotificationService _notificationService;
 
-        public CustomerController(ICarService carService , IRequestService requestService ,IBrandService brandService)
+        public CustomerController(ICarService carService , IRequestService requestService ,IBrandService brandService,INotificationService notificationService)
         {
             _carService = carService;
             _requestService = requestService;
             _brandService = brandService;
+            _notificationService = notificationService;
         }
 
         public IActionResult SignOut()
@@ -98,6 +102,48 @@ namespace CarRental.Controllers
         }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public IActionResult Notification() 
+        {
+            var notification = _notificationService.GetAll(Session.UserID);
+            return View(notification);
+        }
     }
     
 }
