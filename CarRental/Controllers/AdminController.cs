@@ -542,7 +542,7 @@ namespace CarRental.Controllers
 
         public IActionResult AcceptRequest(int id , int CarID ,int UserID)
         {
-            _requestService.AcceptRequest(id );
+            _requestService.AcceptRequest(id,CarID,UserID );
             _bookingService.AddBooking( id);
             _carService.ChangeAvailableCount( CarID, 1);
 
