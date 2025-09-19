@@ -11,7 +11,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
 namespace CarRental.Controllers
-{
+{//Unit delete -1
     public class AdminController : Controller
     {
         private readonly IBrandService _brandService;
@@ -406,19 +406,18 @@ namespace CarRental.Controllers
             if (Units != null && Units.Any())
             {
                 var unitList = new List<Unit>();
-                foreach (var unit in Units.Where(u => !string.IsNullOrWhiteSpace(u)))
+                foreach (var unit in Units)
                 {
                     unitList.Add(new Unit
                     {
                         CarID = CarID,
-                        PlateNumber = unit.Trim(), // Optional: removes leading/trailing spaces
+                        PlateNumber = unit,
                         IsAvailble = true,
                         IsDeleted = false
                     });
                 }
-
-
-                _unitService.Add(unitList);
+                var unitcount = _unitService.Add(unitList);
+                _carService.ChangeUnitCount(CarID, unitcount);
             }
 
             TempData["SuccessMessage"] = "Data uploaded successfully!";
@@ -436,7 +435,13 @@ namespace CarRental.Controllers
          
         public IActionResult ChangeAvailability(int id,int CarID) 
         {
-            _unitService.ChangeAvailability(id);
+            string message =_unitService.ChangeAvailability(id);
+            int UnitCounts;
+            if (message == "Add") {  UnitCounts = 1; }
+            else if (message == "min") { UnitCounts = -1;  }
+            else {  UnitCounts = 0; }
+            _carService.ChangeAvailableCount(CarID, UnitCounts);
+
             return RedirectToAction("ViewUnitofCar", "Admin", new { CarID = CarID });
             
            
@@ -504,8 +509,8 @@ namespace CarRental.Controllers
                         IsDeleted = false
                     });
                 }
-
-                _unitService.Add(unitList);
+                var unitcount = _unitService.Add(unitList);
+                _carService.ChangeAvailableCount(CarID, unitcount);
             }
 
             TempData["SuccessMessage"] = "Data uploaded successfully!";
@@ -542,12 +547,19 @@ namespace CarRental.Controllers
 
         }
 
-        public IActionResult AcceptRequest(int id)
+        public IActionResult AcceptRequest(int requestId, int carId)
         {
-            _requestService.AcceptRequest(id);
-            _bookingService.AddBooking(id);
+            if (carId == 0)
+            {
+                return View("uygfdsg");
+            }
+            _requestService.AcceptRequest(requestId);
+            _bookingService.AddBooking(requestId);
+            _carService.ChangeAvailableCount(carId, 1);
+
             return RedirectToAction("ViewRequests");
         }
+
         public IActionResult RejectRequest(int id)
         {
             _requestService.RejectRequest(id);

@@ -21,7 +21,10 @@ public interface ICarService
     //List<UnitDTO> GetUnit(int id);
 
     void AddRating(int rating, int CarId);
-    
+    void ChangeUnitCount(int Carid, int Count);
+    void ChangeAvailableCount(int Carid, int Count);
 
 
-    }
+
+
+}
