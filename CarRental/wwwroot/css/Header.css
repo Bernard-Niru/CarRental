@@ -8,6 +8,10 @@
     overflow: hidden;
 }
 
+    .swiper:not(.swiper-initialized) {
+        visibility: hidden;
+    }
+
 /* Each slide */
 .swiper-slide {
     background-size: cover;

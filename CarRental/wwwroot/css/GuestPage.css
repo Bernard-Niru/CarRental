@@ -3,13 +3,21 @@ body {
     background-color: #0a0a0a;
     color: #e0e0e0; /* Light text for contrast */
    background: linear-gradient(135deg, #0a0a0a, #1a0a36); 
-    min-height: 100vh;
+    min-height: 70vh;
     display: flex;
     flex-direction: column;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     scroll-behavior: smooth;
 }
 
+.centered-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* centers items */
+    margin: 0 auto; /* keeps it centered in page */
+    max-width: 1200px; /* optional: controls max width */
+    padding: 0 15px; /* left/right space */
+}
 /* Hero Section */
 .hero {
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url('/image/road-blue-car-50704.jpg') center/cover no-repeat;
