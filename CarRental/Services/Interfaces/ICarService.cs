@@ -9,6 +9,7 @@ public interface ICarService
     //GuestPageViewModel GetTopRatedCars();
     GuestPageViewModel GetAvailableCar();
 
+    CustomerViewModel GetAvailableCarsForCustomer();
     int AddCar(CarViewModel model);
 
     IEnumerable<CarDTO> GetAll();

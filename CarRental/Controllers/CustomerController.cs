@@ -32,9 +32,16 @@ namespace CarRental.Controllers
         }
         public IActionResult HomePage()
         {
-            ViewData["HideNavbar"] = true;
-            return View("CustomerHomepage/Homepage");
+            var vm = _carService.GetAvailableCarsForCustomer();
+
+            if (!ModelState.IsValid)
+            {
+                ViewData["FormErrors"] = "Please fix the form errors.";
+            }
+
+            return View("HomePage", vm);
         }
+
         public IActionResult Index()
         {
             //var brands = _brandService.GetAll()
@@ -55,29 +62,53 @@ namespace CarRental.Controllers
             //    BrandOptions = brands,
             //    TopCars = topCars
             //};
-            return View();
+            return View("HomePage");
         }
 
         public IActionResult ViewPage()
         {
-            var Car = _carService.GetAll();
+            var Car = _carService.GetAvailableCar();
             return View(Car);
         }
+
 
         [HttpPost]
         public IActionResult AddRequest(RequestViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                var cars = _carService.GetAll(); // You need to repopulate the model
+                // Reuse service that always builds a CustomerViewModel
+                var vm = _carService.GetAvailableCarsForCustomer();
+
                 ViewData["FormErrors"] = "Please fix the form errors.";
-                return View("ViewPage", cars); // Pass the cars list again
+                return View("HomePage", vm); 
             }
-            int id = Session.UserID;
-            model.UserID = id;
+
+            int userId = Session.UserID;
+            var userDto = _userService.GetUserById(userId);
+
+            if (userDto == null)
+                return NotFound();
+
+            model.UserID = userDto.Id; // get current user id from session
             _requestService.Add(model);
-            return RedirectToAction("ViewPage");
+
+            return RedirectToAction("HomePage");
         }
+
+        //[HttpPost]
+        //public IActionResult AddRequest(RequestViewModel model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        var cars = _carService.GetAll(); // You need to repopulate the model
+        //        ViewData["FormErrors"] = "Please fix the form errors.";
+        //        return View("HomePage", cars); // Pass the cars list again
+        //    }
+        //    model.UserID = HttpContext.Session.GetInt32("UserID") ?? 0; // get current user id from session
+        //    _requestService.Add(model);
+        //    return RedirectToAction("HomePage");
+        //}
         private List<CarDTO> GetDailyCars(IEnumerable<CarDTO> allCars, int maxCount)
         {
             if (allCars == null || !allCars.Any())
@@ -137,6 +168,52 @@ namespace CarRental.Controllers
 
             return RedirectToAction("ProfileEdit");
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
 }
