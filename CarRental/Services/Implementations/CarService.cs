@@ -122,11 +122,27 @@ namespace CarRental.Services.Implementations
             };
 
         }
-
-
-        public string Update(CarViewModel model)
+        public void ChangeUnitCount(int Carid,int Count)
         {
-            var Car = CarMapper.ToModel(model);
+            var UnitCount = _repo.GetCounts(Carid);
+            int finalcount = UnitCount.UnitCount + Count;
+            _repo.AddUnitCount(Carid, finalcount);
+        }
+
+        public void ChangeAvailableCount(int Carid, int Count)
+        {
+            var Counts = _repo.GetCounts(Carid);
+            if (Count < 0 || Counts.UnitCount > Counts.AvailableUnit)
+            {
+                int finalcount = Counts.AvailableUnit + Count;
+                _repo.AddAvailableUnitCount(Carid, finalcount);
+            }
+        }
+
+
+        public string Update(CarDTO model)
+        {
+            var Car = CarMapper.DTOToModel(model);
             return _repo.Update(Car);
         }
 

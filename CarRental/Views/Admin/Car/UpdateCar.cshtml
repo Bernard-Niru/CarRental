@@ -101,56 +101,69 @@
     </div>
 </div>
 
-@section Scripts {
+<style>
+    .glass-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 1rem;
+    }
+
+    .text-gradient {
+        background: linear-gradient(to right, #007bff, #6610f2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .stylish-input {
+        border-radius: 0.5rem;
+        transition: box-shadow 0.3s, transform 0.2s;
+    }
+
+        .stylish-input:focus {
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            transform: scale(1.02);
+        }
+
+    .btn-gradient {
+        background: linear-gradient(135deg, #007bff, #6610f2);
+        color: white;
+        border: none;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        transition: background 0.3s, transform 0.2s;
+    }
+
+        .btn-gradient:hover {
+            background: linear-gradient(135deg, #0056b3, #520dc2);
+            transform: scale(1.03);
+        }
+
+    .fw-semibold {
+        font-weight: 600;
+    }
+</style>
+
     <partial name="_ValidationScriptsPartial" />
+<script>
+    const colorSelect = document.getElementById("color-select");
+    const customColorInput = document.getElementById("custom-color-input");
 
-    <script>
-        document.getElementById("color-select").addEventListener("change", function () {
-            const customColor = document.getElementById("custom-color-input");
-            customColor.style.display = this.value === "Other" ? "block" : "none";
-        });
-    </script>
-
-    <style>
-        .glass-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 1rem;
+    colorSelect.addEventListener("change", function () {
+        if (this.value === "Other") {
+            customColorInput.style.display = "block";
+        } else {
+            customColorInput.style.display = "none";
         }
+    });
 
-        .text-gradient {
-            background: linear-gradient(to right, #007bff, #6610f2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+    // Ensure the form uses custom color if selected
+    document.querySelector("form").addEventListener("submit", function (e) {
+        if (colorSelect.value === "Other" && customColorInput.value.trim() !== "") {
+            colorSelect.value = customColorInput.value.trim();
         }
+    });
+</script>
 
-        .stylish-input {
-            border-radius: 0.5rem;
-            transition: box-shadow 0.3s, transform 0.2s;
-        }
 
-            .stylish-input:focus {
-                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-                transform: scale(1.02);
-            }
-
-        .btn-gradient {
-            background: linear-gradient(135deg, #007bff, #6610f2);
-            color: white;
-            border: none;
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            transition: background 0.3s, transform 0.2s;
-        }
-
-            .btn-gradient:hover {
-                background: linear-gradient(135deg, #0056b3, #520dc2);
-                transform: scale(1.03);
-            }
-
-        .fw-semibold {
-            font-weight: 600;
-        }
-    </style>
-}
+ 

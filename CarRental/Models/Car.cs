@@ -46,6 +46,8 @@ namespace CarRental.Models
 
         [ForeignKey("BrandID")]
         public Brand? Brand { get; set; }
+        public int UnitCount { get; set; }
+        public int AvailableUnit {  get; set; }
 
         public ICollection<Image>? Images { get; set; }
 

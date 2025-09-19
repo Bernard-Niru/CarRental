@@ -79,6 +79,16 @@ namespace CarRental.repo.Implementations
                 .FirstOrDefault();
         }
 
+        public User GetUserById(int id)
+        {
+            return _context.Users.FirstOrDefault(u => u.UserID == id && !u.IsDeleted);
+     
+        }
+        public void UpdateUser(User user)
+        {
+            
+            _context.SaveChanges();
+        }
 
     }
 }

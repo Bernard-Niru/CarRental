@@ -13,7 +13,7 @@ public interface ICarService
 
     IEnumerable<CarDTO> GetAll();
 
-    string Update(CarViewModel model);
+    string Update(CarDTO model);
 
     void Delete(int id);
 
@@ -21,7 +21,10 @@ public interface ICarService
     //List<UnitDTO> GetUnit(int id);
 
     void AddRating(int rating, int CarId);
-    
+    void ChangeUnitCount(int Carid, int Count);
+    void ChangeAvailableCount(int Carid, int Count);
 
 
-    }
+
+
+}

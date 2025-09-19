@@ -1,9 +1,11 @@
 ﻿/* Corrected Swiper Carousel CSS */
 .swiper {
-  
-    width: 100%;
-    height: 400px;
-    margin-bottom: 50px;
+    width: 90%;
+    height: 600px;
+  /*  box-shadow: 0 10px 25px rgba(0,191,255,0.3);*/
+    margin-bottom: 60px;
+    border-radius: 20px;
+    overflow: hidden;
 }
 
 /* Each slide */
@@ -15,11 +17,13 @@
     align-items: flex-end;
     justify-content: center;
     color: white;
-    position: relative;
-    height: 382px;
+    /*position: relative;*/
+    width:700px;
+    height: 600px;
     overflow: hidden;
     filter: grayscale(0.1);
     transition: transform 0.5s ease, filter 0.5s ease;
+    position: center;
 }
 
     .swiper-slide:hover {
@@ -29,7 +33,7 @@
 
     /* Updated Overlay on slide */
     .swiper-slide .overlay {
-        background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.9) 100%); /* Darker, more visible gradient */
+        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); /* Darker, more visible gradient */
         padding: 25px 30px; /* Slightly larger padding */
         border-radius: 20px; /* Slightly more rounded corners */
         text-align: center;
@@ -96,7 +100,7 @@
 
 /* Pagination */
 .swiper-pagination {
-    bottom: 25px !important;
+    bottom: 37px !important;
     transform: scale(1.4);
 }
 
