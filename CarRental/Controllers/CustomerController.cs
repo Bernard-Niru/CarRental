@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Collections.Generic;
+using CarRental.Enums.CarEnums;
+using CarRental.Enums.UserEnums;
 
 namespace CarRental.Controllers
 {
@@ -16,14 +18,19 @@ namespace CarRental.Controllers
         private readonly ICarService _carService;
         private readonly IRequestService _requestService;
         private readonly IBrandService _brandService;
+        private readonly INotificationService _notificationService;
         private readonly IUserService _userService;
 
-        public CustomerController(ICarService carService , IRequestService requestService, IBrandService brandService, IUserService userService)
+
+        public CustomerController(ICarService carService , IRequestService requestService ,IBrandService brandService,INotificationService notificationService, IUserService userService)
+
         {
             _carService = carService;
             _requestService = requestService;
             _brandService = brandService;
+            _notificationService = notificationService;
             _userService = userService;
+
         }
 
         public IActionResult SignOut()
@@ -121,24 +128,30 @@ namespace CarRental.Controllers
         }
         public IActionResult Profile() 
         {
-            {
-                int userId = Session.UserID; // from session
-                var userDto = _userService.GetUserById(userId);
+            
+              int userId = Session.UserID; // from session
+              var userDto = _userService.GetUserById(userId);
 
-                if (userDto == null)
-                    return NotFound();
+              if (userDto == null)
+                  return NotFound();
 
-                var vm = new ProfileViewModel
-                {
-                    Id = userDto.Id,
-                    Name = userDto.Name,
-                    Email = userDto.Email,
-                    UserName = userDto.UserName,
-                    Role = userDto.Role.ToString()
-                };
+              var vm = new ProfileViewModel
+              {
+                  Id = userDto.Id,
+                  Name = userDto.Name,
+                  Email = userDto.Email,
+                  UserName = userDto.UserName,
+                  Role = userDto.Role.ToString()
+              };
+              return View(vm);
+        }
 
-                return View(vm);
-            }
+        public IActionResult Notification() 
+        {
+            var notification = _notificationService.GetAll(Session.UserID);
+            return View(notification);
+
+            
         }
         [HttpPost]
         public IActionResult Update(ProfileViewModel vm)
@@ -156,6 +169,7 @@ namespace CarRental.Controllers
                 TempData["Error"] = result;
 
             return RedirectToAction("ProfileEdit");
+
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using CarRental.DTOs;
+using CarRental.Enums.UserEnums;
 using CarRental.Mappings;
 using CarRental.Models;
 using CarRental.Repositories.Interfaces;
@@ -13,12 +14,14 @@ namespace CarRental.Services.Implementations
         private readonly IRequestRepository _repo;
         private readonly ICarService _carService;
         private readonly IUserService _userService;
+        private readonly INotificationService _notificationService;
 
-        public RequestService(IRequestRepository repo, ICarService carService, IUserService userService)
+        public RequestService(IRequestRepository repo, ICarService carService, IUserService userService, INotificationService notificationService)
         {
             _repo = repo;
             _carService = carService;
             _userService = userService;
+            _notificationService = notificationService;
         }
 
         public void Add(RequestViewModel model)
@@ -56,22 +59,30 @@ namespace CarRental.Services.Implementations
 
             return requestlist;
         }
-        public void AcceptRequest(int id) 
+        public void AcceptRequest(int id , int CarID , int UserID) 
         {
             var request = _repo.GetRequestByID(id);
             if (request != null)
             {
                 request.IsAccepted = true;
                 _repo.Update(request); // reuse update method
+
+
+                _notificationService.Add(CarID, UserID, Purpose.RequestAccepted);
             }
         }
-        public void RejectRequest(int id)
+        public void RejectRequest(int id , int CarID, int UserID)
         {
             var request = _repo.GetRequestByID(id);
             if (request != null)
             {
                 request.IsRejected = true;
                 _repo.Update(request); // reuse update method
+
+
+                _notificationService.Add(CarID, UserID, Purpose.RequestRejected);
+
+
             }
         }
     }

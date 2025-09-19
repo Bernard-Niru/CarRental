@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CarRental.Migrations
 {
     /// <inheritdoc />
-    public partial class initialMigration : Migration
+    public partial class InitialMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -89,6 +89,35 @@ namespace CarRental.Migrations
                         column: x => x.CarID,
                         principalTable: "Cars",
                         principalColumn: "CarID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Notifications",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserID = table.Column<int>(type: "int", nullable: false),
+                    CarID = table.Column<int>(type: "int", nullable: false),
+                    purpose = table.Column<int>(type: "int", nullable: false),
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsViewed = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notifications", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Notifications_Cars_CarID",
+                        column: x => x.CarID,
+                        principalTable: "Cars",
+                        principalColumn: "CarID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Notifications_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "UserID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -192,6 +221,16 @@ namespace CarRental.Migrations
                 column: "CarID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Notifications_CarID",
+                table: "Notifications",
+                column: "CarID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notifications_UserID",
+                table: "Notifications",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Requests_CarID",
                 table: "Requests",
                 column: "CarID");
@@ -215,6 +254,9 @@ namespace CarRental.Migrations
 
             migrationBuilder.DropTable(
                 name: "Images");
+
+            migrationBuilder.DropTable(
+                name: "Notifications");
 
             migrationBuilder.DropTable(
                 name: "Units");

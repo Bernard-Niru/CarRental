@@ -30,7 +30,7 @@ namespace CarRental
             builder.Services.AddScoped<IUserRespository, UserRepository>();
             builder.Services.AddScoped<IBookingRepository, BookingRepository>();
             builder.Services.AddScoped<IRequestRepository, RequestRepository>();
-
+            builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 
             // Register Services
             builder.Services.AddScoped<IBrandService, BrandService>();
@@ -40,7 +40,7 @@ namespace CarRental
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IBookingService, BookingService>();
             builder.Services.AddScoped<IRequestService, RequestService>();
-
+            builder.Services.AddScoped<INotificationService, NotificationService>();
             var app = builder.Build();
 
             // Configure middleware

@@ -1,5 +1,6 @@
 
 using CarRental.DTOs;
+using CarRental.Enums.UserEnums;
 using CarRental.Models;
 using CarRental.Repositories.Interfaces;
 using CarRental.Services.Interfaces;
@@ -10,10 +11,12 @@ namespace CarRental.Services.Implementations
     public class BookingService : IBookingService
     {
         private readonly IBookingRepository _repo;
+        private readonly INotificationService _notificationService;
 
-        public BookingService(IBookingRepository repo)
+        public BookingService(IBookingRepository repo , INotificationService notificationService)
         {
             _repo = repo;
+            _notificationService = notificationService;
         }
         public void AddBooking(int id) 
         {
@@ -111,6 +114,7 @@ namespace CarRental.Services.Implementations
                 booking.ActualReturnTime = TimeOnly.FromDateTime(DateTime.Now);
 
                 _repo.Update(booking); // reuse update method
+                _notificationService.Add(bookingDTO.Request.CarID, bookingDTO.Request.UserID, Purpose.Feedback);
             }
 
         }
@@ -145,6 +149,12 @@ namespace CarRental.Services.Implementations
             });
 
             return bookingDTOs;
+        }
+        public void Delete(int id, int CarID, int UserID) 
+        {
+            _repo.Delete(id);
+            _notificationService.Add(CarID, UserID, Purpose.BookingCancel);
+
         }
     }
 }

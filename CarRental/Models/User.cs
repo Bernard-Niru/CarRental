@@ -30,6 +30,7 @@ namespace CarRental.Models
         // Navigation properties
 
         public ICollection<Request>? Requests { get; set; }
+        public ICollection<Notification>? notifications { get; set; }
 
     }
 }

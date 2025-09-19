@@ -10,5 +10,6 @@ namespace CarRental.Services.Interfaces
         IEnumerable<BookingDTO> GetAllPicked();
         void Returned(BookingDTO bookingDTO);
         IEnumerable<BookingDTO> GetAllReturned();
+        void Delete(int id, int CarID, int UserID);
     }
 }
