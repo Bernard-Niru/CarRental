@@ -10,5 +10,6 @@ namespace CarRental.Repositories.Interfaces
         void Update(Booking booking);
         IEnumerable<Booking> GetAllPicked();
         IEnumerable<Booking> GetAllReturned();
+        void Delete(int id);
     }
 }

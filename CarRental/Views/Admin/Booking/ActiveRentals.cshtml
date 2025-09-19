@@ -41,13 +41,18 @@
                             data-carname="@booking.Request.CarName"                          
                             data-pickupdate="@booking.ActualPickupDate"
                             data-returndate=@DateOnly.FromDateTime(DateTime.Now)
-                            data-rentalrate="@booking.Request.RentalRate">                       
+                            data-rentalrate="@booking.Request.RentalRate"
+                            data-carid ="@booking.Request.CarID"
+                            data-userid ="@booking.Request.UserID">                       
                         Returned
                     </button>
 
-                    <a asp-action="Notify" asp-route-id="@booking.BookingID" class="btn btn-sm btn-danger">
-                        <i class="bi bi-bell-fill"></i>   Notify
-                    </a>
+                    @if (booking.Request.ReturnDate < DateOnly.FromDateTime(DateTime.Now))
+                    {
+                        <a asp-action="ReturnDelay" asp-route-UserID="@booking.Request.UserID" asp-route-CarID="@booking.Request.CarID" class="btn btn-sm btn-warning me-3">
+                            <i class="bi bi-bell-fill"></i> Notify
+                        </a>
+                    }
                 </td>
             </tr>
             counter++;
@@ -64,6 +69,9 @@
 
                 <form asp-action="Returned" asp-controller="Admin" method="post">
                     <input type="hidden" name="BookingID" id="BookingID" />
+                    <input type="hidden" name="CarID" id="CarID" />
+                    <input type="hidden" name="UserID" id="UserID" />
+
 
 
                     <div class="mb-3">

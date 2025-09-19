@@ -9,9 +9,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Azure.Core;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarRental.Controllers
-{
+{//Unit delete -1
     public class AdminController : Controller
     {
         private readonly IBrandService _brandService;
@@ -21,6 +22,7 @@ namespace CarRental.Controllers
         private readonly IUserService _userService;
         private readonly IBookingService _bookingService;
         private readonly IRequestService _requestService;
+        private readonly INotificationService _notificationService;
 
         public AdminController(IBrandService brandService,
                        ICarService carService,    
@@ -28,7 +30,8 @@ namespace CarRental.Controllers
                        IUnitService unitService,
                        IUserService userService,
                        IBookingService bookingService,
-                       IRequestService requestService)
+                       IRequestService requestService,
+            INotificationService notificationservice)
 
         {
             _brandService = brandService;
@@ -38,6 +41,7 @@ namespace CarRental.Controllers
             _userService = userService;
             _bookingService = bookingService;
             _requestService = requestService;
+            _notificationService = notificationservice;
         }
 
 
@@ -394,19 +398,18 @@ namespace CarRental.Controllers
             if (Units != null && Units.Any())
             {
                 var unitList = new List<Unit>();
-                foreach (var unit in Units.Where(u => !string.IsNullOrWhiteSpace(u)))
+                foreach (var unit in Units)
                 {
                     unitList.Add(new Unit
                     {
                         CarID = CarID,
-                        PlateNumber = unit.Trim(), // Optional: removes leading/trailing spaces
+                        PlateNumber = unit,
                         IsAvailble = true,
                         IsDeleted = false
                     });
                 }
-
-
-                _unitService.Add(unitList);
+                var unitcount = _unitService.Add(unitList);
+                _carService.ChangeUnitCount(CarID, unitcount);
             }
 
             TempData["SuccessMessage"] = "Data uploaded successfully!";
@@ -424,7 +427,13 @@ namespace CarRental.Controllers
          
         public IActionResult ChangeAvailability(int id,int CarID) 
         {
-            _unitService.ChangeAvailability(id);
+            string message =_unitService.ChangeAvailability(id);
+            int UnitCounts;
+            if (message == "Add") {  UnitCounts = 1; }
+            else if (message == "min") { UnitCounts = -1;  }
+            else {  UnitCounts = 0; }
+            _carService.ChangeAvailableCount(CarID, UnitCounts);
+
             return RedirectToAction("ViewUnitofCar", "Admin", new { CarID = CarID });
             
            
@@ -492,8 +501,8 @@ namespace CarRental.Controllers
                         IsDeleted = false
                     });
                 }
-
-                _unitService.Add(unitList);
+                var unitcount = _unitService.Add(unitList);
+                _carService.ChangeAvailableCount(CarID, unitcount);
             }
 
             TempData["SuccessMessage"] = "Data uploaded successfully!";
@@ -530,15 +539,20 @@ namespace CarRental.Controllers
 
         }
 
-        public IActionResult AcceptRequest(int id)
+
+        public IActionResult AcceptRequest(int id , int CarID ,int UserID)
         {
-            _requestService.AcceptRequest(id);
-            _bookingService.AddBooking(id);
+            _requestService.AcceptRequest(id,CarID,UserID );
+            _bookingService.AddBooking( id);
+            _carService.ChangeAvailableCount( CarID, 1);
+
             return RedirectToAction("ViewRequests");
         }
-        public IActionResult RejectRequest(int id)
+
+        public IActionResult RejectRequest(int id, int CarID, int UserID)
+
         {
-            _requestService.RejectRequest(id);
+            _requestService.RejectRequest(id,CarID,UserID);
             return RedirectToAction("ViewRequests");
         }
 
@@ -592,6 +606,12 @@ namespace CarRental.Controllers
             _bookingService.PickedUp(id);
             return RedirectToAction("ViewBookings"); 
         }
+        public IActionResult DeleteBooking(int id,int CarID,int UserID)
+        {
+            _bookingService.Delete(id, CarID, UserID);
+            return RedirectToAction("ViewBookings");
+        }
+
         public IActionResult ActiveRentals()
         {
             var conditions = Enum.GetValues(typeof(Condition))
@@ -612,18 +632,38 @@ namespace CarRental.Controllers
             return View("Booking/ActiveRentals", booking);
 
         }
+
         public IActionResult Returned(BookingDTO bookingDTO)
         {
             ViewBag.Condition = new SelectList(Enum.GetValues(typeof(Condition)));
             _bookingService.Returned(bookingDTO);
             return RedirectToAction("ActiveRentals");
         }
+
         public IActionResult RentalHistory() 
         {
             ViewBag.Condition = new SelectList(Enum.GetValues(typeof(Condition)));
             var booking = _bookingService.GetAllReturned();
             return View("Booking/RentalHistory", booking);
         }
+
+        public IActionResult PickupDelay(int UserID, int CarID)
+        {
+            _notificationService.Add(CarID, UserID, Purpose.PickupDelay);
+            return RedirectToAction("ViewBookings");
+        }
+
+        public IActionResult ReturnDelay(int UserID, int CarID)
+        {
+            _notificationService.Add(CarID, UserID, Purpose.ReturnDelay);
+            return RedirectToAction("ActiveRentals");
+        }
+
+
+
+
+
+
 
 
     }

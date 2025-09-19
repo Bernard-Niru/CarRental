@@ -11,7 +11,9 @@ namespace CarRental.repo.Interfaces
         IEnumerable<Car> GetAll();
 
         string Update(Car car);
-
+        void AddUnitCount(int CarId, int UnitCount);
+        (int UnitCount, int AvailableUnit) GetCounts(int carId);
+        void AddAvailableUnitCount(int CarId, int UnitCount);
         Car GetByID(int id);
         //List<int> GetCarIdsWithavailableUnits();
         IEnumerable<Car> GetAvailableCars();

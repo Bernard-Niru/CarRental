@@ -54,8 +54,9 @@ namespace CarRental.Services.Implementations
                 });
             return unitDTOs;
         }
-        public List<string> Add(List<Unit> units)
+        public int Add(List<Unit> units)
         {
+            int count = 0;
             var duplicates = new List<string>();
 
             foreach (var unit in units)
@@ -65,19 +66,21 @@ namespace CarRental.Services.Implementations
                 if (!isPresent)
                 {
                     _unitRepo.Add(unit);
+                    count++;
                 }
                 else
                 {
                     duplicates.Add(unit.PlateNumber);
+                    
                 }
             }
 
-            return duplicates;
+            return (count);
         }
 
-        public void ChangeAvailability (int id) 
+        public string ChangeAvailability (int id) 
         {
-            _unitRepo.ChangeAvailability(id);
+           return _unitRepo.ChangeAvailability(id);
         }
         public List<UnitDTO> GetUnit(int id)
         {

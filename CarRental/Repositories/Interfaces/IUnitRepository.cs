@@ -13,7 +13,7 @@ namespace CarRental.Repositories.Interfaces
         List<Unit> GetByCarID(int carId);
         void Update(Unit unit);
         void Delete(int id);
-        void ChangeAvailability(int id);
+        string ChangeAvailability(int id);
         List<Unit> GetUnitsByCarId(int carId);
         bool CheckUnit(string unit);
     }

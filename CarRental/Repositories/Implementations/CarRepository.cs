@@ -91,6 +91,40 @@ namespace CarRental.repo.Implementations
             _context.SaveChanges();
             return "Car update successfully!";
         }
+
+        public void AddUnitCount(int CarId,int UnitCount)
+        {
+            var AddCount = _context.Cars.FirstOrDefault(u => u.CarID == CarId);
+            AddCount.UnitCount = UnitCount;
+            _context.Cars.Update(AddCount);
+            _context.SaveChanges();
+        }
+
+        public void AddAvailableUnitCount(int CarId, int UnitCount)
+        {
+            var AddCount = _context.Cars.FirstOrDefault(u => u.CarID == CarId);
+            AddCount.AvailableUnit = UnitCount;
+            _context.Cars.Update(AddCount);
+            _context.SaveChanges();
+        }
+
+        public (int UnitCount, int AvailableUnit) GetCounts(int carId)
+        {
+            var result = _context.Cars
+                .Where(c => c.CarID == carId && !c.IsDeleted)
+                .Select(c => new
+                {
+                    c.UnitCount,
+                    c.AvailableUnit
+                })
+                .FirstOrDefault();
+
+            return (result.UnitCount, result.AvailableUnit);
+        }
+
+
+
+
         //public List<Unit> GetUnitsByCarId(int carId)
         //{
         //    var units = _context.Units

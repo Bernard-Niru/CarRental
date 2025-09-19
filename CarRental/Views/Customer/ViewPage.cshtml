@@ -37,7 +37,8 @@
                         <div class="card h-100 shadow-sm">
                             <div id="@carouselId" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-indicators">
-                                    @for (int i = 0; i < car.Images.Count; i++)
+                                  @* @for (int i = 0; i < car.Images.Count; i++)
+
                                     {
                                         <button type="button"
                                                 data-bs-target="#@carouselId"
@@ -45,17 +46,18 @@
                                                 class="@(i == 0 ? "active" : "")"
                                                 aria-current="@(i == 0 ? "true" : "false")"
                                                 aria-label="Slide @(i + 1)"></button>
-                                    }
+                                    } *@
                                 </div>
 
-                                <div class="carousel-inner">
+                               @*  <div class="carousel-inner">
                                     @for (int i = 0; i < car.Images.Count; i++)
                                     {
                                         <div class="carousel-item @(i == 0 ? "active" : "")">
                                             <img src="data:image/jpeg;base64,@car.Images[i].ImageBase64" class="d-block car-image" alt="Car image" />
                                         </div>
-                                    }
-                                </div>
+
+                                  
+                                </div>  } *@
 
                                 <button class="carousel-control-prev" type="button" data-bs-target="#@carouselId" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon"></span>

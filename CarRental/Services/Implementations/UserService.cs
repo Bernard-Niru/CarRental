@@ -169,6 +169,19 @@ namespace CarRental.Services.Implementations
             _repo.UpdateUser(user);
             return "Profile updated successfully!";
         }
+        public string ViewUser(ProfileViewModel VM)
+        {
+            var user = _repo.GetUserById(VM.Id);
+            if (user == null) return "User not found";
+
+            // update profile fields
+            user.Name = VM.Name;
+            user.UserName = VM.UserName;
+            user.Email = VM.Email;
+
+            return ViewUser (VM);
+
+        }
     }
 }
 //now

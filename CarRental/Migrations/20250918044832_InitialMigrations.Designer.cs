@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250916061717_carRental")]
-    partial class carRental
+    [Migration("20250918044832_InitialMigrations")]
+    partial class InitialMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -169,6 +169,38 @@ namespace CarRental.Migrations
                     b.ToTable("Images");
                 });
 
+            modelBuilder.Entity("CarRental.Models.Notification", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<int>("CarID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsViewed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("purpose")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CarID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Notifications");
+                });
+
             modelBuilder.Entity("CarRental.Models.Request", b =>
                 {
                     b.Property<int>("RequestID")
@@ -307,6 +339,25 @@ namespace CarRental.Migrations
                     b.Navigation("Car");
                 });
 
+            modelBuilder.Entity("CarRental.Models.Notification", b =>
+                {
+                    b.HasOne("CarRental.Models.Car", "Car")
+                        .WithMany("notifications")
+                        .HasForeignKey("CarID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CarRental.Models.User", "User")
+                        .WithMany("notifications")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Car");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("CarRental.Models.Request", b =>
                 {
                     b.HasOne("CarRental.Models.Car", "Car")
@@ -349,6 +400,8 @@ namespace CarRental.Migrations
                     b.Navigation("Requests");
 
                     b.Navigation("Units");
+
+                    b.Navigation("notifications");
                 });
 
             modelBuilder.Entity("CarRental.Models.Request", b =>
@@ -359,6 +412,8 @@ namespace CarRental.Migrations
             modelBuilder.Entity("CarRental.Models.User", b =>
                 {
                     b.Navigation("Requests");
+
+                    b.Navigation("notifications");
                 });
 #pragma warning restore 612, 618
         }

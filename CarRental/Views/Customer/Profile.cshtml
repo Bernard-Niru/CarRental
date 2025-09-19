@@ -1,0 +1,80 @@
+﻿@model CarRental.ViewModels.ProfileViewModel
+@{
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    ViewData["Title"] = "Profile";
+}
+
+<div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center bg-primary text-white p-4 rounded shadow-sm mb-4">
+        <h2 class="mb-0">Customer Profile</h2>
+        <a asp-action="ProfileEdit" class="btn btn-outline-light fw-semibold" title="Edit Profile">
+            <i class="bi bi-pencil-square me-2"></i> Edit Profile
+        </a>
+    </div>
+
+        <div class="card border-0 shadow-lg p-4">
+        <div class="row g-4 align-items-center">
+            
+            <div class="col-md-4 text-center">
+                <img src="~/images/josh-smith.jpg"
+                     class="rounded-circle shadow-sm"
+                     style="width: 160px; height: 160px; object-fit: cover;"
+                     alt="Profile Picture" />
+            </div>
+            
+            <div class="col-md-8">
+                <div class="row mb-3">
+                    <div class="col-sm-4 fw-bold text-muted">Name:</div>
+                    <div class="col-sm-8">@Model.Name</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-4 fw-bold text-muted">Email Address:</div>
+                    <div class="col-sm-8">@Model.Email</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-4 fw-bold text-muted">Username:</div>
+                    <div class="col-sm-8">@Model.UserName</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-4 fw-bold text-muted">Role:</div>
+                    <div class="col-sm-8">@Model.Role</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*     <!-- Products Used, Goals, Industry Challenges -->
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card p-3">
+                <h5>Products Used</h5>
+                <ul>
+                    <li>Project Managemen</li>
+                    <li>Control Management Systems</li>
+                    <li>Email</li>
+                    <li>CRM Software</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3">
+                <h5>Goals or Objectives</h5>
+                <p>Increase the number of leads and general product awareness.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3">
+                <h5>Industry Challenges</h5>
+                <ul>
+                    <li>Professional Development</li>
+                    <li>Resources</li>
+                    <li>Slow to adopt digital management systems.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div> *@
+
+
+

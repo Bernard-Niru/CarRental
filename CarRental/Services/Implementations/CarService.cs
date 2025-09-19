@@ -122,6 +122,7 @@ namespace CarRental.Services.Implementations
             };
 
         }
+
         public CustomerViewModel GetAvailableCarsForCustomer()
         {
             var cars = _repo.GetAvailableCars();
@@ -187,6 +188,23 @@ namespace CarRental.Services.Implementations
                 BrandOptions = brands
             };
            
+
+        public void ChangeUnitCount(int Carid,int Count)
+        {
+            var UnitCount = _repo.GetCounts(Carid);
+            int finalcount = UnitCount.UnitCount + Count;
+            _repo.AddUnitCount(Carid, finalcount);
+        }
+
+        public void ChangeAvailableCount(int Carid, int Count)
+        {
+            var Counts = _repo.GetCounts(Carid);
+            if (Count < 0 || Counts.UnitCount > Counts.AvailableUnit)
+            {
+                int finalcount = Counts.AvailableUnit + Count;
+                _repo.AddAvailableUnitCount(Carid, finalcount);
+            }
+
         }
 
 

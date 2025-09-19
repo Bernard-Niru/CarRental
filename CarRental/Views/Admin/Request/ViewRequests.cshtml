@@ -32,11 +32,12 @@
                 <td>@(req.ReturnDate.ToString("yyyy-MM-dd") + " : " + req.ReturnTime.ToString("hh:mm tt"))</td>
                 <td>
 
-                    <a asp-action="AcceptRequest" asp-route-id="@req.RequestID" class="btn btn-sm btn-success me-3">
-                      <i class="bi bi-check-lg"></i>
-                    </a>  
-                    
-                    <a asp-action="RejectRequest" asp-route-id="@req.RequestID" class="btn btn-sm btn-danger">
+
+                    <a asp-action="AcceptRequest" asp-route-id="@req.RequestID" asp-route-CarID="@req.CarID" asp-route-UserID="@req.UserID" class="btn btn-sm btn-success me-3">
+                      <i class="bi bi-check-lg"></i>Accept
+                    </a>
+
+                    <a asp-action="RejectRequest" asp-route-id="@req.RequestID" asp-route-CarID="@req.CarID" asp-route-UserID="@req.UserID" class="btn btn-sm btn-danger">
                                               <i class="bi bi-x-lg"></i>                        
                     </a>
 

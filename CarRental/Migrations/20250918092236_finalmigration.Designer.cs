@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250912115619_initialMigration")]
-    partial class initialMigration
+    [Migration("20250918092236_finalmigration")]
+    partial class finalmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,6 +105,9 @@ namespace CarRental.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CarID"));
 
+                    b.Property<int>("AvailableUnit")
+                        .HasColumnType("int");
+
                     b.Property<int>("BrandID")
                         .HasColumnType("int");
 
@@ -136,6 +139,9 @@ namespace CarRental.Migrations
 
                     b.Property<decimal>("RentalRate")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("UnitCount")
+                        .HasColumnType("int");
 
                     b.HasKey("CarID");
 
