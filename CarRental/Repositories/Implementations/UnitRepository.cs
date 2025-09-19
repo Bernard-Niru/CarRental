@@ -62,7 +62,7 @@ namespace CarRental.Repositories.Implementations
                 _context.SaveChanges();
             }
         }
-        public void ChangeAvailability(int id) 
+        public string ChangeAvailability(int id) 
         {
             var unit = _context.Units.FirstOrDefault(u =>u.UnitID == id);
             if (unit != null)
@@ -71,13 +71,16 @@ namespace CarRental.Repositories.Implementations
                 {
                     unit.IsAvailble = true;
                     _context.SaveChanges();
+                    return "min";
                 }
                 else
                 {
                     unit.IsAvailble = false;
                     _context.SaveChanges();
+                    return "Add";
                 }
             }
+            return null;
                                             
         }
         public List<Unit> GetUnitsByCarId(int carId)
@@ -101,5 +104,19 @@ namespace CarRental.Repositories.Implementations
             
 
         }
+        //public List<uint> GetUnits()
+        //{
+        //    return _context.Units
+        //    .Include(u => u.Bookings)
+        //        .Where(u =>
+        //         u.Bookings.Any(b =>
+        //        !b.CarPicked &&
+        //        b.PlateNumber != u.PlateNumber  
+        //        )
+        //        )
+        //        .ToList();
+
+        //}
+
     }
 }
