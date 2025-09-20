@@ -132,7 +132,7 @@ namespace CarRental.Services.Implementations
         public void ChangeAvailableCount(int Carid, int Count)
         {
             var Counts = _repo.GetCounts(Carid);
-            if (Count < 0 || Counts.UnitCount > Counts.AvailableUnit)
+            if (Count > 0 ||  Counts.AvailableUnit>0)
             {
                 int finalcount = Counts.AvailableUnit + Count;
                 _repo.AddAvailableUnitCount(Carid, finalcount);

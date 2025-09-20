@@ -23,6 +23,8 @@ namespace CarRental.DTOs
         
 
         public RequestDTO Request { get; set; }
+
+        public List <UnitDTO> UnitList { get; set; }
         
 
 
