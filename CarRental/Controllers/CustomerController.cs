@@ -174,7 +174,7 @@ namespace CarRental.Controllers
                   UserName = userDto.UserName,
                   Role = userDto.Role.ToString()
               };
-              return View(vm);
+              return View("Profile",vm);
         }
 
         public IActionResult Notification() 

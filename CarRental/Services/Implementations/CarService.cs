@@ -180,15 +180,15 @@ namespace CarRental.Services.Implementations
                 })
                 .ToList();
 
-          
+
             return new CustomerViewModel
             {
                 Cars = dailyCars,
                 TopCars = topCars,
                 BrandOptions = brands
             };
-           
 
+        }
         public void ChangeUnitCount(int Carid,int Count)
         {
             var UnitCount = _repo.GetCounts(Carid);
