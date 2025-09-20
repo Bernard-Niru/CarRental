@@ -1,4 +1,4 @@
-@model CarRental.ViewModels.CombinedViewModel
+@* @model CarRental.ViewModels.CombinedViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -340,3 +340,211 @@
             });
         </script>
     }
+ *@
+
+@model CarRental.ViewModels.CombinedViewModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/css/Guest.css" asp-append-version="true" />
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+<section class="hero d-flex align-items-center text-center bg-light py-5" data-aos="fade-up">
+    <div class="container">
+        <h1 class="fw-bold display-4 text-primary">Welcome to HotWheelz</h1>
+        <p class="lead text-muted mb-4">Your journey starts here – rent premium cars at the best prices.</p>
+        <a href="#" class="btn btn-primary btn-lg px-4" data-bs-toggle="modal" data-bs-target="#registerModal">Get Started</a>
+        <a href="#" class="btn btn-outline-primary btn-lg px-4 ms-2" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</a>
+    </div>
+</section>
+
+<section class="py-5 bg-white">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-4" data-aos="fade-up">Why Choose HotWheelz?</h2>
+        <div class="row g-4">
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+                <i class="bi bi-car-front display-5 text-primary"></i>
+                <h5 class="mt-2">Wide Variety</h5>
+                <p>From budget to luxury, we’ve got cars for every journey.</p>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+                <i class="bi bi-wallet2 display-5 text-primary"></i>
+                <h5 class="mt-2">Affordable Rates</h5>
+                <p>Transparent pricing with no hidden charges.</p>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+                <i class="bi bi-shield-check display-5 text-primary"></i>
+                <h5 class="mt-2">Safe & Reliable</h5>
+                <p>Clean, insured cars for worry-free trips.</p>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
+                <i class="bi bi-star-fill display-5 text-primary"></i>
+                <h5 class="mt-2">Trusted Service</h5>
+                <p>24/7 customer support with thousands of happy drivers.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-4" data-aos="fade-up">A Glimpse of Our Fleet</h2>
+        <div class="row g-4 justify-content-center">
+            @if (Model?.TopCars != null && Model.TopCars.Any())
+            {
+                foreach (var car in Model.TopCars.Take(3))
+                {
+                    var img = car.Images.FirstOrDefault()?.ImageBase64;
+                    var imageUrl = img != null
+                    ? $"data:image/png;base64,{img}"
+                    : Url.Content("~/images/road-blue-car-50704.png");
+
+                    <div class="col-sm-6 col-md-4" data-aos="zoom-in" data-aos-duration="1000">
+                        <div class="card h-100 shadow-sm border-0">
+                            <div class="card-img-container">
+                                <img src="@imageUrl" class="card-img-top" alt="@car.CarName" />
+                            </div>
+                            <div class="card-body text-center">
+                                <h5>@car.CarName</h5>
+                                <p class="text-muted">@car.Brand.BrandName</p>
+                                <p class="fw-bold text-success">From Rs @car.RentalRate.ToString("N0") / Day</p>
+                                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#registerModal">
+                                    Join to Book
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No cars to display yet. Sign up and stay tuned!</p>
+            }
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const loginModalEl = document.getElementById("loginModal");
+            const registerModalEl = document.getElementById("registerModal");
+            const showRegisterLink = document.getElementById("showRegister");
+            const backToLoginLink = document.getElementById("backToLogin");
+
+            let suppressRedirect = false;
+
+            const errorMessagelogin = '@TempData["LoginErrorMessage"]';
+            const errorMessageRegister = '@TempData["RegisterErrorMessage"]';
+
+            const redirectToIndex = () => {
+                window.location.href = '@Url.Action("Index", "Home")';
+            };
+
+            // 🔁 Show login modal if needed
+            if (errorMessagelogin === "1" || errorMessagelogin) {
+                if (errorMessagelogin && errorMessagelogin !== "1") {
+                    const errorLogin = document.getElementById("loginError");
+                    if (errorLogin) {
+                        errorLogin.innerText = errorMessagelogin;
+                        errorLogin.style.display = "block";
+                    }
+                }
+
+                const loginModal = new bootstrap.Modal(loginModalEl);
+                loginModal.show();
+            }
+
+            // 🔁 Show register modal if needed
+            if (errorMessageRegister) {
+                const errorRegister = document.getElementById("RegisterError");
+                if (errorRegister) {
+                    errorRegister.innerText = errorMessageRegister;
+                    errorRegister.style.display = "block";
+                }
+
+                const registerModal = new bootstrap.Modal(registerModalEl);
+                registerModal.show();
+            }
+
+            // 🔁 Switch from login to register
+            if (showRegisterLink) {
+                showRegisterLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    suppressRedirect = true;
+
+                    const loginModal = bootstrap.Modal.getInstance(loginModalEl) || new bootstrap.Modal(loginModalEl);
+                    loginModal.hide();
+
+                    const registerModal = new bootstrap.Modal(registerModalEl);
+
+                    // Clear register form inputs when switching to register
+                    const registerForm = registerModalEl.querySelector('form');
+                    if (registerForm) {
+                        registerForm.reset();
+                    }
+
+                    registerModal.show();
+                });
+            }
+
+            if (backToLoginLink) {
+                backToLoginLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    suppressRedirect = true;
+
+                    const registerModal = bootstrap.Modal.getInstance(registerModalEl) || new bootstrap.Modal(registerModalEl);
+                    registerModal.hide();
+
+                    const loginModal = new bootstrap.Modal(loginModalEl);
+
+                    // Clear login form inputs when switching back to login
+                    const loginForm = loginModalEl.querySelector('form');
+                    if (loginForm) {
+                        loginForm.reset();
+                    }
+
+                    loginModal.show();
+                });
+            }
+
+            // 🔁 Refresh page when modal closes (unless suppressRedirect is set)
+            if (loginModalEl) {
+                loginModalEl.addEventListener('hidden.bs.modal', function () {
+                    if (!suppressRedirect) {
+                        redirectToIndex();
+                    } else {
+                        suppressRedirect = false;
+                    }
+                });
+            }
+
+            if (registerModalEl) {
+                registerModalEl.addEventListener('hidden.bs.modal', function () {
+                    if (!suppressRedirect) {
+                        redirectToIndex();
+                    } else {
+                        suppressRedirect = false;
+                    }
+                });
+            }
+
+            // ✅ Click outside modal (on backdrop) → refresh the page
+            document.addEventListener('click', function (e) {
+                const isLoginOpen = loginModalEl && loginModalEl.classList.contains('show');
+                const isRegisterOpen = registerModalEl && registerModalEl.classList.contains('show');
+
+                if ((isLoginOpen || isRegisterOpen) && e.target.classList.contains('modal')) {
+                    redirectToIndex();
+                }
+            });
+        });
+    </script>
+}
