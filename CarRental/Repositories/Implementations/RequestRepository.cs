@@ -1,6 +1,7 @@
 ﻿using CarRental.Data;
 using CarRental.Models;
 using CarRental.Repositories.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CarRental.Repositories.Implementations
 {
@@ -25,6 +26,15 @@ namespace CarRental.Repositories.Implementations
 
             return requests;
         }
+        public void ApproveRequest(int id)
+        {
+            var request = _context.Requests.FirstOrDefault(r => r.RequestID == id);
+            request.IsAccepted = true;
+            _context.Requests.Update(request);
+            _context.SaveChanges();
+
+        }
+
         public void Update(Request request)
         {
             _context.Requests.Update(request);

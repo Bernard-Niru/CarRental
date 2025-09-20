@@ -48,7 +48,7 @@ namespace CarRental.repo.Implementations
 
             return carIds;
         }
-
+        //
         IEnumerable<Car> ICarRepository.GetCarsByCarIds(List<int> CarId)
         {
             var cars = _context.Cars
@@ -57,7 +57,7 @@ namespace CarRental.repo.Implementations
                                     && CarId.Contains(c.CarID)) // <-- Filter by userIds
                         .Include(c => c.Brand)
                         .Include(c => c.Images)
-                        .Include(c => c.Units)
+                        .Include(c => c.Units /*&& c.IsAvailble*/)
                         .ToList();
 
             foreach (var car in cars)

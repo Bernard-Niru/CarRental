@@ -94,5 +94,13 @@ namespace CarRental.Repositories.Implementations
 
             return units;
         }
+        public void UnAvailabletheUnit(string PlateNumber)
+        {
+            var Units = _context.Units.FirstOrDefault(r => r.PlateNumber.Trim() == "UT01");
+                Units.IsAvailble = false;
+                _context.SaveChanges();
+ 
+
+        }
     }
 }

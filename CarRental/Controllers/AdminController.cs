@@ -535,14 +535,21 @@ namespace CarRental.Controllers
         public IActionResult ViewRequests()
         {
             var request = _requestService.GetAll();
-            return View("Request/ViewRequests", request);
+            //var units = _unitService.GetUnit(carId); 
+            //ViewBag.Unit = new SelectList(units, "UnitID", "PlateNumber");
+
+            var model = new UnitSelectionViewModel
+            {
+                car = request
+            };
+            return View("Request/ViewRequests", model);
 
         }
 
-        public IActionResult AcceptRequest(int id)
+        public IActionResult AcceptRequest(UnitSelectionViewModel request)
         {
-            _requestService.AcceptRequest(id);
-            _bookingService.AddBooking(id);
+            _requestService.AcceptRequest(request.RequestId);
+            _bookingService.AddBooking(request);
             return RedirectToAction("ViewRequests");
         }
         public IActionResult RejectRequest(int id)
@@ -551,22 +558,46 @@ namespace CarRental.Controllers
             return RedirectToAction("ViewRequests");
         }
 
-        public IActionResult Numberplat([FromQuery] int carId, [FromQuery] int requestId)
+        [HttpGet]
+        public IActionResult Numberplat( int carId, int requestId)
         {
-            var units = _unitService.GetUnit(carId);
+            var request = _requestService.GetAll();
+            var units = _unitService.GetUnit(carId); 
+
+            ViewBag.Unit = new SelectList(units, "PlateNumber", "PlateNumber");
+
             var model = new UnitSelectionViewModel
             {
-                Units = units,
+                car = request,
                 RequestId = requestId
             };
+            TempData["ErrorMessage"] = "open";
+            return View("Request/ViewRequests", model);
+        }
 
-            return PartialView("Request/_SelectUnitPartial", model);
+        [HttpPost]
+        public IActionResult Numberplat(UnitSelectionViewModel request)
+        {
+            if (!string.IsNullOrEmpty(request.PlateNumber))
+            {
+                _requestService.AcceptRequest(request.RequestId);
+                _bookingService.AddBooking(request);
+                _unitService.UnAvailabletheUnit(request.PlateNumber.Trim());
+                var car = _requestService.GetAll();
+                var model = new UnitSelectionViewModel
+                {
+                    car = car
+                };
+                return RedirectToAction("ViewRequests" , model);
+            }
+            return RedirectToAction("ViewRequests");
         }
 
 
 
 
-    
+
+
 
 
 

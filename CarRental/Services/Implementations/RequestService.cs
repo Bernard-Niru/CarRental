@@ -57,12 +57,7 @@ namespace CarRental.Services.Implementations
         }
         public void AcceptRequest(int id) 
         {
-            var request = _repo.GetRequestByID(id);
-            if (request != null)
-            {
-                request.IsAccepted = true;
-                _repo.Update(request); // reuse update method
-            }
+                _repo.ApproveRequest(id); 
         }
         public void RejectRequest(int id)
         {

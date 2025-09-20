@@ -17,6 +17,7 @@ namespace CarRental.Services.Interfaces
         IEnumerable<UnitDTO> GetAll();
         void ChangeAvailability(int id);
         List<UnitDTO> GetUnit(int id);
+        void UnAvailabletheUnit(string platenumber);
 
 
     }

@@ -8,5 +8,6 @@ namespace CarRental.Repositories.Interfaces
         IEnumerable<Request> GetAll();
         void Update(Request request);
         Request GetRequestByID(int id);
+        void ApproveRequest(int id);
     }
 }

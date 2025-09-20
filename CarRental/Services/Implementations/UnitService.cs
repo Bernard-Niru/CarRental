@@ -67,6 +67,10 @@ namespace CarRental.Services.Implementations
         {
             _unitRepo.ChangeAvailability(id);
         }
+        public void UnAvailabletheUnit(string platenumber)
+        {
+            _unitRepo.UnAvailabletheUnit(platenumber);
+        }
         public List<UnitDTO> GetUnit(int id)
         {
             var Units = _unitRepo.GetUnitsByCarId(id);

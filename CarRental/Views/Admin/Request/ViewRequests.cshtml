@@ -1,9 +1,7 @@
-﻿@model IEnumerable<CarRental.DTOs.RequestDTO>
+﻿@model CarRental.ViewModels.UnitSelectionViewModel
 
 @{
     int counter = 1;
-}
-@{
     ViewData["Title"] = "Requests";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
@@ -13,16 +11,16 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th >No</th>
+            <th>No</th>
             <th>Username</th>
-            <th >Car Name</th>
-            <th scope="col" style="width: 20%;">Pickup</th>
-            <th scope="col" style="width: 20%;">Return</th>
-            <th >Accept / Reject</th>
+            <th>Car Name</th>
+            <th style="width: 20%;">Pickup</th>
+            <th style="width: 20%;">Return</th>
+            <th>Accept / Reject</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var req in Model)
+        @foreach (var req in Model.car)
         {
             <tr>
                 <td>@counter</td>
@@ -31,84 +29,65 @@
                 <td>@(req.PickupDate.ToString("yyyy-MM-dd") + " : " + req.PickupTime.ToString("hh:mm tt"))</td>
                 <td>@(req.ReturnDate.ToString("yyyy-MM-dd") + " : " + req.ReturnTime.ToString("hh:mm tt"))</td>
                 <td>
-
-                   // <a asp-action="AcceptRequest" asp-route-id="@req.RequestID" class="btn btn-sm btn-success me-3">
-                   //   <i class="bi bi-check-lg"></i>
-                   // </a>  
+                    @* Uncomment if needed
+                    @* <a asp-action="AcceptRequest" asp-route-id="@req.RequestID" class="btn btn-sm btn-success me-3">
+                         <i class="bi bi-check-lg"></i>
+                       </a> *@
+@*                     <input type="hidden" name="CarId" value="@req.CarID" />
+                    <input type="hidden" name="RequestId" value="@req.RequestID" /> *@
                     
                     <a asp-action="RejectRequest" asp-route-id="@req.RequestID" class="btn btn-sm btn-danger">
-                                              <i class="bi bi-x-lg"></i>                        
+                        <i class="bi bi-x-lg"></i>                        
                     </a>
-
-                    <button class="btn btn-success" onclick="openPlateModal('@req.CarID', '@req.RequestID')">Accept</button>
-
-                    <a asp-action="Numberplat" asp-route-id="@req.CarID" class="btn btn-sm btn-danger">  </a>
-
+                    <a asp-action="Numberplat"
+                       asp-route-requestId="@req.RequestID"
+                       asp-route-carId="@req.CarID"
+                       class="btn btn-sm btn-success me-2">
+                        <i class="bi bi-check-lg"></i> Accept
+                    </a>
 
                 </td>
             </tr>
-            counter++; 
+             counter++; 
         }
     </tbody>
 </table>
-<<!-- Modal -->
-<div id="unitModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <div id="modal-body"></div>
+
+<div class="modal fade" id="addnumberplat" tabindex="-1" aria-labelledby="addnumberplatLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow-lg border-0">
+            <div class="modal-body p-5 bg-white">
+                <h3 class="text-center mb-4">Request Car</h3>
+
+                <form asp-action="Numberplat" asp-controller="Admin" method="post">
+                    <div class="mb-3">
+                        <label asp-for="PlateNumber" class="form-label"></label>
+                        <select asp-for="PlateNumber" asp-items="ViewBag.Unit" class="form-select stylish-input" required>
+                            <option value="">Select Plate Number</option>
+                        </select>
+                        <span asp-validation-for="PlateNumber" class="text-danger"></span>
+                    </div>
+
+                    <input asp-for="RequestId" type="hidden" />
+
+                    <button type="submit" class="btn btn-primary w-100">Confirm</button>
+                </form>
+
+            </div>
+        </div>
     </div>
 </div>
 
-<style>
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.4);
-    }
-
-    .modal-content {
-        background: white;
-        padding: 20px;
-        margin: 10% auto;
-        width: 400px;
-        border-radius: 5px;
-        position: relative;
-    }
-
-    .close {
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        font-size: 20px;
-        cursor: pointer;
-    }
-</style>
-
-<script>
-    function openPlateModal(carId, requestId) {
-        console.log("carId:", carId, "requestId:", requestId);
-        fetch(`/Admin/Numberplat?carId=${carId}&requestId=${requestId}`)
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById("modal-body").innerHTML = html;
-                document.getElementById("unitModal").style.display = "block";
-            });
-    }
-
-
-    function closeModal() {
-        document.getElementById("unitModal").style.display = "none";
-        document.getElementById("modal-body").innerHTML = "";
-    }
-
-    window.onclick = function (event) {
-        const modal = document.getElementById("unitModal");
-        if (event.target === modal) closeModal();
-    };
-</script>
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const platenumber = document.getElementById("addnumberplat");
+            const message = '@TempData["ErrorMessage"]'; 
+            if (message) {
+                const modal = new bootstrap.Modal(platenumber);
+                modal.show();
+            }
+        });
+    </script>
+}
 

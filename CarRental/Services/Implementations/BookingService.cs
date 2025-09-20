@@ -3,6 +3,7 @@ using CarRental.DTOs;
 using CarRental.Models;
 using CarRental.Repositories.Interfaces;
 using CarRental.Services.Interfaces;
+using CarRental.ViewModels;
 
 
 namespace CarRental.Services.Implementations
@@ -15,12 +16,12 @@ namespace CarRental.Services.Implementations
         {
             _repo = repo;
         }
-        public void AddBooking(int id) 
+        public void AddBooking(UnitSelectionViewModel request) 
         {
             var booking = new Booking
             {
-                Unit = "ABC 0000",
-                RequestID = id,
+                Unit = request.PlateNumber,
+                RequestID = request.RequestId,
             };
         _repo.AddBooking(booking);
         }
