@@ -182,6 +182,22 @@ namespace CarRental.Services.Implementations
             return ViewUser (VM);
 
         }
+
+        public async Task<int> GetNewUsersThisMonthAsync()
+        {
+            var users = await _repo.GetAllAsync();
+            var now = DateTime.Now;
+            return users.Count(u => u.CreatedDate.Month == now.Month && u.CreatedDate.Year == now.Year);
+        }
+
+        public async Task<int> GetActiveCustomersAsync()
+        {
+            // Active = users who have at least one booking
+            // Assuming you have Bookings navigation in User
+            var users = await _repo.GetAllAsync();
+            return users.Count(u => u.Bookings != null && u.Bookings.Any());
+        }
+
     }
 }
 //now

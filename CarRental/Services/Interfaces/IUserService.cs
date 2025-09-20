@@ -19,6 +19,8 @@ namespace CarRental.Services.Interfaces
         UserDTO GetUserById(int id);
         string UpdateUser(ProfileViewModel vm);
         string ViewUser(ProfileViewModel VM);
+        Task<int> GetNewUsersThisMonthAsync();
+        Task<int> GetActiveCustomersAsync();
 
     }
 }
