@@ -45,11 +45,21 @@ namespace CarRental.Controllers
         }
 
 
-        public IActionResult Dashboard()
+        public async Task<IActionResult> Dashboard()
         {
-            ViewData["HideNavbar"] = true;
-            return View("AdminDashborad/Dashboard");
+            var vm = new AdminDashboardViewModel
+            {
+                TotalRequests = _requestService.GetAll().Count(),
+                TotalBookings = _bookingService.GetAll().Count(),
+                PickedBookings = _bookingService.GetAllPicked().Count(),
+                ReturnedBookings = _bookingService.GetAllReturned().Count(),
+                NewUsersThisMonth = await _userService.GetNewUsersThisMonthAsync(),
+                ActiveCustomers = await _userService.GetActiveCustomersAsync()
+            };
+
+            return View("AdminDashborad/Dashboard",vm);
         }
+
 
 
 
