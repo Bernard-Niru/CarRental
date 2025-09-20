@@ -1,4 +1,5 @@
 ﻿using CarRental.DTOs;
+using CarRental.Mappings;
 using CarRental.Models;
 using CarRental.repo.Interfaces;
 using CarRental.Repositories.Interfaces;
@@ -94,5 +95,14 @@ namespace CarRental.Services.Implementations
             return units;
         }
 
+        public void Delete(int id)
+        {
+            var unit = _unitRepo.GetUnitByID(id);
+            if (unit != null)
+            {
+                unit.IsDeleted = true;
+                _unitRepo.Update(unit); // reuse update method
+            }
+        }
     }
 }

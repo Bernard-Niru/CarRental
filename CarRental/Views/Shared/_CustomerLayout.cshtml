@@ -1,6 +1,4 @@
-﻿@model CarRental.ViewModels.ProfileViewModel
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -36,42 +34,17 @@
                             <a href="#" data-bs-toggle="modal" data-bs-target="#signOutModal" class="btn btn-danger">Sign Out</a>
                         </li>
                         <li class="navbar-nav-Right">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="ProfileEdit">Profile</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="Profile">Profile</a>
+                        </li>
+                        <li class="navbar-nav-Right">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="Notification">Notifications</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="swiper">
-        <div class="swiper-wrapper">
-            @if (Model?.TopCars != null && Model.TopCars.Any())
-            {
-                foreach (var car in Model.TopCars)
-                {
-                    var img = car.Images.FirstOrDefault()?.ImageBase64;
-                    var imageUrl = img != null
-                    ? $"data:image/png;base64,{img}"
-                    : Url.Content("~/images/road-blue-car-50704.png");
-
-                    <text>
-                        <div class="swiper-slide" style="background-image:url('@imageUrl');">
-                            <div class="overlay">
-                                <h5>@car.CarName</h5>
-                                <p>Brand: @car.Brand.BrandName</p>
-                                <p>Seats: @car.No_of_Seats</p>
-                                <p class="rating-line">Rating: @car.Ratings <span>⭐</span></p>
-                                <p>Rent Per day: @car.RentalRate.ToString()</p>
-                            </div>
-                        </div>
-                    </text>
-                }
-            }
-            else
-            {
-                <p>No top cars found.</p>
-            }
-        </div>
+   
     <div class="modal fade" id="signOutModal" tabindex="-1" aria-labelledby="signOutModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

@@ -36,13 +36,12 @@ public class ImageRepository : IImageRepository
 
     public void Delete(int id)
     {
-        var image = _context.Images.FirstOrDefault(i => i.ImageID == id);
+        var image = _context.Images.Find(id);
         if (image != null)
         {
-            image.IsDeleted = true;
+            _context.Images.Remove(image);
             _context.SaveChanges();
         }
-        
     }
     public IEnumerable<Image> GetImgsByCarID(int carID)
         {

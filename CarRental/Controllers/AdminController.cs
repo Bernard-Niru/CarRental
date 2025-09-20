@@ -80,6 +80,7 @@ namespace CarRental.Controllers
             }
           
             _brandService.Add(model);
+            TempData["SuccessMessage"] = "Brand added successfully!";
             return RedirectToAction("AddCar", "Admin");
 
         }
@@ -134,10 +135,10 @@ namespace CarRental.Controllers
                     return View("User/AddUser", model);
                 }
 
+                TempData["SuccessMessage"] = "User added successfully!";
                 await _userService.AddAsync(model);
                 return RedirectToAction("ViewUser");
-            }
-
+            }           
             return View("User/AddUser", model);
         }
 
@@ -147,23 +148,24 @@ namespace CarRental.Controllers
             return View("User/ViewUser",User);
         }
         [HttpGet]
-        public IActionResult Edit(int Id)
+        public IActionResult EditUser(int Id)
         {
             var user = _userService.GetbyId(Id);
             ViewBag.RoleList = new SelectList(Enum.GetValues(typeof(UserRole)));
             return View("User/Edit", user);
         }
         [HttpPost]
-        public IActionResult Edit(UserDTO user)
+        public IActionResult EditUser(UserDTO user)
         {
             if (ModelState.IsValid)
             {
                 _userService.Edit(user);
+                TempData["SuccessMessage"] = "User updated successfully!";
                 return RedirectToAction("ViewUser");
             }
-                return View(user);
+            return View(user);
         }
-        public IActionResult Delete(int Id)
+        public IActionResult DeleteUser(int Id)
         {
             _userService.Delete(Id);
             TempData["SuccessMessage"] = "User deleted successfully!";
@@ -209,7 +211,7 @@ namespace CarRental.Controllers
             if (ModelState.IsValid)
             {
                 int newCarId = _carService.AddCar(model);
-                TempData["SuccessMessage"] = "Car added successfully! You can now upload images.";
+                TempData["SuccessMessage"] = "Car added successfully! You can now upload Images and Units.";
 
                 model.CarID = newCarId;
 
@@ -393,12 +395,12 @@ namespace CarRental.Controllers
 
                 _imageService.Add(images);
             }
-
-            // Handle unit uploads
-            if (Units != null && Units.Any())
+         
+                // Handle unit uploads
+                if (Units != null && Units.Any())
             {
                 var unitList = new List<Unit>();
-                foreach (var unit in Units)
+                foreach (var unit in Units.Where(u => !string.IsNullOrWhiteSpace(u)))
                 {
                     unitList.Add(new Unit
                     {
@@ -491,7 +493,7 @@ namespace CarRental.Controllers
             if (Units != null && Units.Any())
             {
                 var unitList = new List<Unit>();
-                foreach (var unit in Units)
+                foreach (var unit in Units.Where(u => !string.IsNullOrWhiteSpace(u)))
                 {
                     unitList.Add(new Unit
                     {
@@ -509,8 +511,20 @@ namespace CarRental.Controllers
             return RedirectToAction("ViewUnitofCar", "Admin", new { CarID = CarID }); ;
         }
 
+        public IActionResult DeleteImage(int id , int CarID)
+        {
 
+            _imageService.Delete(id);
+            TempData["SuccessMessage"] = "Image deleted successfully!";
+            return RedirectToAction("ViewImageofCar", "Admin", new { CarID = CarID });
+        }
+        public IActionResult DeleteUnit(int id, int CarID)
+        {
 
+            _unitService.Delete(id);
+            TempData["SuccessMessage"] = "Unit deleted successfully!";
+            return RedirectToAction("ViewUnitofCar", "Admin", new { CarID = CarID });
+        }
 
 
 

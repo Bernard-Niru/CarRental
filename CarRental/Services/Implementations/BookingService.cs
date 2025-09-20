@@ -114,7 +114,7 @@ namespace CarRental.Services.Implementations
                 booking.ActualReturnTime = TimeOnly.FromDateTime(DateTime.Now);
 
                 _repo.Update(booking); // reuse update method
-                _notificationService.Add(bookingDTO.Request.CarID, bookingDTO.Request.UserID, Purpose.Feedback);
+                _notificationService.Add(bookingDTO.CarID, bookingDTO.UserID, Purpose.Feedback);
             }
 
         }
