@@ -15,12 +15,14 @@ namespace CarRental.ViewModels
         public string NewPassword { get; set; }
         public string ConfirmPassword { get; set; }
 
+
         public GuestPageViewModel GuestPage { get; set; }
 
         public IEnumerable<CarDTO> Cars => GuestPage?.Cars;
         public IEnumerable<CarDTO> TopCars => GuestPage?.TopCars;
         public IEnumerable<SelectListItem> BrandOptions => GuestPage?.BrandOptions;
 
-        public IEnumerable<NotificationDTO> notifications {  get; set; }
+
+
     }
 }

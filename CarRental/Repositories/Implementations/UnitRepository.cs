@@ -66,13 +66,13 @@ namespace CarRental.Repositories.Implementations
                 {
                     unit.IsAvailble = true;
                     _context.SaveChanges();
-                    return "min";
+                    return "Add";
                 }
                 else
                 {
                     unit.IsAvailble = false;
                     _context.SaveChanges();
-                    return "Add";
+                    return "min";
                 }
             }
             return null;
@@ -81,7 +81,7 @@ namespace CarRental.Repositories.Implementations
         public List<Unit> GetUnitsByCarId(int carId)
         {
             var units = _context.Units
-                .Where(u => !u.IsDeleted && u.IsAvailble && u.CarID == carId)
+                .Where(u => !u.IsDeleted && u.IsAvailble)
                 .Select(u => new Unit
                 {
                     UnitID = u.UnitID,

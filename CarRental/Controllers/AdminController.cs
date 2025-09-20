@@ -10,6 +10,7 @@ using Azure.Core;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
+using CarRental.Services.Implementations;
 
 namespace CarRental.Controllers
 {//Unit delete -1
@@ -23,6 +24,7 @@ namespace CarRental.Controllers
         private readonly IBookingService _bookingService;
         private readonly IRequestService _requestService;
         private readonly INotificationService _notificationService;
+        private readonly IDashboardService _dashboardService;
 
         public AdminController(IBrandService brandService,
                        ICarService carService,    
@@ -31,7 +33,8 @@ namespace CarRental.Controllers
                        IUserService userService,
                        IBookingService bookingService,
                        IRequestService requestService,
-            INotificationService notificationservice)
+            INotificationService notificationservice,
+            IDashboardService dashboardService)
 
         {
             _brandService = brandService;
@@ -42,14 +45,30 @@ namespace CarRental.Controllers
             _bookingService = bookingService;
             _requestService = requestService;
             _notificationService = notificationservice;
+            _dashboardService = dashboardService;
         }
 
 
-        public IActionResult Dashboard()
+        //public async Task<IActionResult> Dashboard()
+        //{
+        //    var vm = new AdminDashboardViewModel
+        //    {
+        //        TotalRequests = _requestService.GetAll().Count(),
+        //        TotalBookings = _bookingService.GetAll().Count(),
+        //        PickedBookings = _bookingService.GetAllPicked().Count(),
+        //        ReturnedBookings = _bookingService.GetAllReturned().Count(),
+        //        NewUsersThisMonth = await _userService.GetNewUsersThisMonthAsync(),
+        //        ActiveCustomers = await _userService.GetActiveCustomersAsync()
+        //    };
+
+        //    return View("AdminDashborad/Dashboard",vm);
+        //}
+        public async Task<IActionResult> Dashboard()
         {
-            ViewData["HideNavbar"] = true;
-            return View("AdminDashborad/Dashboard");
+            var vm = await _dashboardService.GetDashboardDataAsync();
+            return View("AdminDashboard/Dashboard", vm);
         }
+
 
 
 
@@ -412,6 +431,7 @@ namespace CarRental.Controllers
                 }
                 var unitcount = _unitService.Add(unitList);
                 _carService.ChangeUnitCount(CarID, unitcount);
+                _carService.ChangeAvailableCount(CarID, unitcount);
             }
 
             TempData["SuccessMessage"] = "Data uploaded successfully!";
@@ -504,6 +524,7 @@ namespace CarRental.Controllers
                     });
                 }
                 var unitcount = _unitService.Add(unitList);
+                _carService.ChangeUnitCount(CarID, unitcount);
                 _carService.ChangeAvailableCount(CarID, unitcount);
             }
 
@@ -556,9 +577,9 @@ namespace CarRental.Controllers
 
         public IActionResult AcceptRequest(int id , int CarID ,int UserID)
         {
-            _requestService.AcceptRequest(id,CarID,UserID );
+            _requestService.AcceptRequest(id,CarID,UserID);
             _bookingService.AddBooking( id);
-            _carService.ChangeAvailableCount( CarID, 1);
+            _carService.ChangeAvailableCount( CarID, -1);
 
             return RedirectToAction("ViewRequests");
         }
@@ -570,22 +591,11 @@ namespace CarRental.Controllers
             return RedirectToAction("ViewRequests");
         }
 
-        public IActionResult Numberplat([FromQuery] int carId, [FromQuery] int requestId)
-        {
-            var units = _unitService.GetUnit(carId);
-            var model = new UnitSelectionViewModel
-            {
-                Units = units,
-                RequestId = requestId
-            };
-
-            return PartialView("Request/_SelectUnitPartial", model);
-        }
 
 
 
 
-    
+
 
 
 
@@ -615,11 +625,7 @@ namespace CarRental.Controllers
             return View("Booking/ViewBookings",booking);
 
         }
-        public IActionResult PickedUp(int id) 
-        {
-            _bookingService.PickedUp(id);
-            return RedirectToAction("ViewBookings"); 
-        }
+        
         public IActionResult DeleteBooking(int id,int CarID,int UserID)
         {
             _bookingService.Delete(id, CarID, UserID);
@@ -673,10 +679,37 @@ namespace CarRental.Controllers
             return RedirectToAction("ActiveRentals");
         }
 
+        [HttpGet]
+        public IActionResult Numberplat(int Bookingid, int CarID)
+        {
+            var units = _unitService.GetUnit(CarID).Select(b => new SelectListItem
+            {
+                Value = b.UnitID.ToString(),
+                Text = b.PlateNumber
+            }).ToList(); 
+            ViewBag.Units = units;
+            if (units == null) return RedirectToAction("ActiveRentals");
+            var Booking = _bookingService.GetAll();
+            var booking = new UnitSelectionViewModel
+            {
+                BookingDetails = Booking,
+                BookingId = Bookingid,
+                CarId = CarID
+            };
+            TempData["ShowModal"] = "open";
+            return RedirectToAction("ViewBookings");
+        }
 
+        [HttpPost]
+        public IActionResult NumberPlate(int BookingID, int SelectedUnitID, string PlateNumber, int CarID)
+        {
+            if(CarID < 0) return RedirectToAction("ViewBookings");
+            _bookingService.PickedUp(BookingID, PlateNumber);
+            _carService.ChangeAvailableCount(CarID, -1);
+            _unitService.ChangeAvailability(SelectedUnitID);
 
-
-
+            return RedirectToAction("ActiveRentals");
+        }
 
 
 

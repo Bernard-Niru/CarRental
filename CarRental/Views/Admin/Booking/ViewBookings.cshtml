@@ -15,6 +15,7 @@
     <table class="table table-hover table-striped align-middle">
         <thead class="table-dark">
             <tr>
+
                 <th>No</th>
                 <th>Username</th>
                 <th>Car Name</th>
@@ -33,9 +34,15 @@
                     <td>@(booking.Request.PickupDate.ToString("yyyy-MM-dd") + " : " + booking.Request.PickupTime.ToString("hh:mm tt"))</td>
                     <td>@(booking.Request.ReturnDate.ToString("yyyy-MM-dd") + " : " + booking.Request.ReturnTime.ToString("hh:mm tt"))</td>
                     <td>
-                        <a asp-action="PickedUp" asp-route-id="@booking.BookingID" class="btn btn-sm btn-success me-3">
-                            Picked Up
-                        </a>                   
+                        <button type="button"
+                            class="btn btn-success me-3 btn-sm px-4 plate-btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#NumberPlateModal"
+                            data-bookingid="@booking.BookingID"
+                            data-carid="@booking.Request.CarID">
+                        Picked Up
+                      </button>   
+                      
                         <button type="button"
                                 class="btn btn-danger me-3 btn-sm px-4 booking-btn"
                                 data-bs-toggle="modal"
@@ -53,11 +60,19 @@
                         }
                     </td>
                 </tr>
-                counter++;
+                  counter++;
+            <!-- Hidden select for this booking -->
+            <select id="units-for-@booking.BookingID" class="d-none unit-source">
+                @foreach (var unit in booking.UnitList.Where(u => u.CarID == booking.Request.CarID))
+                {
+                    <option value="@unit.UnitID">@unit.PlateNumber</option>
+                }
+            </select>
             }
         </tbody>
     </table>
 </div>
+
 
 <div class="modal fade" id="CancelBookingModal" tabindex="-1" aria-labelledby="CancelBookingModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -103,4 +118,89 @@
         confirmBtn.setAttribute('href', url);
     });
 </script>
+
+<!-- Number Plate Modal -->
+<div class="modal fade" id="NumberPlateModal" tabindex="-1" aria-labelledby="NumberPlateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- The form submits to AdminController -> PickeUp action -->
+            <form asp-action="NumberPlate" asp-controller="Admin" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">Select Plate Number</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="BookingID" name="BookingID" />
+                    <input type="hidden" id="CarID" name="CarID" />
+                    <input type="hidden" id="PlateNumber" name="PlateNumber" />
+
+                    <!-- Dropdown to select Unit (SelectedUnitID) -->
+                    <div class="mb-3">
+                        <label for="UnitSelect" class="form-label">Available Units</label>
+                        <select class="form-select" id="UnitSelect" name="SelectedUnitID">
+                            <!-- Options added via JavaScript -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Confirm</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const modal = document.getElementById('NumberPlateModal');
+        const modalSelect = document.getElementById('UnitSelect');
+        const plateInput = document.getElementById('PlateNumber');
+
+        modal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const bookingId = button.getAttribute('data-bookingid');
+            const carId = button.getAttribute('data-carid');
+
+            const sourceSelect = document.getElementById('units-for-' + bookingId);
+            const modalSelect = document.getElementById('UnitSelect');
+            const bookingInput = document.getElementById('BookingID');
+            const carIdInput = document.getElementById('CarID');
+            const plateInput = document.getElementById('PlateNumber');
+            
+
+            // Set booking ID
+            bookingInput.value = bookingId;
+            carIdInput.value = carId;
+
+            // Clear existing options
+            modalSelect.innerHTML = '';
+
+            // Copy options from hidden select
+            if (sourceSelect) {
+                for (let option of sourceSelect.options) {
+                    const newOption = document.createElement('option');
+                    newOption.value = option.value;
+                    newOption.text = option.text;
+                    modalSelect.appendChild(newOption);
+                }
+            }
+
+            // Set plate number for first option
+            if (modalSelect.options.length > 0) {
+                plateInput.value = modalSelect.options[0].text;
+            }
+        });
+
+        // Update plate number when selection changes
+        modalSelect.addEventListener('change', function () {
+            const selectedOption = modalSelect.options[modalSelect.selectedIndex];
+            plateInput.value = selectedOption.text;
+        });
+    });
+   
+</script>
+
 
