@@ -71,5 +71,16 @@ namespace CarRental.Repositories.Implementations
             }
         }
 
+        public async Task<int> GetActiveCustomersAsync()
+        {
+            var bookings = await _context.Bookings
+             .Include(b => b.Request)
+             .ThenInclude(r => r.User)
+             .ToListAsync();
+
+            return bookings.Select(b => b.Request.UserID).Distinct().Count();
+        }
+
+
     }
 }

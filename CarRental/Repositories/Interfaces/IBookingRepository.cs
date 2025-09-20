@@ -11,5 +11,6 @@ namespace CarRental.Repositories.Interfaces
         IEnumerable<Booking> GetAllPicked();
         IEnumerable<Booking> GetAllReturned();
         void Delete(int id);
+        Task<int> GetActiveCustomersAsync();
     }
 }

@@ -10,6 +10,7 @@ using Azure.Core;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
+using CarRental.Services.Implementations;
 
 namespace CarRental.Controllers
 {//Unit delete -1
@@ -23,6 +24,7 @@ namespace CarRental.Controllers
         private readonly IBookingService _bookingService;
         private readonly IRequestService _requestService;
         private readonly INotificationService _notificationService;
+        private readonly IDashboardService _dashboardService;
 
         public AdminController(IBrandService brandService,
                        ICarService carService,    
@@ -31,7 +33,8 @@ namespace CarRental.Controllers
                        IUserService userService,
                        IBookingService bookingService,
                        IRequestService requestService,
-            INotificationService notificationservice)
+            INotificationService notificationservice,
+            IDashboardService dashboardService)
 
         {
             _brandService = brandService;
@@ -42,14 +45,30 @@ namespace CarRental.Controllers
             _bookingService = bookingService;
             _requestService = requestService;
             _notificationService = notificationservice;
+            _dashboardService = dashboardService;
         }
 
 
-        public IActionResult Dashboard()
+        //public async Task<IActionResult> Dashboard()
+        //{
+        //    var vm = new AdminDashboardViewModel
+        //    {
+        //        TotalRequests = _requestService.GetAll().Count(),
+        //        TotalBookings = _bookingService.GetAll().Count(),
+        //        PickedBookings = _bookingService.GetAllPicked().Count(),
+        //        ReturnedBookings = _bookingService.GetAllReturned().Count(),
+        //        NewUsersThisMonth = await _userService.GetNewUsersThisMonthAsync(),
+        //        ActiveCustomers = await _userService.GetActiveCustomersAsync()
+        //    };
+
+        //    return View("AdminDashborad/Dashboard",vm);
+        //}
+        public async Task<IActionResult> Dashboard()
         {
-            ViewData["HideNavbar"] = true;
-            return View("AdminDashborad/Dashboard");
+            var vm = await _dashboardService.GetDashboardDataAsync();
+            return View("AdminDashboard/Dashboard", vm);
         }
+
 
 
 

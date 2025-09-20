@@ -8,9 +8,13 @@
 
   <ItemGroup>
     <Compile Remove="Views\Admin\Users\**" />
+    <Compile Remove="Views\Customer\CustomerHomepage\**" />
     <Content Remove="Views\Admin\Users\**" />
+    <Content Remove="Views\Customer\CustomerHomepage\**" />
     <EmbeddedResource Remove="Views\Admin\Users\**" />
+    <EmbeddedResource Remove="Views\Customer\CustomerHomepage\**" />
     <None Remove="Views\Admin\Users\**" />
+    <None Remove="Views\Customer\CustomerHomepage\**" />
   </ItemGroup>
 
   <ItemGroup>

@@ -31,6 +31,9 @@ namespace CarRental.Models
 
         public ICollection<Request>? Requests { get; set; }
         public ICollection<Notification>? notifications { get; set; }
+        public ICollection<Booking>? Bookings { get; set; }
+
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
 
     }
 }
