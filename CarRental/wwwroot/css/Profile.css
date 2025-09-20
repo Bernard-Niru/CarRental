@@ -1,0 +1,114 @@
+﻿/* Modal Customization */
+.custom-modal {
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    padding: 30px;
+}
+
+.wrapper {
+    padding: 20px;
+}
+
+    /* Modal Heading */
+    .wrapper h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 24px;
+        font-weight: 600;
+        color: #333;
+    }
+
+/* Input Field Container */
+.input-field {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+    /* Input Elements */
+    .input-field input {
+        width: 100%;
+        padding: 12px 12px 12px 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        outline: none;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        background: none;
+    }
+
+        /* On focus */
+        .input-field input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+        }
+
+    /* Floating Labels */
+    .input-field label {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        color: #777;
+        font-size: 14px;
+        pointer-events: none;
+        transform: translateY(-50%);
+        transition: 0.3s ease all;
+        background-color: white;
+        padding: 0 5px;
+    }
+
+    /* Label animation when input has value or focus */
+    .input-field input:focus + label,
+    .input-field input:not(:placeholder-shown) + label {
+        top: -8px;
+        left: 8px;
+        font-size: 12px;
+        color: #007bff;
+    }
+
+/* Validation error message */
+.text-danger {
+    font-size: 13px;
+    margin-top: 5px;
+    display: block;
+}
+
+/* Submit Button */
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+/* Error Alert */
+#RegisterError {
+    margin-bottom: 20px;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .modal-content.custom-modal {
+        padding: 20px 15px;
+    }
+
+    .wrapper h2 {
+        font-size: 20px;
+    }
+
+    .input-field input {
+        font-size: 14px;
+    }
+}
