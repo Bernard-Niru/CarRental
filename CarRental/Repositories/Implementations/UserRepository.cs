@@ -84,10 +84,11 @@ namespace CarRental.repo.Implementations
             return _context.Users.FirstOrDefault(u => u.UserID == id && !u.IsDeleted);
      
         }
-        public void UpdateUser(User user)
+        public string UpdateUser(User user)
         {
-            
+             _context.Users.Update(user);
             _context.SaveChanges();
+            return "Profile updated successfully!";
         }
 
     }

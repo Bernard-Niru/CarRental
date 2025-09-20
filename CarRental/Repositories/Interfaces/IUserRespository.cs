@@ -15,6 +15,6 @@ namespace CarRental.Repositories.Interfaces
         void UpdateByID(User user);
         void DeletebyID(int userId);
         User? CheckPassword(string userName);
-        void UpdateUser(User user);
+        string UpdateUser(User user);
     }
 }

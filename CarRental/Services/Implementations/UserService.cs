@@ -143,31 +143,27 @@ namespace CarRental.Services.Implementations
                 Role = user.Role
             };
         }
-        public string UpdateUser(ProfileViewModel vm)
+        public string UpdateUser(ProfileViewModel vm,int id)
         {
-            var user = _repo.GetUserById(vm.Id);
+            var user = _repo.GetUserById(id);
             if (user == null) return "User not found";
-
-            // update profile fields
             user.Name = vm.Name;
-            user.UserName = vm.UserName;
-            user.Email = vm.Email;
 
             // update password if provided
-            if (!string.IsNullOrWhiteSpace(vm.NewPassword))
-            {
-                string hashedOldPassword = HashPassword(vm.OldPassword);
-                if (user.Password != hashedOldPassword)
-                    return "Old password is incorrect";
+            //if (!string.IsNullOrWhiteSpace(vm.NewPassword))
+            //{
+            //    string hashedOldPassword = HashPassword(vm.OldPassword);
+            //    if (user.Password != hashedOldPassword)
+            //        return "Old password is incorrect";
 
-                if (vm.NewPassword != vm.ConfirmPassword)
-                    return "New password and confirm password do not match.";
+            //    if (vm.NewPassword != vm.ConfirmPassword)
+            //        return "New password and confirm password do not match.";
 
-                user.Password = HashPassword(vm.NewPassword);
-            }
+            //    user.Password = HashPassword(vm.NewPassword);
+            //}
 
-            _repo.UpdateUser(user);
-            return "Profile updated successfully!";
+            return _repo.UpdateUser(user);
+           
         }
         public string ViewUser(ProfileViewModel VM)
         {

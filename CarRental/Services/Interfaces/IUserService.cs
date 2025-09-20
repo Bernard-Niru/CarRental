@@ -17,7 +17,7 @@ namespace CarRental.Services.Interfaces
         string CheckPassword(UserViewModel login);
         string ChangePassword(int userId, string oldPassword, string newPassword);
         UserDTO GetUserById(int id);
-        string UpdateUser(ProfileViewModel vm);
+        string UpdateUser(ProfileViewModel vm,int id);
         string ViewUser(ProfileViewModel VM);
         Task<int> GetNewUsersThisMonthAsync();
         Task<int> GetActiveCustomersAsync();
