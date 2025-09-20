@@ -4,6 +4,22 @@
     ViewData["Title"] = "Images";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="successAlert">
+        <i class="bi bi-check-circle me-2"></i> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <script>
+        setTimeout(function () {
+            var alert = bootstrap.Alert.getOrCreateInstance(document.getElementById('successAlert'));
+            alert.close();
+        }, 3000);
+    </script>
+}
+
 @{
     int counter = 1;
 }
@@ -13,8 +29,10 @@
 }
 else
 {
-    <table class="table table-bordered">
-        <thead>
+    <h1>Images</h1>
+<div class="table-responsive rounded-3 overflow-hidden shadow-sm">
+    <table class="table table-hover table-striped align-middle">
+        <thead class="table-dark">
             <tr>
                 <th>No</th>
                 <th>Images</th>               
@@ -28,14 +46,14 @@ else
                     <td>@counter</td>
                     <td><img src="data:image/jpeg;base64,@image.ImageBase64" class="img-thumbnail" style="max-width:150px; max-height:150px;" /></td>
                     <td>
-                        <form asp-action="DeleteBrand" asp-controller="Admin" method="post"
-                              onsubmit="return confirm('Are you sure you want to delete this brand?');"
-                              style="display:inline;">
-                            <input type="hidden" name="id" value="@image.Id" />
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                <i class="bi bi-trash3-fill"></i>
-                            </button>
-                        </form>
+                        <button type="button"
+                                class="btn btn-sm btn-outline-danger me-1"
+                                data-bs-toggle="modal"
+                                data-bs-target="#DeleteImageModal"
+                                data-imageid="@image.Id"
+                                data-carid="@image.CarId">
+                            <i class="bi bi-trash3-fill"></i>
+                        </button>
 
                     </td>
                 </tr>
@@ -43,7 +61,7 @@ else
             }
         </tbody>
     </table>
-  
+ </div> 
 }
 <link rel="stylesheet" href="~/css/AddCar.css" asp-append-version="true" />
 
@@ -64,3 +82,42 @@ else
         </form>
     </div>
 </div>
+
+@* =============================================== Deleting Confirmation =================================================*@
+
+<div class="modal fade" id="DeleteImageModal" tabindex="-1" aria-labelledby="DeleteImageModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="DeleteImageModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <p>Are you sure you want to delete this <strong>Image</strong>?</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                <a id="confirmDeleteBtn" class="btn btn-danger">
+                    Delete
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const deleteModal = document.getElementById('DeleteImageModal');
+
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+
+        const imageId = button.getAttribute('data-imageid');
+        const carId = button.getAttribute('data-carid');
+   
+        const confirmBtn = document.getElementById('confirmDeleteBtn');
+        confirmBtn.setAttribute('href', `/Admin/DeleteImage?id=${imageId}&CarID=${carId}`);
+
+    });
+</script>

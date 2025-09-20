@@ -49,19 +49,14 @@ namespace CarRental.Repositories.Implementations
         public void Update(Unit unit)
         {
             _context.Units.Update(unit);
-            _context.
-                SaveChanges();
+            _context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public Unit GetUnitByID(int id)
         {
-            var unit = _context.Units.FirstOrDefault(u => u.UnitID == id);
-            if (unit != null)
-            {
-                unit.IsDeleted = true;
-                _context.SaveChanges();
-            }
+            return _context.Units.Find(id);
         }
+
         public string ChangeAvailability(int id) 
         {
             var unit = _context.Units.FirstOrDefault(u =>u.UnitID == id);
@@ -71,13 +66,13 @@ namespace CarRental.Repositories.Implementations
                 {
                     unit.IsAvailble = true;
                     _context.SaveChanges();
-                    return "min";
+                    return "Add";
                 }
                 else
                 {
                     unit.IsAvailble = false;
                     _context.SaveChanges();
-                    return "Add";
+                    return "min";
                 }
             }
             return null;
@@ -86,7 +81,7 @@ namespace CarRental.Repositories.Implementations
         public List<Unit> GetUnitsByCarId(int carId)
         {
             var units = _context.Units
-                .Where(u => !u.IsDeleted && u.IsAvailble && u.CarID == carId)
+                .Where(u => !u.IsDeleted && u.IsAvailble)
                 .Select(u => new Unit
                 {
                     UnitID = u.UnitID,

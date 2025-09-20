@@ -12,11 +12,13 @@ namespace CarRental.Services.Implementations
     {
         private readonly IBookingRepository _repo;
         private readonly INotificationService _notificationService;
+        private readonly IUnitService _unitService;
 
-        public BookingService(IBookingRepository repo , INotificationService notificationService)
+        public BookingService(IBookingRepository repo , INotificationService notificationService, IUnitService unitService)
         {
             _repo = repo;
             _notificationService = notificationService;
+            _unitService = unitService;
         }
         public void AddBooking(int id) 
         {
@@ -35,7 +37,7 @@ namespace CarRental.Services.Implementations
             {
                 BookingID = booking.BookingID,
                 RequestID = booking.RequestID,
-
+                UnitList = _unitService.GetUnit(booking.Request.CarID),
 
                 Request = new RequestDTO
                 {
@@ -49,21 +51,24 @@ namespace CarRental.Services.Implementations
                     PickupTime = booking.Request.PickupTime,
                     ReturnDate = booking.Request.ReturnDate,
                     ReturnTime = booking.Request.ReturnTime,
+
+
                 }
 
 
 
 
-            });
+            }); 
 
             return bookingDTOs;
         }
-        public void PickedUp(int id) 
+        public void PickedUp(int id , string plateNumber) 
         {
             
                 var booking = _repo.GetBookingByID(id);
                 if (booking != null)
                 {
+                    booking.Unit = plateNumber;
                     booking.IsPicked = true;
                     booking.ActualPickupDate = DateOnly.FromDateTime(DateTime.Now);
                     booking.ActualPickupTime = TimeOnly.FromDateTime(DateTime.Now);
@@ -114,7 +119,7 @@ namespace CarRental.Services.Implementations
                 booking.ActualReturnTime = TimeOnly.FromDateTime(DateTime.Now);
 
                 _repo.Update(booking); // reuse update method
-                _notificationService.Add(bookingDTO.Request.CarID, bookingDTO.Request.UserID, Purpose.Feedback);
+                _notificationService.Add(bookingDTO.CarID, bookingDTO.UserID, Purpose.Feedback);
             }
 
         }

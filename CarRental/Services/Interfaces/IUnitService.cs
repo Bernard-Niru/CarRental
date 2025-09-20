@@ -17,6 +17,7 @@ namespace CarRental.Services.Interfaces
         IEnumerable<UnitDTO> GetAll();
         string ChangeAvailability(int id);
         List<UnitDTO> GetUnit(int id);
+        void Delete(int id);
 
 
     }

@@ -2,7 +2,10 @@
 {
     public class UnitSelectionViewModel
     {
-        public IEnumerable<CarRental.DTOs.UnitDTO> Units { get; set; }
-        public int RequestId { get; set; }
+        public IEnumerable<CarRental.DTOs.BookingDTO> BookingDetails { get; set; }
+        public int CarId { get; set; }
+        public int BookingId { get; set; }
+        public int UnitId { get; set; }
+        public string PlatNumber { get; set; }
     }
 }

@@ -1,0 +1,147 @@
+﻿@model CarRental.ViewModels.AdminDashboardViewModel
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Dashboard";
+}
+
+<link rel="stylesheet" href="~/css/DashBoardHome.css" asp-append-version="true" />
+
+<div class="container-fluid mt-4">
+
+    <div class="dashboard-header">
+        <h2 class="fw-bold">📊 Admin Dashboard</h2>
+        <p class="text-muted">Overview of system performance & metrics</p>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="kpi-card bg-gradient-blue text-center">
+                <h4>@Model.TotalRequests</h4>
+                <p>Total Requests</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="kpi-card bg-gradient-green text-center">
+                <h4>@Model.TotalBookings</h4>
+                <p>Total Bookings</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="kpi-card bg-gradient-orange text-center">
+                <h4>@Model.NewUsersThisMonth</h4>
+                <p>New Users</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="kpi-card bg-gradient-purple text-center">
+                <h4>@Model.ActiveCustomers</h4>
+                <p>Active Customers</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="row g-4 mb-4 align-items-stretch">
+        <div class="col-lg-6 d-flex">
+            <div class="chart-card flex-fill">
+                <h5>📈 Bookings Trend (Last 6 Months)</h5>
+                <canvas id="bookingsChart"></canvas>
+                <!-- Extra stats here if you want -->
+            </div>
+        </div>
+
+        <div class="col-lg-6 d-flex">
+            <div class="chart-card flex-fill">
+                <h5>🎯 Request Status</h5>
+                <canvas id="requestsChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Top Cars -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="chart-card">
+                <h5>🚗 Most Rented Cars</h5>
+                <div class="row g-3 mt-2">
+                    @foreach (var car in Model.TopCars)
+                    {
+                        <div class="col-md-3">
+                            <div class="top-car-card text-center">
+                                <img src="data:image/png;base64,@car.Images.FirstOrDefault()?.ImageBase64" class="top-car-img mx-auto d-block" />
+                                <p class="mb-0 fw-bold">@car.CarName</p>
+                                <small class="text-muted">@car.Brand.BrandName</small>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Revenue Chart -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="chart-card">
+                <h5>💰 Revenue Overview</h5>
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Bookings Chart
+        var ctx1 = document.getElementById('bookingsChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.Labels)),
+                datasets: [{
+                    label: 'Bookings',
+                    data: @Html.Raw(Json.Serialize(Model.BookingCounts)),
+                    borderColor: '#2575fc',
+                    backgroundColor: 'rgba(37,117,252,0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: { responsive: true, plugins: { legend: { display: false } } }
+        });
+
+        // Requests Pie Chart
+        var ctx2 = document.getElementById('requestsChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ['Accepted', 'Rejected', 'Cancelled'],
+                datasets: [{
+                    data: [@Model.AcceptedRequests, @Model.RejectedRequests, @Model.CancelledRequests],
+                    backgroundColor: ['#43e97b', '#ff4d4f', '#ffa940']
+                }]
+            },
+            options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+        });
+
+        // Revenue Bar Chart
+        var ctx3 = document.getElementById('revenueChart').getContext('2d');
+        new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(Json.Serialize(Model.Labels)),
+                datasets: [{
+                    label: 'Revenue',
+                    data: @Html.Raw(Json.Serialize(Model.MonthlyRevenue)),
+                    backgroundColor: '#8e2de2'
+                }]
+            },
+            options: { responsive: true, plugins: { legend: { display: false } } }
+        });
+    </script>
+}

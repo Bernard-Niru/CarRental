@@ -15,33 +15,6 @@
         var currentAction = ViewContext.RouteData.Values["Action"]?.ToString();
     }
 
-@*     <!-- Sidebar -->
-    <div class="sidebar bg-dark text-white p-3" style="min-height: 100vh;">
-        <div>
-            <h4 class="text-white">Menu</h4>
-
-            <a asp-controller="Admin" asp-action="Dashboard" class="text-white d-block mb-2">
-                <i class="bi bi-speedometer2 me-2"></i> Dashboard
-            </a>
-            <a asp-controller="Admin" asp-action="ViewUser" class="text-white d-block mb-1">
-                <i class="bi bi-people me-2"></i> Users
-            </a>
-            <a asp-controller="Admin" asp-action="Request" class="text-white d-block mb-1">
-                <i class="bi bi-person-plus me-2"></i> Request
-            </a>
-            <a asp-controller="Admin" asp-action="Bookings" class="text-white d-block mb-1">
-                <i class="bi bi-journal-bookmark me-2"></i> Booking
-            </a>
-            <a asp-controller="Admin" asp-action="ActiveRental" class="text-white d-block mb-1">
-                <i class="bi bi-car-front me-2"></i> Active Rental
-            </a>
-            <a asp-controller="Admin" asp-action="RentalHistory" class="text-white d-block mb-1">
-                <i class="bi bi-clock-history me-2"></i> History
-            </a>
-            <a asp-controller="Admin" asp-action="ViewCars" class="text-white d-block mb-2">
-                <i class="bi bi-car-front-fill me-2"></i> Cars
-            </a>
-        </div> *@
     <!-- Sidebar -->
     <div class="sidebar bg-dark text-white p-3" style="min-height: 100vh;">
         <div>
@@ -49,7 +22,7 @@
 
             <a asp-controller="Admin" asp-action="Dashboard"
                class="d-block mb-2 text-white @(currentAction == "Dashboard" ? "active-link" : "")">
-                <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                <i class="bi bi-speedometer2 me-2"></i> Home
             </a>
 
             <a asp-controller="Admin" asp-action="ViewUser"
@@ -58,17 +31,17 @@
             </a>
 
             <a asp-controller="Admin" asp-action="ViewRequests"
-               class="d-block mb-1 text-white @(currentAction == "Request" ? "active-link" : "")">
+               class="d-block mb-2 text-white @(currentAction == "ViewRequests" ? "active-link" : "")">
                 <i class="bi bi-person-plus me-2"></i> Request
             </a>
 
             <a asp-controller="Admin" asp-action="ViewBookings"
-               class="d-block mb-1 text-white @(currentAction == "Bookings" ? "active-link" : "")">
+               class="d-block mb-2 text-white @(currentAction == "ViewBookings" ? "active-link" : "")">
                 <i class="bi bi-journal-bookmark me-2"></i> Booking
             </a>
 
             <a asp-controller="Admin" asp-action="ActiveRentals"
-               class="d-block mb-1 text-white @(currentAction == "ActiveRental" ? "active-link" : "")">
+               class="d-block mb-2 text-white @(currentAction == "ActiveRentals" ? "active-link" : "")">
                 <i class="bi bi-car-front me-2"></i> Active Rental
             </a>
 

@@ -20,9 +20,14 @@ namespace CarRental.DTOs
         public double Ratings { get; set; }
         public decimal Discount { get; set; }
         public decimal AdditionalCharges { get; set; }
+        public int CarID { get; set; }
+
+        public int UserID {  get; set; }
         
 
         public RequestDTO Request { get; set; }
+
+        public List <UnitDTO> UnitList { get; set; }
         
 
 

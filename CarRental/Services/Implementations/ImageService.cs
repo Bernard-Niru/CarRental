@@ -34,5 +34,9 @@ namespace CarRental.Services.Implementations
                 _repo.Add(image);
             }
         }
+        public void Delete(int id)
+        {
+            _repo.Delete(id);
+        }
     }
 }
