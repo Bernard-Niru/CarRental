@@ -191,15 +191,16 @@ namespace CarRental.Controllers
             //{
             //    return View("Profile", vm);
             //}
+            int id = Session.UserID;
 
-            var result = _userService.UpdateUser(vm);
+            var result = _userService.UpdateUser(vm,id);
 
             if (result == "Profile updated successfully!")
                 TempData["Success"] = result;
             else
                 TempData["Error"] = result;
 
-            return RedirectToAction("ProfileEdit");
+            return RedirectToAction("Profile");
 
         }
 

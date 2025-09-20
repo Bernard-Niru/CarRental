@@ -36,7 +36,8 @@ namespace CarRental.Migrations
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -58,7 +59,9 @@ namespace CarRental.Migrations
                     No_of_Seats = table.Column<int>(type: "int", nullable: false),
                     Ratings = table.Column<double>(type: "float", nullable: false),
                     RentalRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    UnitCount = table.Column<int>(type: "int", nullable: false),
+                    AvailableUnit = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -192,7 +195,8 @@ namespace CarRental.Migrations
                     RentalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Condition = table.Column<int>(type: "int", nullable: false),
                     Ratings = table.Column<double>(type: "float", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    UserID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -203,12 +207,22 @@ namespace CarRental.Migrations
                         principalTable: "Requests",
                         principalColumn: "RequestID",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bookings_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "UserID");
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_RequestID",
                 table: "Bookings",
                 column: "RequestID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bookings_UserID",
+                table: "Bookings",
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cars_BrandID",
