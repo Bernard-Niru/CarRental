@@ -5,19 +5,26 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Add User</h2>
-
-
 @if (TempData["ErrorMessage"] != null)
 {
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert">
         @TempData["ErrorMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+
+    <script>
+        setTimeout(function () {
+            var alert = bootstrap.Alert.getOrCreateInstance(document.getElementById('errorAlert'));
+            alert.close();
+        }, 3000);
+    </script>
 }
 
 
 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+
+<h2>Add User</h2>
 
 <form asp-action="AddUser" asp-controller="Admin" method="post">
     <div class="mb-3">

@@ -12,7 +12,7 @@ namespace CarRental.Repositories.Interfaces
         IEnumerable<Unit> GetAll();
         List<Unit> GetByCarID(int carId);
         void Update(Unit unit);
-        void Delete(int id);
+        Unit GetUnitByID(int id);
         string ChangeAvailability(int id);
         List<Unit> GetUnitsByCarId(int carId);
         bool CheckUnit(string unit);

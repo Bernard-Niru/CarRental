@@ -10,49 +10,51 @@
 
 <h2>Requests</h2>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th >No</th>
-            <th>Username</th>
-            <th >Car Name</th>
-            <th scope="col" style="width: 20%;">Pickup</th>
-            <th scope="col" style="width: 20%;">Return</th>
-            <th >Accept / Reject</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var req in Model)
-        {
+<div class="table-responsive rounded-3 overflow-hidden shadow-sm">
+    <table class="table table-hover table-striped align-middle">
+        <thead class="table-dark">
             <tr>
-                <td>@counter</td>
-                <td>@req.Username</td>
-                <td>@req.CarName</td>
-                <td>@(req.PickupDate.ToString("yyyy-MM-dd") + " : " + req.PickupTime.ToString("hh:mm tt"))</td>
-                <td>@(req.ReturnDate.ToString("yyyy-MM-dd") + " : " + req.ReturnTime.ToString("hh:mm tt"))</td>
-                <td>
-
-
-                    <a asp-action="AcceptRequest" asp-route-id="@req.RequestID" asp-route-CarID="@req.CarID" asp-route-UserID="@req.UserID" class="btn btn-sm btn-success me-3">
-                      <i class="bi bi-check-lg"></i>Accept
-                    </a>
-
-                    <a asp-action="RejectRequest" asp-route-id="@req.RequestID" asp-route-CarID="@req.CarID" asp-route-UserID="@req.UserID" class="btn btn-sm btn-danger">
-                                              <i class="bi bi-x-lg"></i>                        
-                    </a>
-
-                  @*   <button class="btn btn-success" onclick="openPlateModal('@req.CarID', '@req.RequestID')">Accept</button>
-
-                    <a asp-action="Numberplat" asp-route-id="@req.CarID" class="btn btn-sm btn-danger">  </a> *@
-
-
-                </td>
+                <th >No</th>
+                <th>Username</th>
+                <th >Car Name</th>
+                <th scope="col" style="width: 20%;">Pickup</th>
+                <th scope="col" style="width: 20%;">Return</th>
+                <th >Accept / Reject</th>
             </tr>
-            counter++; 
-        }
-    </tbody>
-</table>
-<<!-- Modal -->
+        </thead>
+        <tbody>
+            @foreach (var req in Model)
+            {
+                <tr>
+                    <td>@counter</td>
+                    <td>@req.Username</td>
+                    <td>@req.CarName</td>
+                    <td>@(req.PickupDate.ToString("yyyy-MM-dd") + " : " + req.PickupTime.ToString("hh:mm tt"))</td>
+                    <td>@(req.ReturnDate.ToString("yyyy-MM-dd") + " : " + req.ReturnTime.ToString("hh:mm tt"))</td>
+                    <td>
+
+
+                        <a asp-action="AcceptRequest" asp-route-id="@req.RequestID" asp-route-CarID="@req.CarID" asp-route-UserID="@req.UserID" class="btn btn-sm btn-success me-3">
+                          <i class="bi bi-check-lg"></i>Accept
+                        </a>
+
+                        <a asp-action="RejectRequest" asp-route-id="@req.RequestID" asp-route-CarID="@req.CarID" asp-route-UserID="@req.UserID" class="btn btn-sm btn-danger">
+                                                  <i class="bi bi-x-lg"></i>                        
+                        </a>
+
+                      @*   <button class="btn btn-success" onclick="openPlateModal('@req.CarID', '@req.RequestID')">Accept</button>
+
+                        <a asp-action="Numberplat" asp-route-id="@req.CarID" class="btn btn-sm btn-danger">  </a> *@
+
+
+                    </td>
+                </tr>
+                counter++; 
+            }
+        </tbody>
+    </table>
+</div>
+<!-- Modal -->
 <div id="unitModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>

@@ -11,56 +11,56 @@
 
 <h2>Bookings</h2>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>No</th>
-            <th>Username</th>
-            <th>Car Name</th>
-            <th scope="col" style="width: 20%;">Pickup</th>
-            <th scope="col" style="width: 20%;">Return</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var booking in Model)
-        {
+<div class="table-responsive rounded-3 overflow-hidden shadow-sm">
+    <table class="table table-hover table-striped align-middle">
+        <thead class="table-dark">
             <tr>
-                <td>@counter</td>
-                <td>@booking.Request.Username</td>
-                <td>@booking.Request.CarName</td>
-                <td>@(booking.Request.PickupDate.ToString("yyyy-MM-dd") + " : " + booking.Request.PickupTime.ToString("hh:mm tt"))</td>
-                <td>@(booking.Request.ReturnDate.ToString("yyyy-MM-dd") + " : " + booking.Request.ReturnTime.ToString("hh:mm tt"))</td>
-                <td>
-                   
-                    <button type="button"
+
+                <th>No</th>
+                <th>Username</th>
+                <th>Car Name</th>
+                <th scope="col" style="width: 20%;">Pickup</th>
+                <th scope="col" style="width: 20%;">Return</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@counter</td>
+                    <td>@booking.Request.Username</td>
+                    <td>@booking.Request.CarName</td>
+                    <td>@(booking.Request.PickupDate.ToString("yyyy-MM-dd") + " : " + booking.Request.PickupTime.ToString("hh:mm tt"))</td>
+                    <td>@(booking.Request.ReturnDate.ToString("yyyy-MM-dd") + " : " + booking.Request.ReturnTime.ToString("hh:mm tt"))</td>
+                    <td>
+                        <button type="button"
                             class="btn btn-success me-3 btn-sm px-4 plate-btn"
                             data-bs-toggle="modal"
                             data-bs-target="#NumberPlateModal"
                             data-bookingid="@booking.BookingID"
                             data-carid="@booking.Request.CarID">
                         Picked Up
-                    </button>
-
-
-                    <button type="button"
-                            class="btn btn-danger me-3 btn-sm px-4 booking-btn"
-                            data-bs-toggle="modal"
-                            data-bs-target="#CancelBookingModal"
-                            data-bookingid="@booking.BookingID"
-                            data-carid="@booking.Request.CarID"
-                            data-userid="@booking.Request.UserID">
-                        Cancel
-                    </button>
-                    @if (booking.Request.PickupDate < DateOnly.FromDateTime(DateTime.Now))
-                    {
-                        <a asp-action="PickupDelay" asp-route-UserID="@booking.Request.UserID" asp-route-CarID="@booking.Request.CarID" class="btn btn-sm btn-warning me-3">
-                            <i class="bi bi-bell-fill"></i> Notify
-                        </a>
-                    }
-                </td>
-            </tr>
-            counter++;
+                      </button>   
+                      
+                        <button type="button"
+                                class="btn btn-danger me-3 btn-sm px-4 booking-btn"
+                                data-bs-toggle="modal"
+                                data-bs-target="#CancelBookingModal"
+                                data-bookingid="@booking.BookingID"
+                                data-carid="@booking.Request.CarID"
+                                data-userid="@booking.Request.UserID">
+                            Cancel
+                        </button>
+                        @if (booking.Request.PickupDate < DateOnly.FromDateTime(DateTime.Now))
+                        {
+                            <a asp-action="PickupDelay" asp-route-UserID="@booking.Request.UserID" asp-route-CarID="@booking.Request.CarID" class="btn btn-sm btn-warning me-3">
+                                <i class="bi bi-bell-fill"></i> Notify
+                            </a>
+                        }
+                    </td>
+                </tr>
+                  counter++;
             <!-- Hidden select for this booking -->
             <select id="units-for-@booking.BookingID" class="d-none unit-source">
                 @foreach (var unit in booking.UnitList.Where(u => u.CarID == booking.Request.CarID))
@@ -68,10 +68,10 @@
                     <option value="@unit.UnitID">@unit.PlateNumber</option>
                 }
             </select>
-
-        }
-    </tbody>
-</table> 
+            }
+        </tbody>
+    </table>
+</div>
 
 
 <div class="modal fade" id="CancelBookingModal" tabindex="-1" aria-labelledby="CancelBookingModalLabel" aria-hidden="true">

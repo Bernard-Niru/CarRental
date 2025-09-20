@@ -4,6 +4,23 @@
     ViewData["Title"] = "Units";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="successAlert">
+        <i class="bi bi-check-circle me-2"></i> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <script>
+        setTimeout(function () {
+            var alert = bootstrap.Alert.getOrCreateInstance(document.getElementById('successAlert'));
+            alert.close();
+        }, 3000);
+    </script>
+}
+
+
 @{
     int counter = 1;
 }
@@ -13,52 +30,53 @@
 }
 else
 {
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>No</th>
-            <th>Units</th>
-            <th>Availability</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var unit in Model)
-        {
+<div class="table-responsive rounded-3 overflow-hidden shadow-sm">
+    <table class="table table-hover table-striped align-middle">
+        <thead class="table-dark">
             <tr>
-                <td>@counter</td>
-                <td>@unit.PlateNumber</td>
-                <td>
-                    @if (unit.IsAvailble)
-                    {
-                        <a asp-action="ChangeAvailability" asp-controller="Admin" asp-route-id="@unit.UnitID" asp-route-CarID="@unit.CarID" class="btn btn-sm btn-success">
-                            Available
-                        </a>
-                    }
-                    else
-                    {
-                            <a asp-action="ChangeAvailability" asp-controller="Admin" asp-route-id="@unit.UnitID" asp-route-CarID="@unit.CarID" class="btn btn-sm btn-danger">
-                                Unavailable
-                            </a>
-                    }
-                </td>
-                <td>
-                    <form asp-action="DeleteBrand" asp-controller="Admin" method="post"
-                          onsubmit="return confirm('Are you sure you want to delete this brand?');"
-                          style="display:inline;">
-                        <input type="hidden" name="id" value="@unit.UnitID" />
-                        <button type="submit" class="btn btn-danger btn-sm">
-                                <i class="bi bi-trash3-fill"></i>
-                        </button>
-                    </form>
-
-                </td>
+                <th>No</th>
+                <th>Units</th>
+                <th>Availability</th>
+                <th>Actions</th>
             </tr>
-            counter++;
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var unit in Model)
+            {
+                <tr>
+                    <td>@counter</td>
+                    <td>@unit.PlateNumber</td>
+                    <td>
+                        @if (unit.IsAvailble)
+                        {
+                            <a asp-action="ChangeAvailability" asp-controller="Admin" asp-route-id="@unit.UnitID" asp-route-CarID="@unit.CarID" class="btn btn-sm btn-success">
+                                Available
+                            </a>
+                        }
+                        else
+                        {
+                                <a asp-action="ChangeAvailability" asp-controller="Admin" asp-route-id="@unit.UnitID" asp-route-CarID="@unit.CarID" class="btn btn-sm btn-danger">
+                                    Unavailable
+                                </a>
+                        }
+                    </td>
+                    <td>
+                            <button type="button"
+                                    class="btn btn-sm btn-outline-danger me-1"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#DeleteUnitModal"
+                                    data-unitid="@unit.UnitID"
+                                    data-carid="@unit.CarID">
+                                <i class="bi bi-trash3-fill"></i>
+                            </button>
 
+                    </td>
+                </tr>
+                counter++;
+            }
+        </tbody>
+    </table>
+</div>
 }
 
     <link rel="stylesheet" href="~/css/AddCar.css" asp-append-version="true" />
@@ -84,4 +102,52 @@ else
             </form>
         </div>
     </div>
-<script src="~/js/AddCar.js"></script>
+    <script>
+    document.getElementById('add-unit-btn').addEventListener('click', function () {
+        const container = document.getElementById('units-container');
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = 'Units';  // Same name to get array on submit
+        input.className = 'form-control mb-2';
+        input.placeholder = 'Enter plate number';
+        container.appendChild(input);
+    });
+    </script>
+@* =============================================== Deleting Confirmation =================================================*@
+
+<div class="modal fade" id="DeleteUnitModal" tabindex="-1" aria-labelledby="DeleteUnitModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="DeleteUnitModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <p>Are you sure you want to delete this <strong>Unit</strong>?</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                <a id="confirmDeleteBtn" class="btn btn-danger">
+                    Delete
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const deleteModal = document.getElementById('DeleteUnitModal');
+
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+
+        const unitId = button.getAttribute('data-unitid');
+        const carId = button.getAttribute('data-carid');
+
+        const confirmBtn = document.getElementById('confirmDeleteBtn');
+        confirmBtn.setAttribute('href', `/Admin/DeleteUnit?id=${unitId}&CarID=${carId}`);
+
+    });
+</script>

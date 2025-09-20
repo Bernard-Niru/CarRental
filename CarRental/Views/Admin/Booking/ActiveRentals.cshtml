@@ -11,54 +11,56 @@
 
 <h2>Active Rentals</h2>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>No</th>
-            <th>Username</th>
-            <th>Car Name</th>
-            <th scope="col" style="width: 20%;">Pickup</th>
-            <th scope="col" style="width: 20%;">Return</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var booking in Model)
-        {
+<div class="table-responsive rounded-3 overflow-hidden shadow-sm">
+    <table class="table table-hover table-striped align-middle">
+        <thead class="table-dark">
             <tr>
-                <td>@counter</td>
-                <td>@booking.Request.Username</td>
-                <td>@booking.Request.CarName</td>
-                <td>@(booking.ActualPickupDate.ToString("yyyy-MM-dd") + " : " + booking.ActualPickupTime.ToString("hh:mm tt"))</td>
-                <td>@(booking.Request.ReturnDate.ToString("yyyy-MM-dd") + " : " + booking.Request.ReturnTime.ToString("hh:mm tt"))</td>
-                <td>
-                    <button type="button"
-                            class="btn btn-success btn-sm px-4 booking-btn"
-                            data-bs-toggle="modal"
-                            data-bs-target="#bookingModal"
-                            data-bookingid="@booking.BookingID"
-                            data-username="@booking.Request.Username"
-                            data-carname="@booking.Request.CarName"                          
-                            data-pickupdate="@booking.ActualPickupDate"
-                            data-returndate=@DateOnly.FromDateTime(DateTime.Now)
-                            data-rentalrate="@booking.Request.RentalRate"
-                            data-carid ="@booking.Request.CarID"
-                            data-userid ="@booking.Request.UserID">                       
-                        Returned
-                    </button>
-
-                    @if (booking.Request.ReturnDate < DateOnly.FromDateTime(DateTime.Now))
-                    {
-                        <a asp-action="ReturnDelay" asp-route-UserID="@booking.Request.UserID" asp-route-CarID="@booking.Request.CarID" class="btn btn-sm btn-warning me-3">
-                            <i class="bi bi-bell-fill"></i> Notify
-                        </a>
-                    }
-                </td>
+                <th>No</th>
+                <th>Username</th>
+                <th>Car Name</th>
+                <th scope="col" style="width: 20%;">Pickup</th>
+                <th scope="col" style="width: 20%;">Return</th>
+                <th>Actions</th>
             </tr>
-            counter++;
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@counter</td>
+                    <td>@booking.Request.Username</td>
+                    <td>@booking.Request.CarName</td>
+                    <td>@(booking.ActualPickupDate.ToString("yyyy-MM-dd") + " : " + booking.ActualPickupTime.ToString("hh:mm tt"))</td>
+                    <td>@(booking.Request.ReturnDate.ToString("yyyy-MM-dd") + " : " + booking.Request.ReturnTime.ToString("hh:mm tt"))</td>
+                    <td>
+                        <button type="button"
+                                class="btn btn-success btn-sm px-4 booking-btn"
+                                data-bs-toggle="modal"
+                                data-bs-target="#bookingModal"
+                                data-bookingid="@booking.BookingID"
+                                data-username="@booking.Request.Username"
+                                data-carname="@booking.Request.CarName"                          
+                                data-pickupdate="@booking.ActualPickupDate"
+                                data-returndate=@DateOnly.FromDateTime(DateTime.Now)
+                                data-rentalrate="@booking.Request.RentalRate"
+                                data-carid ="@booking.Request.CarID"
+                                data-userid ="@booking.Request.UserID">                       
+                            Returned
+                        </button>
+
+                        @if (booking.Request.ReturnDate < DateOnly.FromDateTime(DateTime.Now))
+                        {
+                            <a asp-action="ReturnDelay" asp-route-UserID="@booking.Request.UserID" asp-route-CarID="@booking.Request.CarID" class="btn btn-sm btn-warning me-3">
+                                <i class="bi bi-bell-fill"></i> Notify
+                            </a>
+                        }
+                    </td>
+                </tr>
+                counter++;
+            }
+        </tbody>
+    </table>
+</div>
 <link rel="stylesheet" href="~/css/customer.css" />
 <!-- Modal HTML -->
 <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
