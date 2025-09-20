@@ -187,7 +187,8 @@
 
 
 @* @section Scripts {
-    <script>
+    <partial name="_ValidationScriptsPartial" /> *@
+  @*   <script>
             const showRegisterLink = document.getElementById('showRegister');
             if (showRegisterLink && loginModalEl && registerModalEl) {
                 showRegisterLink.addEventListener('click', e => {
@@ -212,5 +213,6 @@
                 });
             }
         });
-    </script> *@
+    </script>
+    } *@
 
