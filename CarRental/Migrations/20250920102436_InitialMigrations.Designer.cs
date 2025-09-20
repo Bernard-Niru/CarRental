@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250919035511_Final01Migration")]
-    partial class Final01Migration
+    [Migration("20250920102436_InitialMigrations")]
+    partial class InitialMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,9 +70,14 @@ namespace CarRental.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UserID")
+                        .HasColumnType("int");
+
                     b.HasKey("BookingID");
 
                     b.HasIndex("RequestID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Bookings");
                 });
@@ -285,6 +290,9 @@ namespace CarRental.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"));
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -319,6 +327,10 @@ namespace CarRental.Migrations
                         .HasForeignKey("RequestID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("CarRental.Models.User", null)
+                        .WithMany("Bookings")
+                        .HasForeignKey("UserID");
 
                     b.Navigation("Request");
                 });
@@ -417,6 +429,8 @@ namespace CarRental.Migrations
 
             modelBuilder.Entity("CarRental.Models.User", b =>
                 {
+                    b.Navigation("Bookings");
+
                     b.Navigation("Requests");
 
                     b.Navigation("notifications");
