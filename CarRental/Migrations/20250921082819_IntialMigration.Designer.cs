@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250920102436_InitialMigrations")]
-    partial class InitialMigrations
+    [Migration("20250921082819_IntialMigration")]
+    partial class IntialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -212,6 +212,30 @@ namespace CarRental.Migrations
                     b.ToTable("Notifications");
                 });
 
+            modelBuilder.Entity("CarRental.Models.Ratings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CarID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalRaters")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalStars")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarID");
+
+                    b.ToTable("Ratings");
+                });
+
             modelBuilder.Entity("CarRental.Models.Request", b =>
                 {
                     b.Property<int>("RequestID")
@@ -376,6 +400,17 @@ namespace CarRental.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("CarRental.Models.Ratings", b =>
+                {
+                    b.HasOne("CarRental.Models.Car", "Car")
+                        .WithMany("ratings")
+                        .HasForeignKey("CarID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Car");
+                });
+
             modelBuilder.Entity("CarRental.Models.Request", b =>
                 {
                     b.HasOne("CarRental.Models.Car", "Car")
@@ -420,6 +455,8 @@ namespace CarRental.Migrations
                     b.Navigation("Units");
 
                     b.Navigation("notifications");
+
+                    b.Navigation("ratings");
                 });
 
             modelBuilder.Entity("CarRental.Models.Request", b =>

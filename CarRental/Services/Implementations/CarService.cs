@@ -1,4 +1,5 @@
 ﻿using CarRental.DTOs;
+using CarRental.Enums.UserEnums;
 using CarRental.Mappings;
 using CarRental.Models;
 using CarRental.repo.Interfaces;
@@ -44,6 +45,9 @@ namespace CarRental.Services.Implementations
                 No_of_Seats = car.No_of_Seats,
                 Ratings = car.Ratings,
                 RentalRate = car.RentalRate,
+          //      Rating = (car.Ratings != null && car.Ratings.TotalStars > 0)
+          //? (double)car.Ratings.TotalStars / car.Ratings.TotalRaters
+          //: 0,
 
                 Brand = new BrandDTO
                 {
@@ -312,16 +316,7 @@ namespace CarRental.Services.Implementations
         //}
 
 
-        public void AddRating(int rating,int CarId) 
-        {           
-            var car = _repo.GetByID(CarId);
-            if (car != null)
-            {
-                double OldRatings = car.Ratings;
-                car.Ratings = (OldRatings + Convert.ToDouble(rating)) / 2 ;
-                _repo.Update(car);
-            }
-        }
+        
 
 
     }

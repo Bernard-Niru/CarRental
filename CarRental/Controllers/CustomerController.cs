@@ -130,11 +130,11 @@ namespace CarRental.Controllers
 
 
 
-        public IActionResult Ratings(int rating)
+        public IActionResult Ratings(int rating,int CarID)
         {
-            int CarID = 2;
-           _carService.AddRating(rating, CarID);
-            return View("Ratings");
+            
+           _notificationService.AddRatings(rating, CarID);
+            return RedirectToAction("Notification");
         }
 
       

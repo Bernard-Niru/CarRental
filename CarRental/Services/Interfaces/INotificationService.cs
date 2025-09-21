@@ -7,5 +7,6 @@ namespace CarRental.Services.Interfaces
     {
         IEnumerable<NotificationDTO> GetAll(int id);
         void Add(int CarID, int UserID, Purpose purpose);
+        void AddRatings(int ratings, int CarID);
     }
 }
