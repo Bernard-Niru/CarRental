@@ -44,6 +44,30 @@ namespace CarRental.Services.Implementations
             _repo.Add(notification);
         }
 
+        public void AddRatings(int ratings ,int CarID) 
+        {
+            var OldRating = _repo.GetByCarID(CarID);
+
+            if (OldRating != null)
+            {
+                OldRating.TotalRaters += 1;
+                OldRating.TotalStars += ratings;
+                _repo.UpdateRatings(OldRating);
+
+            }
+            else
+            {
+
+                var NewRating = new Ratings
+                {
+                    CarID = CarID,
+                    TotalRaters = 1,
+                    TotalStars = ratings,
+                };
+                _repo.AddRatings(NewRating);
+            }
+        }
+
 
     }
 }

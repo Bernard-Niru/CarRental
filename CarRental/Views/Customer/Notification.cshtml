@@ -133,10 +133,6 @@
                         </tr>
                     }
 
-
-
-
-
                 }
             </tbody>
         </table>
@@ -157,7 +153,6 @@
 
             <form method="post" asp-action="Ratings" asp-controller="Customer" class="rating-form">
                 <div class="modal-body">
-
                     <h6 class="text-center mb-3">How was your experience?</h6>
 
                     <div class="star-rating d-flex justify-content-center" role="radiogroup" aria-label="Star Rating">
@@ -176,6 +171,9 @@
                         <input type="radio" id="1-star" name="rating" value="1" />
                         <label for="1-star" class="star" title="1 star">&#9733;</label>
                     </div>
+
+                    <!-- Hidden input for CarID -->
+                    <input type="hidden" name="carId" id="carId" />
                 </div>
 
                 <div class="modal-footer d-flex justify-content-center">
@@ -185,3 +183,16 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ratingButtons = document.querySelectorAll('.open-rating-modal');
+        const carIdInput = document.getElementById('carId');
+
+        ratingButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const carId = this.getAttribute('data-carid');
+                carIdInput.value = carId;
+            });
+        });
+    });
+</script>

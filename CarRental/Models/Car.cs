@@ -56,5 +56,7 @@ namespace CarRental.Models
         public ICollection<Request>? Requests { get; set; }
 
         public ICollection<Notification>? notifications { get; set; }
+
+        public Ratings ratings { get; set; }
     }
 }

@@ -30,5 +30,24 @@ namespace CarRental.Repositories.Implementations
             _context.Notifications.Add(notification);
             _context.SaveChanges();
         }
+
+        public void AddRatings(Ratings ratings)
+        {
+            _context.Ratings.Add(ratings);
+            _context.SaveChanges();
+        }
+
+        public void UpdateRatings(Ratings ratings)
+        {
+            _context.Ratings.Update(ratings);
+            _context.SaveChanges();
+        }
+
+        public Ratings GetByCarID(int carId)
+        {
+            return _context.Ratings
+                .FirstOrDefault(r => r.CarID == carId);
+        }
+
     }
 }

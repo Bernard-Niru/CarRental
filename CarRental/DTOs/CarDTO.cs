@@ -19,7 +19,9 @@ namespace CarRental.DTOs
         public double Ratings { get; set; }
         public decimal RentalRate { get; set; }
         public int UnitCount {  get; set; }
+        
 
+        //public RatingDTO Rating { get; set; }
         public BrandDTO Brand { get; set; }
         public List<ImageDTO> Images { get; set; }
         public List<UnitDTO> Units { get; set; }

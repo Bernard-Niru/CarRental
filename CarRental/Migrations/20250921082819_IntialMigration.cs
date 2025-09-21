@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CarRental.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigrations : Migration
+    public partial class IntialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -121,6 +121,27 @@ namespace CarRental.Migrations
                         column: x => x.UserID,
                         principalTable: "Users",
                         principalColumn: "UserID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ratings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CarID = table.Column<int>(type: "int", nullable: false),
+                    TotalStars = table.Column<int>(type: "int", nullable: false),
+                    TotalRaters = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ratings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Ratings_Cars_CarID",
+                        column: x => x.CarID,
+                        principalTable: "Cars",
+                        principalColumn: "CarID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -245,6 +266,11 @@ namespace CarRental.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Ratings_CarID",
+                table: "Ratings",
+                column: "CarID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Requests_CarID",
                 table: "Requests",
                 column: "CarID");
@@ -271,6 +297,9 @@ namespace CarRental.Migrations
 
             migrationBuilder.DropTable(
                 name: "Notifications");
+
+            migrationBuilder.DropTable(
+                name: "Ratings");
 
             migrationBuilder.DropTable(
                 name: "Units");
