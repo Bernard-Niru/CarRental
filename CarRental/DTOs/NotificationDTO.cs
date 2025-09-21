@@ -6,6 +6,7 @@ namespace CarRental.DTOs
     public class NotificationDTO
     {
         public int ID { get; set; }
+        public int CarID { get; set; }
 
         public string CarName { get; set; }
 

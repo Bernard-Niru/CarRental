@@ -13,12 +13,14 @@ namespace CarRental.Services.Implementations
         private readonly IBookingRepository _repo;
         private readonly INotificationService _notificationService;
         private readonly IUnitService _unitService;
+        private readonly ICarService _carService;
 
-        public BookingService(IBookingRepository repo , INotificationService notificationService, IUnitService unitService)
+        public BookingService(IBookingRepository repo , INotificationService notificationService, IUnitService unitService,ICarService carService)
         {
             _repo = repo;
             _notificationService = notificationService;
             _unitService = unitService;
+            _carService = carService;
         }
         public void AddBooking(int id) 
         {
@@ -87,6 +89,7 @@ namespace CarRental.Services.Implementations
                 RequestID = booking.RequestID,
                 ActualPickupDate = booking.ActualPickupDate,
                 ActualPickupTime = booking.ActualPickupTime,
+                Unit = booking.Unit,
 
 
                 Request = new RequestDTO
@@ -120,6 +123,8 @@ namespace CarRental.Services.Implementations
 
                 _repo.Update(booking); // reuse update method
                 _notificationService.Add(bookingDTO.CarID, bookingDTO.UserID, Purpose.Feedback);
+                _carService.ChangeAvailableCount(bookingDTO.CarID, 1);
+                _unitService.ChangeAvailability(booking.Unit);
             }
 
         }

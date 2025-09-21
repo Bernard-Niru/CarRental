@@ -9,7 +9,7 @@
     int counter = 1;
 }
 
-<h2>Active Rentals</h2>
+<h2 class="text-center mb-4">Active Rentals</h2>
 
 <div class="table-responsive rounded-3 overflow-hidden shadow-sm">
     <table class="table table-hover table-striped align-middle">
@@ -18,8 +18,8 @@
                 <th>No</th>
                 <th>Username</th>
                 <th>Car Name</th>
-                <th scope="col" style="width: 20%;">Pickup</th>
-                <th scope="col" style="width: 20%;">Return</th>
+                <th>Pickup</th>
+                <th>Return</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -30,8 +30,15 @@
                     <td>@counter</td>
                     <td>@booking.Request.Username</td>
                     <td>@booking.Request.CarName</td>
-                    <td>@(booking.ActualPickupDate.ToString("yyyy-MM-dd") + " : " + booking.ActualPickupTime.ToString("hh:mm tt"))</td>
-                    <td>@(booking.Request.ReturnDate.ToString("yyyy-MM-dd") + " : " + booking.Request.ReturnTime.ToString("hh:mm tt"))</td>
+                    <td>
+                        <span class=" d-block">@booking.ActualPickupDate.ToString("yyyy-MM-dd")</span>
+                        <small class="text-muted">@booking.ActualPickupTime.ToString("hh:mm tt")</small>
+
+                    </td>
+                    <td>
+                        <span class=" d-block">@booking.Request.ReturnDate.ToString("yyyy-MM-dd")</span>
+                        <small class="text-muted">@booking.Request.ReturnTime.ToString("hh:mm tt")</small>
+                    </td>
                     <td>
                         <button type="button"
                                 class="btn btn-success btn-sm px-4 booking-btn"
@@ -44,7 +51,8 @@
                                 data-returndate=@DateOnly.FromDateTime(DateTime.Now)
                                 data-rentalrate="@booking.Request.RentalRate"
                                 data-carid ="@booking.Request.CarID"
-                                data-userid ="@booking.Request.UserID">                       
+                                data-userid ="@booking.Request.UserID"
+                                data-unit="@booking.Unit">
                             Returned
                         </button>
 
@@ -73,7 +81,7 @@
                     <input type="hidden" name="BookingID" id="BookingID" />
                     <input type="hidden" name="CarID" id="CarID" />
                     <input type="hidden" name="UserID" id="UserID" />
-
+                    
 
 
                     <div class="mb-3">
@@ -84,6 +92,11 @@
                     <div class="mb-3">
                         <label for="CarName" class="form-label">Car Name</label>
                         <input type="text" name="CarName" id="CarName" class="form-control" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Unit" class="form-label">Unit</label>
+                        <input type="text" name="Unit" id="Unit" class="form-control" readonly />
                     </div>
 
                     <div class="mb-3">

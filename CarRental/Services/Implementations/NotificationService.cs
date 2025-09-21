@@ -21,6 +21,7 @@ namespace CarRental.Services.Implementations
             var DTOs = notifications.Select(notifications => new NotificationDTO
             {
                 ID = notifications.ID,
+                CarID = notifications.CarID,
                 CarName = notifications.Car.CarName,
                 purpose = notifications.purpose,
                 DateTime = notifications.DateTime,
