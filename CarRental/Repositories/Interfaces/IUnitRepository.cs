@@ -16,5 +16,7 @@ namespace CarRental.Repositories.Interfaces
         string ChangeAvailability(int id);
         List<Unit> GetUnitsByCarId(int carId);
         bool CheckUnit(string unit);
+
+        Unit GetUnit(string plateNumber);
     }
 }

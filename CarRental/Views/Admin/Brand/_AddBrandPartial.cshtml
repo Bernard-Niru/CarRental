@@ -34,7 +34,7 @@
                 <form asp-action="AddBrand" asp-controller="Admin" method="post">
                     <div class="mb-3">
                         <label asp-for="BrandName" class="form-label"></label>
-                        <input asp-for="BrandName" class="form-control" />
+                        <input asp-for="BrandName" class="form-control" required/>
                         <span asp-validation-for="BrandName" class="text-danger"></span>
                         
                     </div>

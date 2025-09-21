@@ -1,4 +1,5 @@
 ﻿using CarRental.DTOs;
+using CarRental.Enums.UserEnums;
 using CarRental.Mappings;
 using CarRental.Models;
 using CarRental.repo.Interfaces;
@@ -104,5 +105,45 @@ namespace CarRental.Services.Implementations
                 _unitRepo.Update(unit); // reuse update method
             }
         }
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public void ChangeAvailability(string plateNumber) 
+        {
+            var unit = _unitRepo.GetUnit(plateNumber);
+            if (unit != null)
+            {
+                unit.IsAvailble = true;
+
+               _unitRepo.Update(unit); // reuse update method
+            }
+        }
+
     }
 }
