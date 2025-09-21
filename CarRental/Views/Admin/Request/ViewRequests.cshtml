@@ -8,7 +8,7 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Requests</h2>
+<h2 class="text-center mb-4">Requests</h2>
 
 <div class="table-responsive rounded-3 overflow-hidden shadow-sm">
     <table class="table table-hover table-striped align-middle">
@@ -17,8 +17,8 @@
                 <th >No</th>
                 <th>Username</th>
                 <th >Car Name</th>
-                <th scope="col" style="width: 20%;">Pickup</th>
-                <th scope="col" style="width: 20%;">Return</th>
+                <th>Pickup</th>
+                <th>Return</th>
                 <th >Accept / Reject</th>
             </tr>
         </thead>
@@ -29,8 +29,15 @@
                     <td>@counter</td>
                     <td>@req.Username</td>
                     <td>@req.CarName</td>
-                    <td>@(req.PickupDate.ToString("yyyy-MM-dd") + " : " + req.PickupTime.ToString("hh:mm tt"))</td>
-                    <td>@(req.ReturnDate.ToString("yyyy-MM-dd") + " : " + req.ReturnTime.ToString("hh:mm tt"))</td>
+                    <td>
+                        <span class=" d-block">@req.PickupDate.ToString("yyyy-MM-dd")</span>
+                        <small class="text-muted">@req.PickupTime.ToString("hh:mm tt")</small>
+
+                    </td>
+                    <td>
+                        <span class=" d-block">@req.ReturnDate.ToString("yyyy-MM-dd")</span>
+                        <small class="text-muted">@req.ReturnTime.ToString("hh:mm tt")</small>
+                    </td>
                     <td>
 
 
@@ -54,7 +61,7 @@
         </tbody>
     </table>
 </div>
-<!-- Modal -->
+@* !-- Modal -->
 <div id="unitModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
@@ -113,5 +120,5 @@
         const modal = document.getElementById("unitModal");
         if (event.target === modal) closeModal();
     };
-</script>
+</script> *@
 

@@ -91,8 +91,8 @@
                         <option value="Green" style="background-color: green; color: white;">Green</option>
                         <option value="Other">Other</option>
                     </select>
-                    <input type="text" id="custom-color-input" class="form-control mt-2 stylish-input" placeholder="Enter new color" style="display: none;" />
-                    <span asp-validation-for="Color" class="text-danger small"></span>
+                 @*    <input type="text" id="custom-color-input" class="form-control mt-2 stylish-input" placeholder="Enter new color" style="display: none;" />
+                    <span asp-validation-for="Color" class="text-danger small"></span> *@
                 </div>
             </div>
 
@@ -107,7 +107,7 @@
             <!-- Rental Rate -->
             <div class="form-group mb-4">
                 <label asp-for="RentalRate" class="form-label fw-semibold">Rental Rate</label>
-                <input asp-for="RentalRate" class="form-control stylish-input" placeholder="e.g:- 50 per day" required  />
+                <input asp-for="RentalRate" class="form-control stylish-input"placeholder="e.g:- 50 per day" type="number" step="0.01" min="0.01" required />
                 <span asp-validation-for="RentalRate" class="text-danger small"></span>
             </div>
             <!-- Submit Button -->

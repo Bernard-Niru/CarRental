@@ -20,9 +20,10 @@ namespace CarRental.Controllers
         private readonly IBrandService _brandService;
         private readonly INotificationService _notificationService;
         private readonly IUserService _userService;
+        private readonly IBookingService _bookingService;
 
 
-        public CustomerController(ICarService carService , IRequestService requestService ,IBrandService brandService,INotificationService notificationService, IUserService userService)
+        public CustomerController(ICarService carService , IRequestService requestService ,IBrandService brandService,INotificationService notificationService, IUserService userService, IBookingService bookingService)
 
         {
             _carService = carService;
@@ -30,6 +31,7 @@ namespace CarRental.Controllers
             _brandService = brandService;
             _notificationService = notificationService;
             _userService = userService;
+            _bookingService = bookingService;
 
         }
 
@@ -130,11 +132,11 @@ namespace CarRental.Controllers
 
 
 
-        public IActionResult Ratings(int rating)
+        public IActionResult Ratings(int rating,int CarID)
         {
-            int CarID = 2;
-           _carService.AddRating(rating, CarID);
-            return View("Ratings");
+            
+           _notificationService.AddRatings(rating, CarID);
+            return RedirectToAction("Notification");
         }
 
       
@@ -166,14 +168,22 @@ namespace CarRental.Controllers
               if (userDto == null)
                   return NotFound();
 
-              var vm = new ProfileViewModel
-              {
-                  Id = userDto.Id,
-                  Name = userDto.Name,
-                  Email = userDto.Email,
-                  UserName = userDto.UserName,
-                  Role = userDto.Role.ToString()
-              };
+            var bookings = _bookingService.GetUserBookingHistory(Session.UserID);
+
+            //if (bookings == null || !bookings.Any())
+            //{
+            //    return NotFound("No picked bookings found for this user.");
+            //}
+
+            var vm = new ProfileViewModel
+            {
+                Id = userDto.Id,
+                Name = userDto.Name,
+                Email = userDto.Email,
+                UserName = userDto.UserName,
+                Role = userDto.Role.ToString(),
+                bookings = bookings
+            };
               return View("Profile",vm);
         }
 
@@ -202,6 +212,18 @@ namespace CarRental.Controllers
 
             return RedirectToAction("Profile");
 
+        }
+        public IActionResult GetUserBookingHistory()
+        {
+            var bookings = _bookingService.GetUserBookingHistory(Session.UserID);
+
+            if (bookings == null || !bookings.Any())
+            {
+                return NotFound("No picked bookings found for this user.");
+            }
+
+
+            return View("Profile",bookings);
         }
 
         //[HttpPost]

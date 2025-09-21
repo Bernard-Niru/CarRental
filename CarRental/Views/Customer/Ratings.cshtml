@@ -1,34 +1,39 @@
 ﻿@model CarRental.DTOs.CarDTO
+
 @{
-    ViewData["Title"] = "Rate Us";
+    ViewData["Title"] = "Rate us";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
 }
 <link rel="stylesheet" href="~/css/Rating.css" asp-append-version="true" />
 
-<h2>Rate Our Service</h2>
+<h2 class="text-center">Rate Our Service</h2>
 
 <form method="post" asp-action="Ratings" asp-controller="Customer" class="rating-form">
     <div class="rating-wrapper">
-        <h2>How was your experience?</h2>
-            @* <label class="rating-label">Please rate:</label> *@
-            <div class="star-rating" role="radiogroup" aria-label="Star Rating">
-                <input type="radio" id="5-stars" name="rating" value="5" />
-                <label for="5-stars" class="star" title="5 stars">&#9733;</label>
+        <h2 class="text-center">How was your experience?</h2>
 
-                <input type="radio" id="4-stars" name="rating" value="4" />
-                <label for="4-stars" class="star" title="4 stars">&#9733;</label>
+        <div class="star-rating d-flex justify-content-center" role="radiogroup" aria-label="Star Rating">
+            <input type="radio" id="5-stars" name="rating" value="5" required />
+            <label for="5-stars" class="star" title="5 stars">&#9733;</label>
 
-                <input type="radio" id="3-stars" name="rating" value="3" />
-                <label for="3-stars" class="star" title="3 stars">&#9733;</label>
+            <input type="radio" id="4-stars" name="rating" value="4" />
+            <label for="4-stars" class="star" title="4 stars">&#9733;</label>
 
-                <input type="radio" id="2-stars" name="rating" value="2" />
-                <label for="2-stars" class="star" title="2 stars">&#9733;</label>
+            <input type="radio" id="3-stars" name="rating" value="3" />
+            <label for="3-stars" class="star" title="3 stars">&#9733;</label>
 
-                <input type="radio" id="1-star" name="rating" value="1" />
-                <label for="1-star" class="star" title="1 star">&#9733;</label>
-            </div>
+            <input type="radio" id="2-stars" name="rating" value="2" />
+            <label for="2-stars" class="star" title="2 stars">&#9733;</label>
+
+            <input type="radio" id="1-star" name="rating" value="1" />
+            <label for="1-star" class="star" title="1 star">&#9733;</label>
+        </div>
     </div>
 
-    <button type="submit" class="btn-submit">Submit Rating</button>
+    <!-- Center the button using Bootstrap flex utilities -->
+    <div class="d-flex justify-content-center mt-3">
+        <button type="submit" class="btn btn-submit btn-sm">Submit Rating</button>
+    </div>
 </form>
 
 @* <h2>Rate Our Service</h2>

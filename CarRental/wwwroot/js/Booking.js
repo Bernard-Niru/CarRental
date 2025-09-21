@@ -27,7 +27,7 @@
     const rentalAmountInput = document.getElementById('RentalAmount');
     const additionalChargesInput = document.getElementById('AdditionalCharges')
     const discountInput = document.getElementById('Discount')
-
+    const unitInput = document.getElementById('Unit')
     bookingButtons.forEach(button => {
         button.addEventListener('click', () => {
             const bookingId = button.getAttribute('data-bookingid');
@@ -38,6 +38,7 @@
             const pickupDate = button.getAttribute('data-pickupdate');
             const returnDate = button.getAttribute('data-returndate');
             const rentalAmount = button.getAttribute('data-rentalrate');
+            const Unit = button.getAttribute('data-unit');
 
             if (bookingIdInput) bookingIdInput.value = bookingId;
             if (carIdInput) carIdInput.value = carId;
@@ -46,7 +47,7 @@
             if (carNameInput) carNameInput.value = carName;
             if (pickupDateInput) pickupDateInput.value = pickupDate;
             if (returnDateInput) returnDateInput.value = returnDate;
- 
+            if (unitInput) unitInput.value = Unit;
           
 
             const pickup = new Date(pickupDate);

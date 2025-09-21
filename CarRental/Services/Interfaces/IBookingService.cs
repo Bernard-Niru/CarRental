@@ -11,5 +11,6 @@ namespace CarRental.Services.Interfaces
         void Returned(BookingDTO bookingDTO);
         IEnumerable<BookingDTO> GetAllReturned();
         void Delete(int id, int CarID, int UserID);
+        IEnumerable<BookingDTO> GetUserBookingHistory(int userId);
     }
 }

@@ -113,5 +113,10 @@ namespace CarRental.Repositories.Implementations
 
         //}
 
+        public Unit GetUnit(string plateNumber)
+        {
+            return _context.Units.FirstOrDefault(u => u.PlateNumber == plateNumber);
+        }
+
     }
 }

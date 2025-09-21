@@ -112,3 +112,67 @@ button[type="submit"] {
         font-size: 14px;
     }
 }
+
+
+
+
+/*User History Table Design*/
+
+h2.mb-4 {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.table-responsive {
+    border: 1px solid #dee2e6;
+    background-color: #f8f9fa;
+}
+
+/* .table thead th {
+        background-color:blue;
+        color: white;
+    } */
+
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.table td, .table th {
+    vertical-align: middle !important;
+    text-align: center;
+}
+
+.fw-semibold {
+    font-weight: 600;
+}
+
+.fw-bold.text-success {
+    color: #28a745 !important;
+}
+
+.text-muted {
+    font-size: 0.875rem;
+}
+
+.shadow {
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+}
+
+.rounded-4 {
+    border-radius: 1rem;
+}
+
+.table-caption {
+    caption-side: top;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.6rem;
+    color: #ffffff;
+    background-color:dodgerblue; /* Bootstrap primary blue */
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+

@@ -121,12 +121,75 @@
         </div>
     </div>
 </div>
+
+
+
+
+<h1>.</h1>
+
+@{
+    int counter = 1;
+}
+
+<div class="table-responsive shadow rounded-4 overflow-hidden mx-auto" style="max-width: 900px;">
+    <table class="table table-hover table-striped table-bordered align-middle mb-0">
+        <caption class="table-caption">Booking History</caption>
+        <thead class="table-primary">
+            <tr class="text-center">
+                <th scope="col">No</th>
+                <th scope="col">Car Name</th>
+                <th scope="col" style="width: 25%;">Pickup Date & Time</th>
+                <th scope="col" style="width: 25%;">Return Date & Time</th>
+                <th scope="col">Rental Amount</th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            @if (Model.bookings != null && Model.bookings.Any())
+            {
+                foreach (var booking in Model.bookings)
+                {
+                    <tr class="text-center">
+                        <td>@counter</td>
+                        <td class="fw-semibold">@booking.Request.CarName</td>
+                        <td>
+                            <span class="d-block">@booking.ActualPickupDate.ToString("yyyy-MM-dd")</span>
+                            <small class="text-muted">@booking.ActualPickupTime.ToString("hh:mm tt")</small>
+                        </td>
+                        <td>
+                            <span class="d-block">@booking.ActualReturnDate.ToString("yyyy-MM-dd")</span>
+                            <small class="text-muted">@booking.ActualReturnTime.ToString("hh:mm tt")</small>
+                        </td>
+                        <td class="fw-bold text-success"> @booking.RentalAmount</td>
+                    </tr>
+
+                    counter++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">No booking history found.</td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+
 <script>
 document.getElementById("openUploadBtn").addEventListener("click", function() {
     // Show the upload card
     document.getElementById("uploadCard").style.display = "block";
 
+
     // Automatically open file input
     document.getElementById("ImageFiles").click();
 });
 </script>
+
+<script src="~/js/AddProfile.js"></script> 
+
+

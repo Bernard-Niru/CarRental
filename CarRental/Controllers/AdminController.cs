@@ -690,26 +690,26 @@ namespace CarRental.Controllers
             return RedirectToAction("ActiveRentals");
         }
 
-        [HttpGet]
-        public IActionResult Numberplat(int Bookingid, int CarID)
-        {
-            var units = _unitService.GetUnit(CarID).Select(b => new SelectListItem
-            {
-                Value = b.UnitID.ToString(),
-                Text = b.PlateNumber
-            }).ToList(); 
-            ViewBag.Units = units;
-            if (units == null) return RedirectToAction("ActiveRentals");
-            var Booking = _bookingService.GetAll();
-            var booking = new UnitSelectionViewModel
-            {
-                BookingDetails = Booking,
-                BookingId = Bookingid,
-                CarId = CarID
-            };
-            TempData["ShowModal"] = "open";
-            return RedirectToAction("ViewBookings");
-        }
+        //[HttpGet]
+        //public IActionResult Numberplat(int Bookingid, int CarID)
+        //{
+        //    var units = _unitService.GetUnit(CarID).Select(b => new SelectListItem
+        //    {
+        //        Value = b.UnitID.ToString(),
+        //        Text = b.PlateNumber
+        //    }).ToList(); 
+        //    ViewBag.Units = units;
+        //    if (units == null) return RedirectToAction("ViewBookings");
+        //    var Booking = _bookingService.GetAll();
+        //    var booking = new UnitSelectionViewModel
+        //    {
+        //        BookingDetails = Booking,
+        //        BookingId = Bookingid,
+        //        CarId = CarID
+        //    };
+        //    TempData["ShowModal"] = "open";
+        //    return RedirectToAction("ViewBookings");
+        //}
 
         [HttpPost]
         public IActionResult NumberPlate(int BookingID, int SelectedUnitID, string PlateNumber, int CarID)
@@ -719,7 +719,7 @@ namespace CarRental.Controllers
             _carService.ChangeAvailableCount(CarID, -1);
             _unitService.ChangeAvailability(SelectedUnitID);
 
-            return RedirectToAction("ActiveRentals");
+            return RedirectToAction("ViewBookings");
         }
 
 

@@ -9,7 +9,7 @@
     int counter = 1;
 }
 
-<h2>Bookings</h2>
+<h2 class="text-center mb-4">Bookings</h2>
 
 <div class="table-responsive rounded-3 overflow-hidden shadow-sm">
     <table class="table table-hover table-striped align-middle">
@@ -19,8 +19,8 @@
                 <th>No</th>
                 <th>Username</th>
                 <th>Car Name</th>
-                <th scope="col" style="width: 20%;">Pickup</th>
-                <th scope="col" style="width: 20%;">Return</th>
+                <th>Pickup</th>
+                <th>Return</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -31,8 +31,14 @@
                     <td>@counter</td>
                     <td>@booking.Request.Username</td>
                     <td>@booking.Request.CarName</td>
-                    <td>@(booking.Request.PickupDate.ToString("yyyy-MM-dd") + " : " + booking.Request.PickupTime.ToString("hh:mm tt"))</td>
-                    <td>@(booking.Request.ReturnDate.ToString("yyyy-MM-dd") + " : " + booking.Request.ReturnTime.ToString("hh:mm tt"))</td>
+                    <td>
+                        <span class=" d-block">@booking.Request.PickupDate.ToString("yyyy-MM-dd")</span> 
+                        <small class="text-muted">@booking.Request.PickupTime.ToString("hh:mm tt")</small>
+                        
+                    </td>
+                    <td><span class=" d-block">@booking.Request.ReturnDate.ToString("yyyy-MM-dd")</span> 
+                        <small class="text-muted">@booking.Request.ReturnTime.ToString("hh:mm tt")</small>
+                    </td>
                     <td>
                         <button type="button"
                             class="btn btn-success me-3 btn-sm px-4 plate-btn"

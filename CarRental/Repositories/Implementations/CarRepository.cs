@@ -25,6 +25,7 @@ namespace CarRental.repo.Implementations
             var cars = _context.Cars
                         .Where(c => !c.IsDeleted && !c.Brand.IsDeleted)
                         .Include(c => c.Brand)
+                        .Include(c => c.Ratings)
                      
                         .ToList();
 

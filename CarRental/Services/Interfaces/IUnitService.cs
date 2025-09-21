@@ -18,6 +18,7 @@ namespace CarRental.Services.Interfaces
         string ChangeAvailability(int id);
         List<UnitDTO> GetUnit(int id);
         void Delete(int id);
+        void ChangeAvailability(string plateNumber);
 
 
     }

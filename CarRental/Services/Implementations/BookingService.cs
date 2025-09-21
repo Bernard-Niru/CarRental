@@ -4,6 +4,7 @@ using CarRental.Enums.UserEnums;
 using CarRental.Models;
 using CarRental.Repositories.Interfaces;
 using CarRental.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace CarRental.Services.Implementations
@@ -13,12 +14,14 @@ namespace CarRental.Services.Implementations
         private readonly IBookingRepository _repo;
         private readonly INotificationService _notificationService;
         private readonly IUnitService _unitService;
+        private readonly ICarService _carService;
 
-        public BookingService(IBookingRepository repo , INotificationService notificationService, IUnitService unitService)
+        public BookingService(IBookingRepository repo , INotificationService notificationService, IUnitService unitService,ICarService carService)
         {
             _repo = repo;
             _notificationService = notificationService;
             _unitService = unitService;
+            _carService = carService;
         }
         public void AddBooking(int id) 
         {
@@ -87,6 +90,7 @@ namespace CarRental.Services.Implementations
                 RequestID = booking.RequestID,
                 ActualPickupDate = booking.ActualPickupDate,
                 ActualPickupTime = booking.ActualPickupTime,
+                Unit = booking.Unit,
 
 
                 Request = new RequestDTO
@@ -120,6 +124,8 @@ namespace CarRental.Services.Implementations
 
                 _repo.Update(booking); // reuse update method
                 _notificationService.Add(bookingDTO.CarID, bookingDTO.UserID, Purpose.Feedback);
+                _carService.ChangeAvailableCount(bookingDTO.CarID, 1);
+                _unitService.ChangeAvailability(booking.Unit);
             }
 
         }
@@ -161,5 +167,45 @@ namespace CarRental.Services.Implementations
             _notificationService.Add(CarID, UserID, Purpose.BookingCancel);
 
         }
+        //public IEnumerable<Booking> GetUserBookingHistory(int userId)
+        //{
+        //    var bookings = _repo.GetUserBookingHistory
+        //        .Where(b =>
+        //            !b.IsDeleted &&
+        //            b.IsPicked &&
+        //            b.IsReturned &&
+        //            b.Request.UserId == userId)
+        //        .Include(b => b.Request)
+        //        .ThenInclude(r => r.Car)
+        //        .Include(b => b.Request.User)
+        //        .ToList();
+
+        //    return bookings;
+        //}
+        public IEnumerable<BookingDTO> GetUserBookingHistory(int userId)
+        {
+            var bookings = _repo.GetUserBookingHistory(userId); // Already filtered at repo
+
+            var bookingDTOs = bookings.Select(booking => new BookingDTO 
+            {
+                BookingID = booking.BookingID,
+                RequestID = booking.RequestID,
+                Unit = booking.Unit,
+                RentalAmount = booking.RentalAmount,
+                ActualPickupDate = booking.ActualPickupDate,
+                ActualPickupTime = booking.ActualPickupTime,
+                ActualReturnTime = booking.ActualReturnTime,
+                ActualReturnDate = booking.ActualReturnDate,
+                Request = new RequestDTO
+                {                   
+                    CarName = booking.Request.Car?.CarName,        // Safe if Car is null        
+
+                }
+            });
+
+            return bookingDTOs;
+        }
     }
+   
+
 }

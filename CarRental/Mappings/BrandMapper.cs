@@ -10,7 +10,7 @@ namespace CarRental.Mappings
             return new Brand
             {
                 BrandID = model.BrandID,
-                BrandName = model.BrandName,
+                BrandName = model.BrandName.ToUpper(),
                 IsDeleted = false
             };
         }

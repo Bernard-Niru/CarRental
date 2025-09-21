@@ -36,94 +36,163 @@
     }
 </style>
 
-<h2>Notifications</h2>
+<h2 class="text-center mb-4">Notifications</h2>
 
-<table class="table table-striped">
-    <tbody>
-        @foreach (var notification in Model)
-        {
-            if ((Purpose)notification.purpose == Purpose.RequestAccepted)
-            {
-                <tr class="table-success notification-row">
-                    <td class="d-flex align-items-center">
-                        <i class="bi bi-check-circle-fill text-success me-2" style="font-size: 1.2rem;"></i>
-                        <span>Your request for the car <strong>@notification.CarName</strong> was accepted.</span>
-                    </td>
-                    <td class="text-muted text-end">
-                        <small>@(GetTimeAgo(notification.DateTime)) ago</small>
-                    </td>
-                </tr>
-            }
-            if ((Purpose)notification.purpose == Purpose.RequestRejected)
-            {
-                <tr class="table-danger notification-row">
-                    <td class="d-flex align-items-center">
-                        <i class="bi bi-x-circle-fill text-danger me-2" style="font-size: 1.2rem;"></i>
-                        <span>Unfortunately, the car <strong>@notification.CarName</strong> is not available. Your request was rejected.</span>
-                    </td>
-                    <td class="text-muted text-end">
-                        <small>@(GetTimeAgo(notification.DateTime)) ago</small>
-                    </td>
-                </tr>
-            }
-            @if ((Purpose)notification.purpose == Purpose.BookingCancel)
-            {
-                <tr class="table-warning notification-row">
-                    <td class="d-flex align-items-center">
-                        <i class="bi bi-exclamation-triangle-fill text-warning me-2" style="font-size: 1.2rem;"></i>
-                        <span>Your booking for the car <strong>@notification.CarName</strong> has been cancelled.</span>
-                    </td>
-                    <td class="text-muted text-end">
-                        <small>@(GetTimeAgo(notification.DateTime)) ago</small>
-                    </td>
-                </tr>
-            }
-            @if ((Purpose)notification.purpose == Purpose.PickupDelay)
-            {
-                <tr class="table-warning notification-row">
-                    <td class="d-flex align-items-center">
-                        <i class="bi bi-exclamation-triangle-fill text-warning me-2" style="font-size: 1.2rem;"></i>
-                        <span>Your booking for the car <strong>@notification.CarName</strong> is ready for pickup, but there is a delay from your side.</span>
-                    </td>
-                    <td class="text-muted text-end">
-                        <small>@(GetTimeAgo(notification.DateTime)) ago</small>
-                    </td>
-                </tr>
-            }
-            @if ((Purpose)notification.purpose == Purpose.ReturnDelay)
-            {
-                <tr class="table-warning notification-row">
-                    <td class="d-flex align-items-center">
-                        <i class="bi bi-exclamation-triangle-fill text-warning me-2" style="font-size: 1.2rem;"></i>
-                        <span>
-                            Your return for the car <strong>@notification.CarName</strong> is delayed. Please return it as soon as possible.
-                        </span>
-                    </td>
-                    <td class="text-muted text-end">
-                        <small>@(GetTimeAgo(notification.DateTime)) ago</small>
-                    </td>
-                </tr>
-            }
-            @if ((Purpose)notification.purpose == Purpose.Feedback)
-            {
-                <tr class="table-info notification-row">
-                    <td class="d-flex align-items-center">
-                        <i class="bi bi-star-fill text-primary me-2" style="font-size: 1.2rem;"></i>
-                        <span>
-                            Please submit your rating for the car <strong>@notification.CarName</strong>.
-                        </span>
-                    </td>
-                    <td class="text-muted text-end">
-                        <small>@(GetTimeAgo(notification.DateTime)) ago</small>
-                    </td>
-                </tr>
-            }
+<div class="d-flex justify-content-center">
+    <div class="w-75">
+        
+        <table class="table table-striped">
+            <tbody>
+                @foreach (var notification in Model)
+                {
+                    if ((Purpose)notification.purpose == Purpose.RequestAccepted)
+                    {
+                        <tr class="table-success notification-row">
+                            <td class="d-flex align-items-center">
+                                <i class="bi bi-check-circle-fill text-success me-2" style="font-size: 1.2rem;"></i>
+                                <span>Your request for the car <strong>@notification.CarName</strong> was accepted.</span>
+                            </td>
+                            <td class="text-muted text-end">
+                                <small>@(GetTimeAgo(notification.DateTime)) ago</small>
+                            </td>
+                        </tr>
+                    }
+                    if ((Purpose)notification.purpose == Purpose.RequestRejected)
+                    {
+                        <tr class="table-danger notification-row">
+                            <td class="d-flex align-items-center">
+                                <i class="bi bi-x-circle-fill text-danger me-2" style="font-size: 1.2rem;"></i>
+                                <span>Unfortunately, the car <strong>@notification.CarName</strong> is not available. Your request was rejected.</span>
+                            </td>
+                            <td class="text-muted text-end">
+                                <small>@(GetTimeAgo(notification.DateTime)) ago</small>
+                            </td>
+                        </tr>
+                    }
+                    @if ((Purpose)notification.purpose == Purpose.BookingCancel)
+                    {
+                        <tr class="table-warning notification-row">
+                            <td class="d-flex align-items-center">
+                                <i class="bi bi-exclamation-triangle-fill text-warning me-2" style="font-size: 1.2rem;"></i>
+                                <span>Your booking for the car <strong>@notification.CarName</strong> has been cancelled.</span>
+                            </td>
+                            <td class="text-muted text-end">
+                                <small>@(GetTimeAgo(notification.DateTime)) ago</small>
+                            </td>
+                        </tr>
+                    }
+                    @if ((Purpose)notification.purpose == Purpose.PickupDelay)
+                    {
+                        <tr class="table-warning notification-row">
+                            <td class="d-flex align-items-center">
+                                <i class="bi bi-exclamation-triangle-fill text-warning me-2" style="font-size: 1.2rem;"></i>
+                                <span>Your booking for the car <strong>@notification.CarName</strong> is ready for pickup, but there is a delay from your side.</span>
+                            </td>
+                            <td class="text-muted text-end">
+                                <small>@(GetTimeAgo(notification.DateTime)) ago</small>
+                            </td>
+                        </tr>
+                    }
+                    @if ((Purpose)notification.purpose == Purpose.ReturnDelay)
+                    {
+                        <tr class="table-warning notification-row">
+                            <td class="d-flex align-items-center">
+                                <i class="bi bi-exclamation-triangle-fill text-warning me-2" style="font-size: 1.2rem;"></i>
+                                <span>
+                                    Your return for the car <strong>@notification.CarName</strong> is delayed. Please return it as soon as possible.
+                                </span>
+                            </td>
+                            <td class="text-muted text-end">
+                                <small>@(GetTimeAgo(notification.DateTime)) ago</small>
+                            </td>
+                        </tr>
+                    }
+                    @if ((Purpose)notification.purpose == Purpose.Feedback)
+                    {
+                        <tr class="table-info notification-row">
+                            <td class="d-flex align-items-center justify-content-between w-100">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-star-fill text-primary me-2" style="font-size: 1.2rem;"></i>
+                                    <span>
+                                        Please submit your rating for the car <strong>@notification.CarName</strong>.
+                                    </span>
+                                </div>
+
+                                <!-- ⭐ Button to open the rating modal -->
+                                <button class="btn btn-sm btn-primary ms-3 open-rating-modal"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#ratingModal"
+                                        data-carid="@notification.CarID">
+                                    Rate Now
+                                </button>
+
+                            </td>
+                            <td class="text-muted text-end">
+                                <small>@(GetTimeAgo(notification.DateTime)) ago</small>
+                            </td>
+                        </tr>
+                    }
+
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
 
 
+<link rel="stylesheet" href="~/css/Rating.css" asp-append-version="true" />
+<!-- Rating Modal -->
+<div class="modal fade" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header">
+                <h5 class="modal-title w-100 text-center" id="ratingModalLabel">Rate Our Service</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
 
+            <form method="post" asp-action="Ratings" asp-controller="Customer" class="rating-form">
+                <div class="modal-body">
+                    <h6 class="text-center mb-3">How was your experience?</h6>
 
-        }
-    </tbody>
-</table>
+                    <div class="star-rating d-flex justify-content-center" role="radiogroup" aria-label="Star Rating">
+                        <input type="radio" id="5-stars" name="rating" value="5" required />
+                        <label for="5-stars" class="star" title="5 stars">&#9733;</label>
 
+                        <input type="radio" id="4-stars" name="rating" value="4" />
+                        <label for="4-stars" class="star" title="4 stars">&#9733;</label>
 
+                        <input type="radio" id="3-stars" name="rating" value="3" />
+                        <label for="3-stars" class="star" title="3 stars">&#9733;</label>
+
+                        <input type="radio" id="2-stars" name="rating" value="2" />
+                        <label for="2-stars" class="star" title="2 stars">&#9733;</label>
+
+                        <input type="radio" id="1-star" name="rating" value="1" />
+                        <label for="1-star" class="star" title="1 star">&#9733;</label>
+                    </div>
+
+                    <!-- Hidden input for CarID -->
+                    <input type="hidden" name="carId" id="carId" />
+                </div>
+
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary btn-sm">Submit Rating</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ratingButtons = document.querySelectorAll('.open-rating-modal');
+        const carIdInput = document.getElementById('carId');
+
+        ratingButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const carId = this.getAttribute('data-carid');
+                carIdInput.value = carId;
+            });
+        });
+    });
+</script>
