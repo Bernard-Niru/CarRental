@@ -1,8 +1,8 @@
 ﻿@model CarRental.ViewModels.CustomerViewModel
 
 @{
-    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
-    ViewData["Title"] = "HomePage";
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdLayout.cshtml";
 }
 
 
@@ -83,9 +83,9 @@
                                 <div class="carousel-item @(i == 0 ? "active" : "")">
                                     <img src="data:image/jpeg;base64,@imgBase64" class="d-block car-image"
                                          alt="@car.Brand.BrandName @car.CarName Image @(i + 1)" />
-                               </div>
+                                </div>
 
-                                
+
                             }
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#@carouselId" data-bs-slide="prev">

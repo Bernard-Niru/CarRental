@@ -1,5 +1,6 @@
 ﻿using CarRental.DTOs;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace CarRental.ViewModels
 {
@@ -10,9 +11,20 @@ namespace CarRental.ViewModels
         public string Email { get; set; }
         public string UserName { get; set; }
         public string Role { get; set; }
+        public byte[]? ProfileImage { get; set; }
 
+
+
+        [StringLength(8, MinimumLength = 8, ErrorMessage = "Password must be exactly 8 characters long.")]
+        [Required]
         public string OldPassword { get; set; }
+
+        [StringLength(8, MinimumLength = 8, ErrorMessage = "Password must be exactly 8 characters long.")]
+        [Required]
         public string NewPassword { get; set; }
+
+        [StringLength(8, MinimumLength = 8, ErrorMessage = "Password must be exactly 8 characters long.")]
+        [Required]
         public string ConfirmPassword { get; set; }
 
 

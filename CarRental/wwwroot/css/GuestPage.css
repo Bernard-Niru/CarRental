@@ -334,117 +334,188 @@
     }*/
 /* Customer Page Light + Blue Theme */
 
+/* 🚗 General Styling and Body */
 body {
-    font-family: 'Open Sans', sans-serif;
-    background-color: #000; /* 🔹 Black background */
-    color: #eee; /* Light text */
+    font-family: 'Poppins', sans-serif; /* A more modern font */
+    background-color: #f0f2f5; /* ☀️ A light, off-white background */
+    color: #333; /* Dark gray for text for better readability */
 }
 
-/* Hero Section */
+/* 🌟 Hero Section - Lighter and more inviting */
 .hero {
-    background: linear-gradient(to right, #111, #222); /* Dark gradient */
-    color: #fff;
+    background: #ffffff; /* Clean white background */
+    color: #333;
     padding: 80px 20px;
     text-align: center;
     border-radius: 0 0 20px 20px;
-    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Lighter, subtle shadow */
 }
 
     .hero h1 {
         font-size: 3rem;
         font-weight: 700;
+        color: #1a1a1a; /* Darker heading for contrast */
     }
 
     .hero p {
         font-size: 1.2rem;
-        color: #ccc;
+        color: #555;
     }
 
     .hero .btn {
         margin-top: 20px;
-        padding: 10px 30px;
-        background-color: #007bff;
+        padding: 12px 30px;
+        background-color: #ff6f61; /* 🧡 A vibrant orange for buttons */
         color: #fff;
         border-radius: 30px;
         font-weight: 600;
         transition: all 0.3s ease;
+        border: none;
     }
 
         .hero .btn:hover {
-            background-color: #0056b3;
+            background-color: #e05e52; /* Slightly darker on hover */
             color: #fff;
+            transform: scale(1.05); /* Subtle scale effect */
         }
 
-/* Car Cards Wrapper – adds side spacing */
+
+/* 🏎️ Car Cards - Clean and well-defined */
 .row.g-4 {
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
+    padding: 2rem 1rem; /* Add padding for a better layout */
 }
 
-    /* Car Cards */
     .row.g-4 .card {
-        background: #1a1a1a; /* 🔹 Dark gray (matches black bg) */
-        color: #fff;
-        border: none;
+        background: #ffffff; /* Clean white card background */
+        color: #333;
+        border: 1px solid #e0e0e0; /* Subtle border */
         border-radius: 15px;
         margin: 10px;
-        box-shadow: 0 6px 18px rgba(0,0,0,0.6); /* Dark shadow */
-        transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08); /* Lighter shadow */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
         .row.g-4 .card:hover {
-            transform: translateY(-6px);
-            background-color: #242424; /* Slightly lighter on hover */
-            box-shadow: 0 12px 28px rgba(0, 123, 255, 0.4); /* Blue glow hover */
+            transform: translateY(-8px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15); /* More pronounced shadow on hover */
+            border-color: #ff6f61; /* Border color change on hover */
         }
 
     .row.g-4 .car-image {
         border-radius: 15px 15px 0 0;
         object-fit: cover;
+        height: 300px; /* Consistent image height */
     }
 
-    /* Badges */
+    /* Badges - More subtle and professional */
     .row.g-4 .badge {
-        background-color: #007bff;
-        color: #fff;
-        font-weight: 600;
+        background-color: #e9ecef; /* Light gray background */
+        color: #f8f9fa;
+        font-weight: 500;
+        border: 1px solid #dcdcdc;
     }
 
-    /* Card Body */
-    .row.g-4 .card-body h5,
-    .row.g-4 .card-body h6,
-    .row.g-4 .card-body p {
-        color: #ddd; /* Softer white for readability */
-    }
-
-    /* Buttons */
-    .row.g-4 .card-body .btn {
-        border: 1px solid #007bff;
-        color: #fff;
-        background: #007bff;
-        border-radius: 25px;
-        transition: all 0.3s ease;
-    }
-
-        .row.g-4 .card-body .btn:hover {
-            background-color: transparent;
-            color: #007bff;
-            border: 1px solid #007bff;
-            box-shadow: 0 5px 15px rgba(0,123,255,0.5);
+        .row.g-4 .badge i {
+            color: #1a1a1a; /* Use the accent color for icons */
         }
 
-/* Search Section */
+    /* Card Body - Improved readability */
+    .row.g-4 .card-body {
+        text-align: left;
+        padding: 1.5rem;
+    }
+
+    .row.g-4 .card-title {
+        font-weight: 600;
+        color: #1a1a1a;
+    }
+
+    .row.g-4 .card-subtitle {
+        color: #888;
+    }
+
+    .row.g-4 .card-body p {
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+
+    .row.g-4 .text-success {
+        color: #ff6f61 !important; /* Use the accent color for price */
+        font-weight: 700 !important;
+    }
+.request-btn {
+    background: #007bff; /* A clean, vibrant blue */
+    color: #fff;
+    border: none;
+    transition: all 0.3s ease, box-shadow 0.3s ease;
+    padding: 10px 20px;
+    border-radius: 25px; /* Added to match the button style */
+    font-weight: 600; /* Added for consistency */
+}
+
+    .request-btn:hover {
+        background-color: #0056b3; /* Slightly darker blue on hover */
+        transform: scale(1.05);
+        box-shadow: 0 8px 15px rgba(0, 123, 255, 0.4); /* A more pronounced blue shadow */
+        border-color: transparent; /* Ensure border doesn't appear on hover */
+    }
+
+/* 🔎 Search Section - Modern and organized */
 .search-section .bg-white {
-    background: #1a1a1a !important; /* Dark box */
-    color: #eee !important;
+    background: #ffffff !important;
+    color: #333 !important;
     border-radius: 20px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
 .search-section .form-control,
 .search-section .form-select {
-    background-color: #111;
-    border: 1px solid #333;
-    color: #fff;
-    border-
+    background-color: #f8f9fa; /* Light gray input fields */
+    border: 1px solid #ddd;
+    color: #333;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
 
+    .search-section .form-control:focus,
+    .search-section .form-select:focus {
+        border-color: #ff6f61;
+        box-shadow: 0 0 8px rgba(255, 111, 97, 0.3);
+        background-color: #fff;
+    }
+
+.search-section .input-group-text {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-right: none;
+    color: #ff6f61; /* Accent color for icons */
+}
+
+.search-section .btn-primary {
+    background-color: #007bff;
+    border-color: #0056b3;
+    font-weight: 600;
+}
+
+    .search-section .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #007bff;
+    }
+
+.search-section .info-box {
+    background-color: #e9f5ff; /* Light blue info box */
+    color: #333;
+    border-radius: 15px;
+    padding: 2rem !important;
+}
+
+    .search-section .info-box h5 {
+        color: #2b7a78; /* A dark teal for the heading */
+    }
+
+    .search-section .info-box i {
+        color: #ff6f61; /* Accent color for icons */
+    }
+
+.text-muted {
+    color: #888 !important;
+}

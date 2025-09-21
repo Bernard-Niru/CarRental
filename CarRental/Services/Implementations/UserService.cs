@@ -140,27 +140,26 @@ namespace CarRental.Services.Implementations
                 Name = user.Name,
                 Email = user.Email,
                 UserName = user.UserName,
-                Role = user.Role
+                Role = user.Role,
+                ProfileImage = user.ProfileImage
             };
         }
-        public string UpdateUser(ProfileViewModel vm,int id)
+        public string UpdatePassword(ProfileViewModel vm,int id)
         {
             var user = _repo.GetUserById(id);
             if (user == null) return "User not found";
-            user.Name = vm.Name;
 
-            // update password if provided
-            //if (!string.IsNullOrWhiteSpace(vm.NewPassword))
-            //{
-            //    string hashedOldPassword = HashPassword(vm.OldPassword);
-            //    if (user.Password != hashedOldPassword)
-            //        return "Old password is incorrect";
+            if (!string.IsNullOrWhiteSpace(vm.NewPassword))
+                {
+                    string hashedOldPassword = HashPassword(vm.OldPassword);
+                    if (user.Password != hashedOldPassword)
+                        return "Old password is incorrect";
 
-            //    if (vm.NewPassword != vm.ConfirmPassword)
-            //        return "New password and confirm password do not match.";
+                    if (vm.NewPassword != vm.ConfirmPassword)
+                        return "New password and confirm password do not match.";
 
-            //    user.Password = HashPassword(vm.NewPassword);
-            //}
+                    user.Password = HashPassword(vm.NewPassword);
+                }
 
             return _repo.UpdateUser(user);
            
@@ -193,6 +192,18 @@ namespace CarRental.Services.Implementations
             var users = await _repo.GetAllAsync();
             return users.Count(u => u.Bookings != null && u.Bookings.Any());
         }
+
+        public async Task<string> UpdateProfileImageAsync(int userId, byte[] imageBytes)
+        {
+            var user = _repo.GetUserById(userId);
+            if (user == null) return "User not found";
+
+            user.ProfileImage = imageBytes;
+            await _repo.UpdateUserAsync(user);
+            return "update successful";
+        }
+
+
 
     }
 }

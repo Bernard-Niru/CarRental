@@ -126,7 +126,7 @@ namespace CarRental.Controllers
                     Session.UserID = int.Parse(user[1].Trim());
 
                     if (user[0] == "Admin")
-                        return RedirectToAction("Dashboard", "Admin");
+                        return RedirectToAction("Index", "Admin");
                     if (user[0] == "Customer")
                         return RedirectToAction("HomePage", "Customer");
                     if (user[0] == "Staff")
@@ -150,8 +150,9 @@ namespace CarRental.Controllers
             return View(combinedViewModel);
         }
 
+      
+        
 
-            
         // Helper: pick daily 6 cars
         private List<CarDTO> GetDailyCars(IEnumerable<CarDTO> allCars, int maxCount)
         {
