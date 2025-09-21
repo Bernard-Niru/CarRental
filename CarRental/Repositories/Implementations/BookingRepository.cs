@@ -80,6 +80,21 @@ namespace CarRental.Repositories.Implementations
 
             return bookings.Select(b => b.Request.UserID).Distinct().Count();
         }
+        IEnumerable<Booking> IBookingRepository.GetUserBookingHistory(int userId)
+        {
+            var bookings = _context.Bookings
+                .Where(b =>
+                    !b.IsDeleted &&
+                    b.IsPicked &&
+                    b.IsReturned &&
+                    b.Request.UserID == userId)
+                .Include(b => b.Request)
+                .Include(b => b.Request.Car)
+                .Include(b => b.Request.User)
+                .ToList();
+
+            return bookings;
+        }
 
 
     }

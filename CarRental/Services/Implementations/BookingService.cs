@@ -4,6 +4,7 @@ using CarRental.Enums.UserEnums;
 using CarRental.Models;
 using CarRental.Repositories.Interfaces;
 using CarRental.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace CarRental.Services.Implementations
@@ -166,5 +167,45 @@ namespace CarRental.Services.Implementations
             _notificationService.Add(CarID, UserID, Purpose.BookingCancel);
 
         }
+        //public IEnumerable<Booking> GetUserBookingHistory(int userId)
+        //{
+        //    var bookings = _repo.GetUserBookingHistory
+        //        .Where(b =>
+        //            !b.IsDeleted &&
+        //            b.IsPicked &&
+        //            b.IsReturned &&
+        //            b.Request.UserId == userId)
+        //        .Include(b => b.Request)
+        //        .ThenInclude(r => r.Car)
+        //        .Include(b => b.Request.User)
+        //        .ToList();
+
+        //    return bookings;
+        //}
+        public IEnumerable<BookingDTO> GetUserBookingHistory(int userId)
+        {
+            var bookings = _repo.GetUserBookingHistory(userId); // Already filtered at repo
+
+            var bookingDTOs = bookings.Select(booking => new BookingDTO 
+            {
+                BookingID = booking.BookingID,
+                RequestID = booking.RequestID,
+                Unit = booking.Unit,
+                RentalAmount = booking.RentalAmount,
+                ActualPickupDate = booking.ActualPickupDate,
+                ActualPickupTime = booking.ActualPickupTime,
+                ActualReturnTime = booking.ActualReturnTime,
+                ActualReturnDate = booking.ActualReturnDate,
+                Request = new RequestDTO
+                {                   
+                    CarName = booking.Request.Car?.CarName,        // Safe if Car is null        
+
+                }
+            });
+
+            return bookingDTOs;
+        }
     }
+   
+
 }

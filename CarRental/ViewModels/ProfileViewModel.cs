@@ -22,6 +22,8 @@ namespace CarRental.ViewModels
         public IEnumerable<CarDTO> TopCars => GuestPage?.TopCars;
         public IEnumerable<SelectListItem> BrandOptions => GuestPage?.BrandOptions;
 
+        public IEnumerable<BookingDTO> bookings;
+
 
 
     }
