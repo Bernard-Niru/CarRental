@@ -27,6 +27,8 @@ namespace CarRental.Models
         [Required]
         public bool IsDeleted { get; set; }
 
+        public byte[]? ProfileImage { get; set; }
+
         // Navigation properties
 
         public ICollection<Request>? Requests { get; set; }

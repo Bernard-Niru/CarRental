@@ -13,5 +13,7 @@ namespace CarRental.DTOs
         public string Email { get; set; }
         public string UserName { get; set; }
         public UserRole Role { get; set; }
+
+        public byte[]? ProfileImage { get; set; }
     }
 }

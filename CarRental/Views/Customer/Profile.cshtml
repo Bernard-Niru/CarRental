@@ -16,7 +16,7 @@
         <div class="d-flex justify-content-between align-items-center bg-primary text-white p-4 rounded shadow-sm mb-4">
         <h2 class="mb-0">Customer Profile</h2>
         <a type="button" class="btn btn-outline-light fw-semibold" data-bs-toggle="modal" data-bs-target="#registerModal">
-            <i class="bi bi-pencil-square me-2"></i> Edit Profile
+            <i class="bi bi-pencil-square me-2"></i> Update Password
         </a>
     </div>
 
@@ -24,17 +24,33 @@
         <div class="row g-4 align-items-center">
 
             <div class="col-md-4 text-center">
-                <img id="profileImage"
-                     src="~/image/vector-sign-of-user-icon.jpg"
+                <img id="profileImage" src="/Customer/GetProfileImage?userId=@Model.Id"
                      class="rounded-circle shadow-sm"
                      style="width: 160px; height: 160px; object-fit: cover;"
                      alt="Profile Picture" />
 
                 <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="uploadProfilePicture(this)" />
 
-                <button class="btn btn-primary mt-3" onclick="document.getElementById('fileInput').click();">
-                    Change Picture
+                <button class="btn btn-primary mt-3" id="openUploadBtn">
+                    <i class="bi bi-camera"></i>
                 </button>
+
+                <div id="uploadCard" class="card glass-card shadow-lg mx-auto mt-3" style="max-width: 700px; display: none;">
+                    <div class="card-body p-4">
+                        <form asp-action="UpdateProfileImage" asp-controller="Customer" method="post" enctype="multipart/form-data">
+                            <!-- Image Upload -->
+                            <div class="form-group mb-3">
+                                <label for="ImageFiles">Upload Image</label>
+                                <input type="file" id="ImageFiles" name="profileImage" class="form-control" accept="image/*" />
+                            </div>
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-gradient w-100 fw-bold">
+                                <i class="fas fa-plus-circle me-1"></i> Upload Images
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
             </div>
 
             
@@ -67,25 +83,8 @@
             <div class="wrapper">
                 <form asp-action="Update" asp-controller="Customer" method="post">
                     <div id="RegisterError" class="alert alert-danger" style="display:none;"></div>
-                    <h2>Register</h2>
-
-                    <div class="input-field">
-                        <input asp-for="Name" type="text" required />
-                        <label asp-for="Name">Enter Your Name</label>
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-
-                    <div class="input-field">
-                        <input asp-for="Email" type="email" required />
-                        <label asp-for="Email">Enter Your Email</label>
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-
-                    <div class="input-field">
-                        <input asp-for="UserName" type="text" required />
-                        <label asp-for="UserName">Enter Your UserName</label>
-                        <span asp-validation-for="UserName" class="text-danger"></span>
-                    </div>
+                    <h2>Change Password</h2>
+ 
                     <div class="input-field">
                         <input asp-for="OldPassword" type="password" required />
                         <label asp-for="OldPassword">Enter Your OldPassword</label>
@@ -122,71 +121,6 @@
         </div>
     </div>
 </div>
-
-<script src="~/js/AddProfile.js"></script> 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -245,5 +179,17 @@
 </div>
 
 
+<script>
+document.getElementById("openUploadBtn").addEventListener("click", function() {
+    // Show the upload card
+    document.getElementById("uploadCard").style.display = "block";
+
+
+    // Automatically open file input
+    document.getElementById("ImageFiles").click();
+});
+</script>
+
+<script src="~/js/AddProfile.js"></script> 
 
 

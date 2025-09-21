@@ -86,9 +86,16 @@ namespace CarRental.repo.Implementations
         }
         public string UpdateUser(User user)
         {
-             _context.Users.Update(user);
+            _context.Users.Update(user);
             _context.SaveChanges();
-            return "Profile updated successfully!";
+            return "update successful";
+
+        }
+        public async Task<string> UpdateUserAsync(User user)
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return "update successful";
         }
 
     }

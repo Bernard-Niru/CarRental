@@ -203,9 +203,9 @@ namespace CarRental.Controllers
             //}
             int id = Session.UserID;
 
-            var result = _userService.UpdateUser(vm,id);
+            var result = _userService.UpdatePassword(vm,id);
 
-            if (result == "Profile updated successfully!")
+            if (result == "Password updated successfully!")
                 TempData["Success"] = result;
             else
                 TempData["Error"] = result;
@@ -226,8 +226,80 @@ namespace CarRental.Controllers
             return View("Profile",bookings);
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> UpdateProfileImage(IFormFile profileImage)
+        //{
+        //    if (profileImage == null || profileImage.Length == 0)
+        //    {
+        //        return BadRequest("No file selected");
+        //    }
+        //    int userId = Session.UserID; // Or use ClaimsPrincipal if available
+
+        //    using var ms = new MemoryStream();
+        //    await profileImage.CopyToAsync(ms);
+        //    byte[] imageBytes = ms.ToArray();
+
+        //    var result = await _userService.UpdateProfileImageAsync(userId, imageBytes);
+
+        //    return View("Profile");
+        //}
+        [HttpPost]
+        public async Task<IActionResult> UpdateProfileImage(IFormFile profileImage)
+        {
+            if (profileImage == null || profileImage.Length == 0)
+            {
+                TempData["Error"] = "No file selected";
+                return RedirectToAction("Profile");
+            }
+
+            int userId = Session.UserID; // or from ClaimsPrincipal
+
+            using var ms = new MemoryStream();
+            await profileImage.CopyToAsync(ms);
+            byte[] imageBytes = ms.ToArray();
+
+            var result = await _userService.UpdateProfileImageAsync(userId, imageBytes);
+
+            if (string.IsNullOrEmpty(result) || result != "success")
+            {
+                TempData["Error"] = "Image upload failed!";
+                return RedirectToAction("Profile");
+            }
 
 
+            TempData["Success"] = "Profile image updated successfully!";
+
+            // 🔑 Always reload user profile and return with model
+            var user = _userService.GetUserById(userId);
+            var vm = new ProfileViewModel
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                UserName = user.UserName,
+                Role = user.Role.ToString()
+            };
+
+            return View("Profile", vm);
+        }
+
+
+
+        [HttpGet]
+        public IActionResult GetProfileImage(int userId)
+        {
+            var user = _userService.GetUserById(userId);
+
+            if (user?.ProfileImage == null || user.ProfileImage.Length == 0)
+            {
+                // Load default placeholder image from wwwroot/image
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/image/vector-sign-of-user-icon.jpg");
+                var bytes = System.IO.File.ReadAllBytes(path);
+                return File(bytes, "image/jpeg");
+            }
+
+            return File(user.ProfileImage, "image/jpeg");
+        }
 
 
 

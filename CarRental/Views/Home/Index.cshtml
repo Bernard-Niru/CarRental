@@ -349,7 +349,7 @@
 }
 <link rel="stylesheet" href="~/css/Guest.css" asp-append-version="true" />
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-
+@await Html.PartialAsync("/Views/Shared/_LoginRegisterPartial.cshtml", new CarRental.ViewModels.UserViewModel())
 <section class="hero d-flex align-items-center text-center bg-light py-5" data-aos="fade-up">
     <div class="container">
         <h1 class="fw-bold display-4 text-primary">Welcome to HotWheelz</h1>
@@ -426,8 +426,10 @@
 </section>
 
 @section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <partial name="_ValidationScriptsPartial" />
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
     <script>
         AOS.init({
             once: true

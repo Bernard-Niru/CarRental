@@ -104,15 +104,16 @@
                     <div id="loginError" class="alert alert-danger" style="display:none;"></div>
                     <h2>Log In</h2>
 
+                   
                     <div class="input-field">
-                        <input asp-for="UserName" type="text" required />
-                        <label asp-for="UserName">Enter Your UserName</label>
+                        <input asp-for="UserName" id="Login_UserName" type="text" required />
+                        <label for="Login_UserName">Enter Your UserName</label>
                         <span asp-validation-for="UserName" class="text-danger"></span>
                     </div>
 
                     <div class="input-field">
-                        <input asp-for="Password" type="password" required />
-                        <label asp-for="Password">Enter Your Password</label>
+                        <input asp-for="Password" id="Login_Password" type="password" required />
+                        <label for="Login_Password">Enter Your Password</label>
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
 
@@ -155,15 +156,16 @@
                         <span asp-validation-for="EmailAddress" class="text-danger"></span>
                     </div>
 
+                   
                     <div class="input-field">
-                        <input asp-for="UserName" type="text" required />
-                        <label asp-for="UserName">Enter Your UserName</label>
+                        <input asp-for="UserName" id="Register_UserName" type="text" required />
+                        <label for="Register_UserName">Enter Your UserName</label>
                         <span asp-validation-for="UserName" class="text-danger"></span>
                     </div>
 
                     <div class="input-field">
-                        <input asp-for="Password" type="password" required />
-                        <label asp-for="Password">Enter Your Password</label>
+                        <input asp-for="Password" id="Register_Password" type="password" required />
+                        <label for="Register_Password">Enter Your Password</label>
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
 
