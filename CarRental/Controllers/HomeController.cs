@@ -110,9 +110,9 @@ namespace CarRental.Controllers
             }
 
         [HttpPost]
-        public async Task<IActionResult> login(UserViewModel login)
+        public async Task<IActionResult> login(LoginViewModels login)
         {
-            string username = login.UserName?.Trim();
+            string username = login.Usernamelogin?.Trim();
             bool userExists = await _userservice.CheckAsync(username);
 
             if (userExists)

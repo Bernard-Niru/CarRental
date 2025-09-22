@@ -301,6 +301,23 @@ namespace CarRental.Controllers
             return File(user.ProfileImage, "image/jpeg");
         }
 
+        public IActionResult Search(string CarName,int BrandId,string Color)
+        {
+            var Car = _carService.Search(CarName, BrandId, Color);
+            if(Car != null)
+            {
+                var CombainedViewModel = new CombinedViewModel
+                {
+                    car = Car,
+                };
+                return View(CombainedViewModel);
+            }
+            TempData["ErrorMessage"] = "Car Not Found";
+            var vm = _carService.GetAvailableCarsForCustomer();
+            return View("HomePage", vm);
+
+        }
+
 
 
 

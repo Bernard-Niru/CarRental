@@ -78,15 +78,15 @@ namespace CarRental.Services.Implementations
         {
             _repo.DeletebyID(id);
         }
-        public string CheckPassword(UserViewModel login)
+        public string CheckPassword(LoginViewModels login)
         {
-            var User = _repo.CheckPassword(login.UserName.Trim());
+            var User = _repo.CheckPassword(login.Usernamelogin.Trim());
             if (User == null)
             {
                 return "Account Blocked";
             }
             string hashedPassword = Convert.ToBase64String(
-                SHA256.HashData(Encoding.UTF8.GetBytes(login.Password.Trim()))
+                SHA256.HashData(Encoding.UTF8.GetBytes(login.Passwordlogin.Trim()))
             );
             if (User.Password != hashedPassword)
             {

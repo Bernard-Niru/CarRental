@@ -275,6 +275,49 @@ namespace CarRental.Services.Implementations
             }
         }
 
+       public CarDTO Search(string carName, int BrandId, string color)
+        {
+            var car = _repo.Search(carName, BrandId, color);
+            if (car == null) return null;
+            var carDTO = new CarDTO
+            {
+                CarID = car.CarID,
+                CarName = car.CarName,
+                BrandID = car.BrandID,
+                CarType = car.CarType,
+                FuelType = car.FuelType,
+                GearType = car.GearType,
+                Color = car.Color,
+                No_of_Seats = car.No_of_Seats,
+                Ratings = car.Ratings,
+                RentalRate = car.RentalRate,
+                AvailableUnit = car.AvailableUnit,
+
+                Brand = new BrandDTO
+                {
+                    BrandID = car.Brand.BrandID,
+                    BrandName = car.Brand.BrandName
+                },
+
+                Images = car.Images?.Select(i => new ImageDTO
+                {
+                    Id = i.ImageID,
+                    CarId = i.CarID,
+                    ImageBase64 = Convert.ToBase64String(i.ImageData)
+                }).ToList() ?? new(),
+
+                Units = car.Units?.Select(u => new UnitDTO
+                {
+                    UnitID = u.UnitID,
+                    CarID = u.CarID,
+                    PlateNumber = u.PlateNumber,
+                    IsAvailble = u.IsAvailble
+                }).ToList() ?? new()
+            };
+            return carDTO;
+
+        }
+
         //public GuestPageViewModel GetTopRatedCars()
         //{ 
         //    var allCars = GetAll(); // existing method that gets all cars

@@ -9,8 +9,9 @@ namespace CarRental.ViewModels
         public GuestPageViewModel GuestPage { get; set; }
         public UserViewModel User { get; set; }
         public LoginViewModels Login { get; set; }
+        public CarDTO car { get; set; }
 
-       
+
 
         // Shortcuts so Razor doesn’t break
         public IEnumerable<CarDTO> Cars => GuestPage?.Cars;

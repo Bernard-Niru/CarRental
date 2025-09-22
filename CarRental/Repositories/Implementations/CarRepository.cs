@@ -25,8 +25,6 @@ namespace CarRental.repo.Implementations
             var cars = _context.Cars
                         .Where(c => !c.IsDeleted && !c.Brand.IsDeleted)
                         .Include(c => c.Brand)
-                        .Include(c => c.Ratings)
-                     
                         .ToList();
 
             // Manually filter out deleted images and units
@@ -50,7 +48,7 @@ namespace CarRental.repo.Implementations
                     var cars = _context.Cars
                                 .Where(c => !c.IsDeleted
                                             && !c.Brand.IsDeleted
-                                            && c.Units.Any(unit => !unit.IsDeleted && unit.IsAvailble)) // at least one available unit
+                                            && c.AvailableUnit > 0) 
                                 .Include(c => c.Brand)
                                 .Include(c => c.Images)
                                 .Include(c => c.Units)
@@ -123,7 +121,23 @@ namespace CarRental.repo.Implementations
             return (result.UnitCount, result.AvailableUnit);
         }
 
+        public Car Search(string carName,int BrandId,string color)
+        {
+            var car = _context.Cars
+                .Where(c => !c.IsDeleted &&
+                !c.Brand.IsDeleted &&
+                c.CarName.ToLower() == carName.ToLower() &&
+                c.BrandID == BrandId&&
+                c.Color == color)
+                .Include(c => c.Brand)
+                .Include(c => c.Images)
+                .Include(c => c.Units)
+                .FirstOrDefault();
 
+             if(car!= null)   car.Images = car.Images?.ToList();
+            if (car == null)return null;
+            return car;
+        }
 
 
         //public List<Unit> GetUnitsByCarId(int carId)
