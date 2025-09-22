@@ -24,10 +24,12 @@
         <div class="row g-4 align-items-center">
 
             <div class="col-md-4 text-center">
-                <img id="profileImage" src="/Customer/GetProfileImage?userId=@Model.Id"
+               <img id="profileImage" 
+                     src="@Url.Action("GetProfileImage", "Customer", new { userId = Model.Id, t = DateTime.Now.Ticks })"
                      class="rounded-circle shadow-sm"
                      style="width: 160px; height: 160px; object-fit: cover;"
                      alt="Profile Picture" />
+
 
                 <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="uploadProfilePicture(this)" />
 

@@ -1,5 +1,11 @@
 ﻿@model CarRental.ViewModels.CombinedViewModel
 
+
+@{
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    ViewData["Title"] = "Search";
+}
+
 @{
     var carouselId = $"carousel_{@Model.car.CarID}";
 }

@@ -77,7 +77,8 @@
 
     <div class="swiper-pagination"></div>
 </div>
-@await Html.PartialAsync("Notification", Model.Notifications)
+
+
 
 <!-- Car Catalog -->
 @await Html.PartialAsync("_RequestPartial", new CarRental.ViewModels.RequestViewModel())
@@ -156,6 +157,19 @@
 </div>
 
 <br />
+<div class="text-center my-4">
+    <a asp-action="Cars" class="btn btn-outline-primary btn-lg" style="
+        border-width: 2px;
+        border-radius: 40px;
+        padding: 12px 28px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    " onmouseover="this.style.backgroundColor='#007BFF'; this.style.color='white';"
+       onmouseout="this.style.backgroundColor='transparent'; this.style.color='#007BFF';">
+        View All Cars <i class="bi bi-box-arrow-in-right ms-2"></i>
+    </a>
+</div>
+
 <br />
 
 <section class="search-section py-5">

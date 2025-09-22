@@ -153,19 +153,8 @@ namespace CarRental.Controllers
       
         
 
-        // Helper: pick daily 6 cars
-        private List<CarDTO> GetDailyCars(IEnumerable<CarDTO> allCars, int maxCount)
-        {
-            if (allCars == null || !allCars.Any())
-                return new List<CarDTO>();
 
-            // Seed based on today's date ? same 6 cars per day
-            int seed = DateTime.Today.Year * 10000 + DateTime.Today.Month * 100 + DateTime.Today.Day;
-            var rng = new Random(seed);
-
-            // Shuffle and take top 'maxCount'
-            return allCars.OrderBy(c => rng.Next()).Take(maxCount).ToList();
-        }
+        
 
         //[HttpPost]
         //public IActionResult Index(string Open = "defaultValue")
