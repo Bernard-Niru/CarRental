@@ -1,0 +1,72 @@
+﻿@model CarRental.ViewModels.CombinedViewModel
+
+@{
+    var carouselId = $"carousel_{@Model.car.CarID}";
+}
+<link rel="stylesheet" href="~/css/GuestPage.css" asp-append-version="true" />
+@await Html.PartialAsync("_RequestPartial", new CarRental.ViewModels.RequestViewModel())
+            <div class="col-sm-6 col-md-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <!-- Carousel -->
+                    <div id="@carouselId" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                @for (int i = 0; i < @Model.car.Images.Count; i++)
+                            {
+                    var imgBase64 = @Model.car.Images[i].ImageBase64;
+
+                                <div class="carousel-item @(i == 0 ? "active" : "")">
+                                    <img src="data:image/jpeg;base64,@imgBase64" class="d-block car-image"
+                             alt="@Model..Brand.BrandName @Model.car.CarName Image @(i + 1)" />
+                                </div>
+
+
+                            }
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#@carouselId" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#@carouselId" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+
+                    <!-- Badges -->
+                    <div class="d-flex justify-content-center flex-wrap gap-2 p-2">
+                        <span class="badge bg-secondary">@Model.car.CarType <i class="bi bi-car-front-fill ms-1"></i></span>
+                        <span class="badge bg-secondary">@Model.car.FuelType <i class="bi bi-fuel-pump-fill ms-1"></i></span>
+                        <span class="badge bg-secondary">@Model.car.GearType <i class="bi bi-gear-fill ms-1"></i></span>
+                        <span class="badge bg-secondary">@Model.car.Ratings <i class="bi bi-star-fill ms-1"></i></span>
+                        <span class="badge bg-secondary">@Model.car.No_of_Seats <i class="bi bi-people-fill ms-1"></i></span>
+                        <span class="badge"
+                              style="background-color:@(Model.car.Color ?? "transparent");width:20px; height:20px; border-radius:50%; border:1px solid black;">
+                        </span>
+                    </div>
+
+                    <!-- Info -->
+                    <div class="card-body text-center">
+            <h5 class="card-title">@Model.car.CarName</h5>
+            <h6 class="card-subtitle mb-2 text-muted">@Model.car.Brand.BrandName</h6>
+            <p class="text-success fw-bold fs-5">Rs @Model.car.RentalRate.ToString("N0") / Day</p>
+            @if (Model.car.AvailableUnit > 0)
+            {
+                <button @* data-bs-toggle="modal" data-bs-target="#RequestModal" *@ type="button"
+                        class="btn btn-sm px-4 request-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addCarModal"
+                        data-carname="@Model.car.CarName"
+                        data-carid="@Model.car.CarID"
+                        data-rentalrate="@Model.car.RentalRate"
+                        data-brand="car.Brand.BrandName">
+                    Book
+                </button>
+            }
+            else
+            {
+                <button disabled>Booking UnAvailable</button>
+            }
+                        
+                    </div>
+                </div>
+            </div>

@@ -18,5 +18,6 @@ namespace CarRental.repo.Interfaces
         //List<int> GetCarIdsWithavailableUnits();
         IEnumerable<Car> GetAvailableCars();
         //List<Unit> GetUnitsByCarId(int carId);
+        Car Search(string carName, int BrandId, string color);
     }
 }

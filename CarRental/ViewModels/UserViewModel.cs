@@ -18,7 +18,10 @@ namespace CarRental.ViewModels
         public string Password { get; set; }
         [Required]
         public UserRole Role { get; set; }
+        
 
+
+        public LoginViewModels login { get; set; }
 
 
 

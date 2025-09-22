@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CarRental.Migrations
 {
     /// <inheritdoc />
-    public partial class IntialMigration : Migration
+    public partial class MigrationFinal : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,6 +37,7 @@ namespace CarRental.Migrations
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ProfileImage = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -268,7 +269,8 @@ namespace CarRental.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Ratings_CarID",
                 table: "Ratings",
-                column: "CarID");
+                column: "CarID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Requests_CarID",

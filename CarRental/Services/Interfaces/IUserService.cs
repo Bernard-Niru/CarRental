@@ -14,7 +14,7 @@ namespace CarRental.Services.Interfaces
         UserDTO GetbyId(int id);
         void Edit(UserDTO userDTO);
         void Delete(int id);
-        string CheckPassword(UserViewModel login);
+        string CheckPassword(LoginViewModels login);
         string ChangePassword(int userId, string oldPassword, string newPassword);
         UserDTO GetUserById(int id);
         string UpdatePassword(ProfileViewModel vm,int id);

@@ -23,6 +23,7 @@ public interface ICarService
 
     void ChangeUnitCount(int Carid, int Count);
     void ChangeAvailableCount(int Carid, int Count);
+    CarDTO Search(string carName, int BrandId, string color);
 
 
 

@@ -228,7 +228,8 @@ namespace CarRental.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarID");
+                    b.HasIndex("CarID")
+                        .IsUnique();
 
                     b.ToTable("Ratings");
                 });
@@ -403,8 +404,8 @@ namespace CarRental.Migrations
             modelBuilder.Entity("CarRental.Models.Ratings", b =>
                 {
                     b.HasOne("CarRental.Models.Car", "Car")
-                        .WithMany("ratings")
-                        .HasForeignKey("CarID")
+                        .WithOne("ratings")
+                        .HasForeignKey("CarRental.Models.Ratings", "CarID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -456,7 +457,8 @@ namespace CarRental.Migrations
 
                     b.Navigation("notifications");
 
-                    b.Navigation("ratings");
+                    b.Navigation("ratings")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CarRental.Models.Request", b =>
