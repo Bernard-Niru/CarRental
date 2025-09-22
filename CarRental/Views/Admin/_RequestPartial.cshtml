@@ -78,9 +78,47 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        flatpickr(".date-input", {
+        const pickupInput = document.getElementById("PickupDate");
+        const returnInput = document.getElementById("ReturnDate");
+
+        // Initialize Pickup Date Picker — disallow past dates
+        const pickupPicker = flatpickr(pickupInput, {
             dateFormat: "Y-m-d",
-            minDate: "today" // Prevent selecting past dates
+            minDate: "today",
+            onChange: function (selectedDates, dateStr, instance) {
+                // When a pickup date is selected, update the return date picker
+                if (selectedDates.length > 0) {
+                    const selectedPickupDate = selectedDates[0];
+
+                    returnPicker.set('minDate', selectedPickupDate.fp_incr(1)); // Return must be at least 1 day after pickup
+                }
+            }
+        });
+
+        // Initialize Return Date Picker — default minDate is today
+        const returnPicker = flatpickr(returnInput, {
+            dateFormat: "Y-m-d",
+            minDate: "today"
+        });
+
+        // Form validation: pickup must be before return
+        const form = document.querySelector("form");
+
+        form.addEventListener("submit", function (e) {
+            const pickup = new Date(pickupInput.value);
+            const ret = new Date(returnInput.value);
+
+            if (!pickupInput.value || !returnInput.value) {
+                alert("Please select both pickup and return dates.");
+                e.preventDefault();
+                return;
+            }
+
+            if (pickup >= ret) {
+                e.preventDefault();
+                alert("Return date must be after pickup date.");
+                returnInput.focus();
+            }
         });
     });
 </script>
