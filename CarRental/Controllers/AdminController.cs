@@ -27,7 +27,7 @@ namespace CarRental.Controllers
         private readonly IDashboardService _dashboardService;
 
         public AdminController(IBrandService brandService,
-                       ICarService carService,    
+                       ICarService carService,
                        IImageService imageService,
                        IUnitService unitService,
                        IUserService userService,
@@ -48,21 +48,6 @@ namespace CarRental.Controllers
             _dashboardService = dashboardService;
         }
 
-
-        //public async Task<IActionResult> Dashboard()
-        //{
-        //    var vm = new AdminDashboardViewModel
-        //    {
-        //        TotalRequests = _requestService.GetAll().Count(),
-        //        TotalBookings = _bookingService.GetAll().Count(),
-        //        PickedBookings = _bookingService.GetAllPicked().Count(),
-        //        ReturnedBookings = _bookingService.GetAllReturned().Count(),
-        //        NewUsersThisMonth = await _userService.GetNewUsersThisMonthAsync(),
-        //        ActiveCustomers = await _userService.GetActiveCustomersAsync()
-        //    };
-
-        //    return View("AdminDashborad/Dashboard",vm);
-        //}
         public async Task<IActionResult> Dashboard()
         {
             var vm = await _dashboardService.GetDashboardDataAsync();
@@ -94,8 +79,6 @@ namespace CarRental.Controllers
         }
 
 
-
-
         [HttpGet]
         public IActionResult Index()
         {
@@ -109,9 +92,9 @@ namespace CarRental.Controllers
             return View("Index", vm);
         }
 
-            //=========================================== BRANDS ===============================================================
+        //=========================================== BRANDS ===============================================================
 
-            public IActionResult ViewBrands()
+        public IActionResult ViewBrands()
         {
             var brand = _brandService.GetAll();
 
@@ -134,7 +117,7 @@ namespace CarRental.Controllers
             {
                 return View(model);
             }
-          
+
             _brandService.Add(model);
             TempData["SuccessMessage"] = "Brand added successfully!";
             return RedirectToAction("AddCar", "Admin");
@@ -152,9 +135,9 @@ namespace CarRental.Controllers
             return View("Brand/UpdateBrand", brand);
         }
         [HttpPost]
-        public IActionResult UpdateBrand(BrandViewModel model) 
+        public IActionResult UpdateBrand(BrandViewModel model)
         {
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
                 _brandService.Update(model);
                 return RedirectToAction("ViewBrands");
@@ -162,9 +145,9 @@ namespace CarRental.Controllers
             return View(model);
         }
 
-        public IActionResult DeleteBrand(int id) 
+        public IActionResult DeleteBrand(int id)
         {
-            
+
             _brandService.Delete(id);
             TempData["SuccessMessage"] = "Brand deleted successfully!";
             return RedirectToAction("ViewBrands");
@@ -194,14 +177,14 @@ namespace CarRental.Controllers
                 TempData["SuccessMessage"] = "User added successfully!";
                 await _userService.AddAsync(model);
                 return RedirectToAction("ViewUser");
-            }           
+            }
             return View("User/AddUser", model);
         }
 
         public async Task<IActionResult> ViewUser()
         {
             var User = await _userService.GetallAsync();
-            return View("User/ViewUser",User);
+            return View("User/ViewUser", User);
         }
         [HttpGet]
         public IActionResult EditUser(int Id)
@@ -279,7 +262,6 @@ namespace CarRental.Controllers
         }
 
 
-
         public IActionResult ViewCars()
         {
             var Car = _carService.GetAll();
@@ -295,13 +277,13 @@ namespace CarRental.Controllers
                 return NotFound();
             }
 
-           var brands = _brandService.GetAll()
-            .Select(b => new SelectListItem
-            {
-                Value = b.BrandID.ToString(),
-                Text = b.BrandName
-            })
-            .ToList();
+            var brands = _brandService.GetAll()
+             .Select(b => new SelectListItem
+             {
+                 Value = b.BrandID.ToString(),
+                 Text = b.BrandName
+             })
+             .ToList();
 
             ViewBag.BrandList = brands;
             ViewBag.CarType = new SelectList(Enum.GetValues(typeof(CarType)));
@@ -316,7 +298,7 @@ namespace CarRental.Controllers
         {
             string message = _carService.Update(model);
             TempData["SuccessMessage"] = message;
-            return RedirectToAction("ViewCars"); 
+            return RedirectToAction("ViewCars");
         }
 
 
@@ -327,99 +309,6 @@ namespace CarRental.Controllers
             TempData["SuccessMessage"] = "Car deleted successfully!";
             return RedirectToAction("ViewCars");
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //=========================================== UNITS + IMAGES ======================================================
-
-
-        //[HttpPost]
-        //public async Task<IActionResult> AddUnit(UnitImageViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        await _unitService.AddWithImagesAsync(model);
-        //        return RedirectToAction("ViewUnit");
-        //    }
-
-        //    return View(model);
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> AddUnit(UnitImageViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        // Create an instance of the new ViewModel
-        //        var unitsModel = new AddUnitsViewModel();
-        //        unitsModel.Units.Add(model);
-
-        //        // Call the corrected method on the service
-        //        await _unitService.AddWithImagesAsync(unitsModel);
-
-        //        return RedirectToAction("ViewUnits");
-        //    }
-
-        //    return View(model);
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> AddUnit(AddUnitsViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //   {
-        //        await _unitService.AddWithImagesAsync(model);
-        //        return RedirectToAction("ViewUnits");
-        //    }
-
-        //    TempData["ErrorMessage"] = "Failed to add unit. Please check the form.";
-        //    return RedirectToAction("ViewCars");
-        //}
-
-
-        //[HttpPost]
-        //public async Task<IActionResult> AddUnit(AddUnitsViewModel model)
-        //{
-        //    foreach (var unit in model.Units)
-        //    {
-        //        foreach (var plate in unit.PlateNumbers)
-        //        {
-        //            if (plate.Length > 10)
-        //            {
-        //                ModelState.AddModelError("PlateNumbers", $"Plate number '{plate}' exceeds 10 characters.");
-        //            }
-        //        }
-        //    }
-
-        //    if (!ModelState.IsValid)
-        //    {
-        //        TempData["ErrorMessage"] = "Some plate numbers are invalid.";
-        //        return RedirectToAction("ViewCars");
-        //    }
-
-        //    await _unitService.AddUnitsAsync(model);
-        //    return RedirectToAction("ViewCars");
-        //}
 
 
         [HttpPost]
@@ -451,9 +340,9 @@ namespace CarRental.Controllers
 
                 _imageService.Add(images);
             }
-         
-                // Handle unit uploads
-                if (Units != null && Units.Any())
+
+            // Handle unit uploads
+            if (Units != null && Units.Any())
             {
                 var unitList = new List<Unit>();
                 foreach (var unit in Units.Where(u => !string.IsNullOrWhiteSpace(u)))
@@ -475,69 +364,7 @@ namespace CarRental.Controllers
             return RedirectToAction("ViewCars");
         }
 
-
-
-        public IActionResult ViewUnitofCar(int CarID) 
-        {
-            var units = _unitService.GetByCarID(CarID);
-            ViewBag.CarID = CarID;
-            return View("Car/UnitofCar",units);
-        }
-         
-        public IActionResult ChangeAvailability(int id,int CarID) 
-        {
-            string message =_unitService.ChangeAvailability(id);
-            int UnitCounts;
-            if (message == "Add") {  UnitCounts = 1; }
-            else if (message == "min") { UnitCounts = -1;  }
-            else {  UnitCounts = 0; }
-            _carService.ChangeAvailableCount(CarID, UnitCounts);
-
-            return RedirectToAction("ViewUnitofCar", "Admin", new { CarID = CarID });
-            
-           
-        }
-        public IActionResult ViewImageofCar(int CarID)
-        {
-            var images = _imageService.GetByCarID(CarID);
-            ViewBag.CarID = CarID;
-            return View("Car/ImageofCar", images);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> UploadImage(int CarID, List<IFormFile> ImageFiles)
-        {
-            if (ImageFiles == null || !ImageFiles.Any())                 
-            {
-                TempData["ErrorMessage"] = "Please upload at least one image.";
-                return RedirectToAction("ViewImageofCar", "Admin", new { CarID = CarID });
-            }
-
-            // Handle image uploads
-            if (ImageFiles != null && ImageFiles.Any())
-            {
-                var images = new List<Image>();
-                foreach (var file in ImageFiles)
-                {
-                    using var ms = new MemoryStream();
-                    await file.CopyToAsync(ms);
-
-                    images.Add(new Image
-                    {
-                        CarID = CarID,
-                        ImageData = ms.ToArray(),
-                        IsDeleted = false
-                    });
-                }
-
-                _imageService.Add(images);
-            }
-            
-            TempData["SuccessMessage"] = "Data uploaded successfully!";
-            return RedirectToAction("ViewImageofCar", "Admin", new { CarID = CarID }); ;
-        }
-
-        [HttpPost]
+        //==================================================== Units =============================================================
         public async Task<IActionResult> AddUnits(int CarID, List<string> Units)
         {
             if (Units == null || !Units.Any())
@@ -569,12 +396,25 @@ namespace CarRental.Controllers
             return RedirectToAction("ViewUnitofCar", "Admin", new { CarID = CarID }); ;
         }
 
-        public IActionResult DeleteImage(int id , int CarID)
+        public IActionResult ViewUnitofCar(int CarID)
         {
+            var units = _unitService.GetByCarID(CarID);
+            ViewBag.CarID = CarID;
+            return View("Car/UnitofCar", units);
+        }
 
-            _imageService.Delete(id);
-            TempData["SuccessMessage"] = "Image deleted successfully!";
-            return RedirectToAction("ViewImageofCar", "Admin", new { CarID = CarID });
+        public IActionResult ChangeAvailability(int id, int CarID)
+        {
+            string message = _unitService.ChangeAvailability(id);
+            int UnitCounts;
+            if (message == "Add") { UnitCounts = 1; }
+            else if (message == "min") { UnitCounts = -1; }
+            else { UnitCounts = 0; }
+            _carService.ChangeAvailableCount(CarID, UnitCounts);
+
+            return RedirectToAction("ViewUnitofCar", "Admin", new { CarID = CarID });
+
+
         }
         public IActionResult DeleteUnit(int id, int CarID)
         {
@@ -584,22 +424,57 @@ namespace CarRental.Controllers
             return RedirectToAction("ViewUnitofCar", "Admin", new { CarID = CarID });
         }
 
+        //==================================================== Images =============================================================
 
 
+        public IActionResult ViewImageofCar(int CarID)
+        {
+            var images = _imageService.GetByCarID(CarID);
+            ViewBag.CarID = CarID;
+            return View("Car/ImageofCar", images);
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> UploadImage(int CarID, List<IFormFile> ImageFiles)
+        {
+            if (ImageFiles == null || !ImageFiles.Any())
+            {
+                TempData["ErrorMessage"] = "Please upload at least one image.";
+                return RedirectToAction("ViewImageofCar", "Admin", new { CarID = CarID });
+            }
 
+            // Handle image uploads
+            if (ImageFiles != null && ImageFiles.Any())
+            {
+                var images = new List<Image>();
+                foreach (var file in ImageFiles)
+                {
+                    using var ms = new MemoryStream();
+                    await file.CopyToAsync(ms);
 
+                    images.Add(new Image
+                    {
+                        CarID = CarID,
+                        ImageData = ms.ToArray(),
+                        IsDeleted = false
+                    });
+                }
 
+                _imageService.Add(images);
+            }
 
+            TempData["SuccessMessage"] = "Data uploaded successfully!";
+            return RedirectToAction("ViewImageofCar", "Admin", new { CarID = CarID }); ;
+        }
 
+        [HttpPost]
+        public IActionResult DeleteImage(int id, int CarID)
+        {
 
-
-
-
-
-
-
-
+            _imageService.Delete(id);
+            TempData["SuccessMessage"] = "Image deleted successfully!";
+            return RedirectToAction("ViewImageofCar", "Admin", new { CarID = CarID });
+        }
 
 
 
@@ -611,12 +486,11 @@ namespace CarRental.Controllers
 
         }
 
-
-        public IActionResult AcceptRequest(int id , int CarID ,int UserID)
+        public IActionResult AcceptRequest(int id, int CarID, int UserID)
         {
-            _requestService.AcceptRequest(id,CarID,UserID);
-            _bookingService.AddBooking( id);
-            _carService.ChangeAvailableCount( CarID, -1);
+            _requestService.AcceptRequest(id, CarID, UserID);
+            _bookingService.AddBooking(id);
+            _carService.ChangeAvailableCount(CarID, -1);
 
             return RedirectToAction("ViewRequests");
         }
@@ -624,49 +498,33 @@ namespace CarRental.Controllers
         public IActionResult RejectRequest(int id, int CarID, int UserID)
 
         {
-            _requestService.RejectRequest(id,CarID,UserID);
+            _requestService.RejectRequest(id, CarID, UserID);
             return RedirectToAction("ViewRequests");
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         //=============================================================== BOOKINGS ======================================================
         public IActionResult ViewBookings()
         {
             var booking = _bookingService.GetAll();
-            return View("Booking/ViewBookings",booking);
+            return View("Booking/ViewBookings", booking);
 
         }
-        
-        public IActionResult DeleteBooking(int id,int CarID,int UserID)
+
+        public IActionResult DeleteBooking(int id, int CarID, int UserID)
         {
             _carService.ChangeAvailableCount(CarID, 1);
             _bookingService.Delete(id, CarID, UserID);
+            return RedirectToAction("ViewBookings");
+        }
+
+        [HttpPost]
+        public IActionResult NumberPlate(int BookingID, int SelectedUnitID, string PlateNumber, int CarID)
+        {
+            if (CarID < 0) return RedirectToAction("ViewBookings");
+            _bookingService.PickedUp(BookingID, PlateNumber);
+            _unitService.ChangeAvailability(SelectedUnitID);
+
             return RedirectToAction("ViewBookings");
         }
 
@@ -698,12 +556,14 @@ namespace CarRental.Controllers
             return RedirectToAction("ActiveRentals");
         }
 
-        public IActionResult RentalHistory() 
+        public IActionResult RentalHistory()
         {
             ViewBag.Condition = new SelectList(Enum.GetValues(typeof(Condition)));
             var booking = _bookingService.GetAllReturned();
             return View("Booking/RentalHistory", booking);
         }
+
+        //======================================================= Notifications ======================================================
 
         public IActionResult PickupDelay(int UserID, int CarID)
         {
@@ -719,36 +579,8 @@ namespace CarRental.Controllers
             return RedirectToAction("ActiveRentals");
         }
 
-        //[HttpGet]
-        //public IActionResult Numberplat(int Bookingid, int CarID)
-        //{
-        //    var units = _unitService.GetUnit(CarID).Select(b => new SelectListItem
-        //    {
-        //        Value = b.UnitID.ToString(),
-        //        Text = b.PlateNumber
-        //    }).ToList(); 
-        //    ViewBag.Units = units;
-        //    if (units == null) return RedirectToAction("ViewBookings");
-        //    var Booking = _bookingService.GetAll();
-        //    var booking = new UnitSelectionViewModel
-        //    {
-        //        BookingDetails = Booking,
-        //        BookingId = Bookingid,
-        //        CarId = CarID
-        //    };
-        //    TempData["ShowModal"] = "open";
-        //    return RedirectToAction("ViewBookings");
-        //}
+        //======================================================= Profile ======================================================
 
-        [HttpPost]
-        public IActionResult NumberPlate(int BookingID, int SelectedUnitID, string PlateNumber, int CarID)
-        {
-            if(CarID < 0) return RedirectToAction("ViewBookings");
-            _bookingService.PickedUp(BookingID, PlateNumber);
-            _unitService.ChangeAvailability(SelectedUnitID);
-
-            return RedirectToAction("ViewBookings");
-        }
 
         [HttpGet]
         public IActionResult Profile()
@@ -762,10 +594,6 @@ namespace CarRental.Controllers
 
             var bookings = _bookingService.GetUserBookingHistory(Session.UserID);
 
-            //if (bookings == null || !bookings.Any())
-            //{
-            //    return NotFound("No picked bookings found for this user.");
-            //}
 
             var vm = new ProfileViewModel
             {
@@ -805,7 +633,7 @@ namespace CarRental.Controllers
 
             TempData["Success"] = "Profile image updated successfully!";
 
-            // 🔑 Always reload user profile and return with model
+            // Always reload user profile and return with model
             var user = _userService.GetUserById(userId);
             var vm = new ProfileViewModel
             {

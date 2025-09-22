@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 
 namespace CarRental.Controllers
-{//username
+{
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -25,36 +25,7 @@ namespace CarRental.Controllers
             _userservice = userService;
             _brandService = brandService;
         }
-        //private CombinedViewModel open(UserViewModel user)
-        //{
-        //    var brands = _brandService.GetAll()
-        //                              .Select(b => new SelectListItem
-        //                              {
-        //                                  Value = b.BrandID.ToString(),
-        //                                  Text = b.BrandName
-        //                              })
-        //                              .ToList();
-
-        //    var allCars = _carService.GetAll(); // IEnumerable<CarDTO>
-
-        //    // 3?? Pick 6 daily cars
-        //    var dailyCars = GetDailyCars(allCars, 6);
-
-        //    // 4?? Top 5 cars for Swiper
-        //    var topCars = _carService.GetTopRatedCars().Cars;
-
-        //    // 5?? Build ViewModel
-        //    var Users = new UserViewModel();
-        //    var guestViewModel = new GuestPageViewModel
-        //    {
-        //        Cars = dailyCars,       // only 6 cars
-        //        BrandOptions = brands,
-        //        TopCars = topCars,
-        //        User = Users
-        //    };
-
-
-        //}
+        
 
         private CombinedViewModel open(UserViewModel user)
         {
@@ -83,12 +54,6 @@ namespace CarRental.Controllers
         {
             User.Role = Enums.UserEnums.UserRole.Customer;
 
-                //if (!ModelState.IsValid)
-                //{
-                //    TempData["RegisterErrorMessage"] = "Invalid Input";
-                //    var combinedViewModel = open(User);
-                //    return View("Index", combinedViewModel);
-                //}
 
                 if (await _userservice.CheckEmailAsync(User.EmailAddress.Trim()))
                 {
@@ -151,23 +116,6 @@ namespace CarRental.Controllers
         }
 
       
-        
-
-
-        
-
-        //[HttpPost]
-        //public IActionResult Index(string Open = "defaultValue")
-        //{
-        //    if (login != null)
-        //    {
-        //        return RedirectToAction("ViewCars", "Admin");
-
-        //     }
-        //    return View("Index");
-
-        //}
-
         public IActionResult Privacy()
         {
             TempData["LoginErrorMessage"] = "1";
@@ -187,30 +135,7 @@ namespace CarRental.Controllers
             return View(Car);
         }
 
-        //public IActionResult GuestPage()
-        //{
-        //    // Get all brands to populate the filter dropdown
-        //    var brands = _brandService.GetAll()
-        //                              .Select(b => new SelectListItem
-        //                              {
-        //                                  Value = b.BrandID.ToString(),
-        //                                  Text = b.BrandName
-        //                              })
-        //                              .ToList();
-
-        //    // Get all available cars
-        //    var cars = _carService.GetAll();
-
-        //    // Create a ViewModel to hold both lists and pass it to the view
-        //    var guestViewModel = new GuestPageViewModel
-        //    {
-        //        Cars = cars,
-        //        BrandOptions = brands
-        //    };
-
-        //    return View(guestViewModel);
-        //}
-
+       
 
     }
    
