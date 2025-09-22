@@ -777,6 +777,85 @@ namespace CarRental.Controllers
             return View("Profile", vm);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateProfileImage(IFormFile profileImage)
+        {
+            if (profileImage == null || profileImage.Length == 0)
+            {
+                TempData["Error"] = "No file selected";
+                return RedirectToAction("Profile");
+            }
+
+            int userId = Session.UserID; // or from ClaimsPrincipal
+
+            using var ms = new MemoryStream();
+            await profileImage.CopyToAsync(ms);
+            byte[] imageBytes = ms.ToArray();
+
+            var result = await _userService.UpdateProfileImageAsync(userId, imageBytes);
+
+            if (string.IsNullOrEmpty(result) || result != "success")
+            {
+                TempData["Error"] = "Image upload failed!";
+                return RedirectToAction("Profile");
+            }
+
+
+            TempData["Success"] = "Profile image updated successfully!";
+
+            // 🔑 Always reload user profile and return with model
+            var user = _userService.GetUserById(userId);
+            var vm = new ProfileViewModel
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email,
+                UserName = user.UserName,
+                Role = user.Role.ToString()
+            };
+
+            return View("Profile", vm);
+        }
+
+
+
+        [HttpGet]
+        public IActionResult GetProfileImage(int userId)
+        {
+            var user = _userService.GetUserById(userId);
+
+            if (user?.ProfileImage == null || user.ProfileImage.Length == 0)
+            {
+                // Load default placeholder image from wwwroot/image
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/image/vector-sign-of-user-icon.jpg");
+                var bytes = System.IO.File.ReadAllBytes(path);
+                return File(bytes, "image/jpeg");
+            }
+
+            return File(user.ProfileImage, "image/jpeg");
+        }
+
+        public IActionResult Search(string CarName, int BrandId, string Color)
+        {
+            var Car = _carService.Search(CarName, BrandId, Color);
+            if (Car != null)
+            {
+                var CombainedViewModel = new CombinedViewModel
+                {
+                    car = Car,
+                };
+                return View(CombainedViewModel);
+            }
+            TempData["ErrorMessage"] = "Car Not Found";
+            var vm = _carService.GetAvailableCarsForCustomer();
+            if (Session.Role != "Admin") return RedirectToAction("Index", "Admin", vm);
+            return View("HomePage", vm);
+
+        }
+
+
+
+
         [HttpGet]
         public IActionResult Notification()
         {

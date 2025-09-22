@@ -63,7 +63,17 @@
 
 
         <div>
+            
             <hr class="text-secondary" />
+            <a class="nav-link p-0 d-flex align-items-center" asp-area="" asp-controller="Admin" asp-action="Profile">
+                <img id="profileImage"
+                     src="@Url.Action("GetProfileImage", "Admin", new { userId = Session.UserID, t = DateTime.Now.Ticks })"
+                     class="rounded-circle shadow-sm"
+                     style="width:40px; height:40px; object-fit:cover;"
+                     alt="Profile Picture" />
+                <span class="ms-2">Profile</span>
+            </a>
+
             <a href="#" class="text-white d-block" data-bs-toggle="modal" data-bs-target="#signOutModal">Sign Out</a>
         </div>
     </div>
