@@ -127,6 +127,58 @@ namespace CarRental.Services.Implementations
 
         }
 
+        public CustomerViewModel GetAllAvailableCarsForView()
+        {
+            var cars = _repo.GetAvailableCars();
+
+            var carDTOs = cars.Select(car => new CarDTO
+            {
+                CarID = car.CarID,
+                CarName = car.CarName,
+                BrandID = car.BrandID,
+                CarType = car.CarType,
+                FuelType = car.FuelType,
+                GearType = car.GearType,
+                Color = car.Color,
+                No_of_Seats = car.No_of_Seats,
+                Ratings = car.Ratings,
+                RentalRate = car.RentalRate,
+
+                Brand = new BrandDTO
+                {
+                    BrandID = car.Brand.BrandID,
+                    BrandName = car.Brand.BrandName
+                },
+
+                Images = car.Images?.Select(i => new ImageDTO
+                {
+                    Id = i.ImageID,
+                    CarId = i.CarID,
+                    ImageBase64 = Convert.ToBase64String(i.ImageData)
+                }).ToList() ?? new List<ImageDTO>(),
+
+                Units = car.Units?.Select(u => new UnitDTO
+                {
+                    UnitID = u.UnitID,
+                    CarID = u.CarID,
+                    PlateNumber = u.PlateNumber,
+                    IsAvailble = u.IsAvailble
+                }).ToList() ?? new List<UnitDTO>()
+            }).ToList();
+            // Top 5 rated cars
+            var topCars = carDTOs
+                .OrderByDescending(c => c.Ratings)
+                .Take(5)
+                .ToList();
+
+            return new CustomerViewModel
+            {
+                TopCars = topCars,
+                Cars = carDTOs     // ✅ all cars, not just 6
+              
+            };
+
+        }
         public CustomerViewModel GetAvailableCarsForCustomer()
         {
             var cars = _repo.GetAvailableCars();

@@ -26,43 +26,20 @@
                 <div class="navbar-collapse collapse">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Customer" asp-action="Notification">
+                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#notificationModal">
                                 <i class="bi bi-bell-fill"></i>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="ViewUser">User</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Customer" asp-action="Profile">Profile</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#signOutModal" class="btn btn-danger">Sign Out</a>
-                        </li>
-                    </ul>
                 </div>
 
             </div>
         </nav>
     </header>
 
-    <div class="modal fade" id="signOutModal" tabindex="-1" aria-labelledby="signOutModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="signOutModalLabel">Confirm Sign Out</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to sign out?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <a asp-action="SignOut" class="btn btn-sm btn-danger">Yes, Sign Out</a>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
 
     <div class="content">

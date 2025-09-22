@@ -1,6 +1,6 @@
 ﻿@model CarRental.ViewModels.ProfileViewModel
 @{
-    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    Layout = "~/Views/Shared/_AdLayout.cshtml";
     ViewData["Title"] = "Profile";
 }
 @if (TempData["Success"] != null)
@@ -37,7 +37,7 @@
 
                 <div id="uploadCard" class="card glass-card shadow-lg mx-auto mt-3" style="max-width: 700px; display: none;">
                     <div class="card-body p-4">
-                        <form asp-action="UpdateProfileImage" asp-controller="Customer" method="post" enctype="multipart/form-data">
+                        <form asp-action="UpdateProfileImage" asp-controller="Admin" method="post" enctype="multipart/form-data">
                             <!-- Image Upload -->
                             <div class="form-group mb-3">
                                 <label for="ImageFiles">Upload Image</label>
@@ -105,7 +105,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content custom-modal">
             <div class="wrapper">
-                <form asp-action="Update" asp-controller="Customer" method="post">
+                <form asp-action="Update" asp-controller="Admin" method="post">
                     <div id="RegisterError" class="alert alert-danger" style="display:none;"></div>
                     <h2>Change Password</h2>
  
