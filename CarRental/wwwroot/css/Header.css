@@ -37,7 +37,7 @@
 
     /* Updated Overlay on slide */
     .swiper-slide .overlay {
-        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); /* Darker, more visible gradient */
+        background: linear-gradient(to top, rgba(0,0,0,0.8), /*transparent*/); /* Darker, more visible gradient */
         padding: 25px 30px; /* Slightly larger padding */
         border-radius: 20px; /* Slightly more rounded corners */
         text-align: center;
@@ -82,19 +82,33 @@
 
 
         /* Updated Overlay buttons */
-        .swiper-slide .overlay a {
+        /*.swiper-slide .overlay a {
             display: inline-block;
             color: #fff;
             background-color: #00bfff;
             border-radius: 30px;
-            padding: 10px 30px; /* Larger padding for a better click area */
-            font-size: 1rem; /* Larger font size */
-            font-weight: 600; /* Bolder text */
-            margin-top: 15px; /* More space from text */
-            text-decoration: none;
+            padding: 10px 30px;*/ /* Larger padding for a better click area */
+            /*font-size: 1rem;*/ /* Larger font size */
+            /*font-weight: 600;*/ /* Bolder text */
+            /*margin-top: 15px;*/ /* More space from text */
+            /*text-decoration: none;
             box-shadow: 0 4px 15px rgba(0, 191, 255, 0.4);
             transition: all 0.3s ease;
-        }
+        }*/
+
+    .swiper-slide .overlay {
+        color: #fff;
+        font-size: 1rem; /* Larger font size */
+        font-weight: 600;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.4)); /* Deeper black with light transparency */
+        padding: 25px 30px;
+        border-radius: 20px;
+        text-align: center;
+        width: 40%;
+        margin-bottom: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+        transition: all 0.3s ease;
+    }
 
             .swiper-slide .overlay a:hover {
                 background-color: #0080ff;
@@ -104,7 +118,7 @@
 
 /* Pagination */
 .swiper-pagination {
-    bottom: 37px !important;
+    bottom: 7px !important;
     transform: scale(1.4);
 }
 

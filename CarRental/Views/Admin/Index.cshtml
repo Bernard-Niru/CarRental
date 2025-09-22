@@ -41,6 +41,16 @@
                             <p>Seats: @car.No_of_Seats</p>
                             <p class="rating-line">Rating: @car.Ratings <span>⭐</span></p>
                             <p>Rent Per day: @car.RentalRate.ToString()</p>
+                            <button type="button"
+                                    class="btn btn-sm px-4 request-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#addCarModal"
+                                    data-carname="@car.CarName"
+                                    data-carid="@car.CarID"
+                                    data-rentalrate="@car.RentalRate"
+                                    data-brand="@car.Brand.BrandName">
+                                Book
+                            </button>
                         </div>
                     </div>
                 </text>
@@ -115,7 +125,7 @@
                         <h5 class="card-title">@car.CarName</h5>
                         <h6 class="card-subtitle mb-2 text-muted">@car.Brand.BrandName</h6>
                         <p class="text-success fw-bold fs-5">Rs @car.RentalRate.ToString("N0") / Day</p>
-                        <button @* data-bs-toggle="modal" data-bs-target="#RequestModal" *@ type="button"
+                        <button type="button"
                                 class="btn btn-sm px-4 request-btn"
                                 data-bs-toggle="modal"
                                 data-bs-target="#addCarModal"

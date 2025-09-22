@@ -69,6 +69,32 @@ namespace CarRental.Controllers
             return View("AdminDashboard/Dashboard", vm);
         }
 
+        [HttpPost]
+        public IActionResult AddRequest(RequestViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                // Reuse service that always builds a CustomerViewModel
+                var vm = _carService.GetAvailableCarsForCustomer();
+
+                ViewData["FormErrors"] = "Please fix the form errors.";
+                return View("Index", vm);
+            }
+
+            int userId = Session.UserID;
+            var userDto = _userService.GetUserById(userId);
+
+            if (userDto == null)
+                return NotFound();
+
+            model.UserID = userDto.Id; // get current user id from session
+            _requestService.Add(model);
+
+            return RedirectToAction("Index");
+        }
+
+
+
 
         [HttpGet]
         public IActionResult Index()
@@ -722,8 +748,62 @@ namespace CarRental.Controllers
             return RedirectToAction("ViewBookings");
         }
 
+        [HttpGet]
+        public IActionResult Profile()
+        {
+
+            int userId = Session.UserID; // from session
+            var userDto = _userService.GetUserById(userId);
+
+            if (userDto == null)
+                return NotFound();
+
+            var bookings = _bookingService.GetUserBookingHistory(Session.UserID);
+
+            //if (bookings == null || !bookings.Any())
+            //{
+            //    return NotFound("No picked bookings found for this user.");
+            //}
+
+            var vm = new ProfileViewModel
+            {
+                Id = userDto.Id,
+                Name = userDto.Name,
+                Email = userDto.Email,
+                UserName = userDto.UserName,
+                Role = userDto.Role.ToString(),
+                bookings = bookings
+            };
+            return View("Profile", vm);
+        }
+
+        [HttpGet]
+        public IActionResult Notification()
+        {
+            var notification = _notificationService.GetAll(Session.UserID);
+            return View(notification);
 
 
+        }
+        [HttpPost]
+        public IActionResult Update(ProfileViewModel vm)
+        {
+            //if (!ModelState.IsValid)
+            //{
+            //    return View("Profile", vm);
+            //}
+            int id = Session.UserID;
+
+            var result = _userService.UpdatePassword(vm, id);
+
+            if (result == "Password updated successfully!")
+                TempData["Success"] = result;
+            else
+                TempData["Error"] = result;
+
+            return RedirectToAction("Profile");
+
+        }
     }
 
 

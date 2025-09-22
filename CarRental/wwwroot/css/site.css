@@ -20,7 +20,7 @@ html {
 body {
   margin-bottom: 60px;
 }
-footer {
+/*footer {
     background: #0f2027;
     color: #bbb;
     border-top: 1px solid rgba(0,191,255,0.3);
@@ -51,4 +51,4 @@ footer {
     100% {
         background-position: 200%;
     }
-}
+}*/

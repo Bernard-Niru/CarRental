@@ -1,0 +1,66 @@
+﻿@* @model CarRental.ViewModels.ProfileViewModel
+
+@{
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";  
+
+    ViewData["Title"] = "Profile Edit";
+}
+
+<div class="container mt-4">
+    <h2>My Profile</h2>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content custom-modal">
+                <div class="wrapper">
+                    <form asp-action="Register" asp-controller="Home" method="post">
+                        <div id="RegisterError" class="alert alert-danger" style="display:none;"></div>
+                        <h2>Register</h2>
+
+                        <div class="input-field">
+                            <input asp-for="Name" type="text" required />
+                            <label asp-for="Name">Enter Your Name</label>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="input-field">
+                            <input asp-for="Email" type="email" required />
+                            <label asp-for="Email">Enter Your Email</label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="input-field">
+                            <input asp-for="UserName" type="text" required />
+                            <label asp-for="UserName">Enter Your UserName</label>
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>
+
+                        <div class="input-field">
+                            <input asp-for="NewPassword" type="password" required />
+                            <label asp-for="NewPassword">Enter Your Password</label>
+                            <span asp-validation-for="NewPassword" class="text-danger"></span>
+                        </div>
+                        <button type="submit">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+ @section Scripts {
+    <script>
+            const showRegisterLink = document.getElementById('showRegister');
+            if (showRegisterLink && loginModalEl && registerModalEl) {
+                showRegisterLink.addEventListener('click', e => {
+                    e.preventDefault();
+                    const loginModal = bootstrap.Modal.getInstance(loginModalEl) || new bootstrap.Modal(loginModalEl);
+                    loginModal.hide();
+
+                    const registerModal = new bootstrap.Modal(registerModalEl);
+                    registerModal.show();
+          </script>
+          } *@

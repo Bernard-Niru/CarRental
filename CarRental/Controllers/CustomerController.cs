@@ -51,6 +51,20 @@ namespace CarRental.Controllers
             return View("HomePage", vm);
         }
 
+
+        public IActionResult Cars()
+        {
+            var vm = _carService.GetAllAvailableCarsForView();
+
+            if (!ModelState.IsValid)
+            {
+                ViewData["FormErrors"] = "Please fix the form errors.";
+            }
+
+            return View("Cars", vm);
+        }
+
+
         public IActionResult Index()
         {
             //var brands = _brandService.GetAll()

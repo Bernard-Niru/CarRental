@@ -54,6 +54,16 @@
                             <p>Seats: @car.No_of_Seats</p>
                             <p class="rating-line">Rating: @car.Ratings <span>⭐</span></p>
                             <p>Rent Per day: @car.RentalRate.ToString()</p>
+                            <button type="button"
+                                    class="btn btn-sm px-4 request-btn"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#addCarModal"
+                                    data-carname="@car.CarName"
+                                    data-carid="@car.CarID"
+                                    data-rentalrate="@car.RentalRate"
+                                    data-brand="@car.Brand.BrandName">
+                                Book
+                            </button>
                         </div>
                     </div>
                 </text>
@@ -67,7 +77,7 @@
 
     <div class="swiper-pagination"></div>
 </div>
-
+@await Html.PartialAsync("Notification", Model.Notifications)
 
 <!-- Car Catalog -->
 @await Html.PartialAsync("_RequestPartial", new CarRental.ViewModels.RequestViewModel())

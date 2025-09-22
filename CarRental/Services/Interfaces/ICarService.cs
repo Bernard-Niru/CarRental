@@ -7,6 +7,8 @@ public interface ICarService
 {
 
     //GuestPageViewModel GetTopRatedCars();
+
+    CustomerViewModel GetAllAvailableCarsForView();
     GuestPageViewModel GetAvailableCar();
 
     CustomerViewModel GetAvailableCarsForCustomer();
