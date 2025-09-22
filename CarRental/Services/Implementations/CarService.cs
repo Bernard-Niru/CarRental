@@ -411,7 +411,15 @@ namespace CarRental.Services.Implementations
         //}
 
 
-        
+        public void UpdateRatings(double rating, int CarID) 
+        {
+            var car = _repo.GetByID(CarID);
+            var NewCar = new Car
+            {
+                Ratings = rating,
+            };
+            _repo.Update(NewCar);
+        }
 
 
     }

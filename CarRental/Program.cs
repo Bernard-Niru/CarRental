@@ -1,4 +1,5 @@
 using CarRental.Data;
+using CarRental.Models;
 using CarRental.repo.Implementations;
 using CarRental.repo.Interfaces;
 using CarRental.Repositories.Implementations;
@@ -62,6 +63,49 @@ namespace CarRental
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+                // Ensure database is created
+                context.Database.EnsureCreated();
+
+                // Check if admin user exists
+                var adminExists = context.Users.Any(u => u.UserName == "admin123");
+
+                if (!adminExists)
+                {
+                    var adminUser = new User
+                    {
+                        Name = "Admin",
+                        Email = "admin@carrental.com",
+                        UserName = "Admin123",
+                        Password = "7nmXbJOA1eM3/BwJXs6MjyL5HzBs7rFh+lH+zt4sS6E=",
+                        Role = 0,
+                        IsDeleted = false,
+                        CreatedDate = DateTime.Now
+                    };
+
+                    context.Users.Add(adminUser);
+                    context.SaveChanges();
+                }
+            }
+
+
+            //(localdb)\MSSQLLocalDb
+
+
+
+
+
+
+
+
+
+
 
             app.Run();
         }
