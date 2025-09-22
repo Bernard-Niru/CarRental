@@ -14,21 +14,26 @@ namespace CarRental.repo.Implementations
         {
             _context = context;
         }
+        //============ CheckUser Name =================
         public async Task<bool> CheckUserNameAsync(string userName)
         {
             return await _context.Users.AnyAsync(u => u.UserName.ToLower() == userName.ToLower());
         }
 
+        //============ Check Email =================
         public async Task<bool> CheckEmailAsync(string Email)
         {
             return await _context.Users.AnyAsync(u => u.Email == Email);
         }
 
+        //============= Add User ================
         public async Task AddAsync(User user)
         {
            await _context.Users.AddAsync(user);
            await _context.SaveChangesAsync();
         }
+
+        //============== Get All Users ==============
         async Task<IEnumerable<User>> IUserRespository.GetAllAsync()
         {
             var Users = await _context.Users
@@ -45,10 +50,15 @@ namespace CarRental.repo.Implementations
 
             return Users;
         }
+
+
+        //=============== Get UserBy ID For Edit ===========
         public User GetByID(int id)
         {
             return _context.Users.Find(id);
         }
+
+        //=============== Edit User===================
         public void UpdateByID(User user)
         {
             var updateUser = _context.Users.FirstOrDefault(u => u.UserID == user.UserID);
@@ -58,6 +68,8 @@ namespace CarRental.repo.Implementations
             _context.Users.Update(updateUser);
             _context.SaveChanges();
         }
+
+        //============== Delete User IsDelete = True======================
         public void DeletebyID(int userId)
         {
             var updateUser = _context.Users.FirstOrDefault(u => u.UserID == userId);
@@ -66,6 +78,7 @@ namespace CarRental.repo.Implementations
             _context.SaveChanges();
         }
 
+        //================== Check Password =======================
         public User? CheckPassword(string userName)
         {
             return _context.Users
@@ -79,11 +92,14 @@ namespace CarRental.repo.Implementations
                 .FirstOrDefault();
         }
 
+        //=============Get UserBy Id for Cuustomer View ==========
         public User GetUserById(int id)
         {
             return _context.Users.FirstOrDefault(u => u.UserID == id && !u.IsDeleted);
      
         }
+
+        //=============== Change Password ==========================
         public string UpdateUser(User user)
         {
             _context.Users.Update(user);

@@ -639,6 +639,7 @@ namespace CarRental.Controllers
         
         public IActionResult DeleteBooking(int id,int CarID,int UserID)
         {
+            _carService.ChangeAvailableCount(CarID, 1);
             _bookingService.Delete(id, CarID, UserID);
             return RedirectToAction("ViewBookings");
         }
@@ -716,7 +717,6 @@ namespace CarRental.Controllers
         {
             if(CarID < 0) return RedirectToAction("ViewBookings");
             _bookingService.PickedUp(BookingID, PlateNumber);
-            _carService.ChangeAvailableCount(CarID, -1);
             _unitService.ChangeAvailability(SelectedUnitID);
 
             return RedirectToAction("ViewBookings");
