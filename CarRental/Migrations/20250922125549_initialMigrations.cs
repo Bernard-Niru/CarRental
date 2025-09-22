@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CarRental.Migrations
 {
     /// <inheritdoc />
-    public partial class intialMigrations : Migration
+    public partial class initialMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
