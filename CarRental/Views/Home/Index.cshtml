@@ -441,7 +441,6 @@
             const showRegisterLink = document.getElementById("showRegister");
             const backToLoginLink = document.getElementById("backToLogin");
 
-            let suppressRedirect = false;
 
             const errorMessagelogin = '@TempData["LoginErrorMessage"]';
             const errorMessageRegister = '@TempData["RegisterErrorMessage"]';
@@ -517,26 +516,6 @@
                 });
             }
 
-            // 🔁 Refresh page when modal closes (unless suppressRedirect is set)
-            if (loginModalEl) {
-                loginModalEl.addEventListener('hidden.bs.modal', function () {
-                    if (!suppressRedirect) {
-                        redirectToIndex();
-                    } else {
-                        suppressRedirect = false;
-                    }
-                });
-            }
-
-            if (registerModalEl) {
-                registerModalEl.addEventListener('hidden.bs.modal', function () {
-                    if (!suppressRedirect) {
-                        redirectToIndex();
-                    } else {
-                        suppressRedirect = false;
-                    }
-                });
-            }
 
             // ✅ Click outside modal (on backdrop) → refresh the page
             document.addEventListener('click', function (e) {

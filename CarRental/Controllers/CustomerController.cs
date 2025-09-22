@@ -314,6 +314,7 @@ namespace CarRental.Controllers
             }
             TempData["ErrorMessage"] = "Car Not Found";
             var vm = _carService.GetAvailableCarsForCustomer();
+            if(Session.Role != "Admin") return RedirectToAction("Index", "Admin", vm);
             return View("HomePage", vm);
 
         }

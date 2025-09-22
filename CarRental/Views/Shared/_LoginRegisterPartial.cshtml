@@ -1,99 +1,6 @@
 ﻿@model CarRental.ViewModels.UserViewModel
 
 <link rel="stylesheet" href="~/css/New.css" asp-append-version="true" />
-<!-- LOGIN MODAL -->
-@* <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="wrapper">
-                <form asp-action="login" asp-controller="Home" method="post">
-                    <div id="loginError" class="alert alert-danger" style="display:none;"></div>
-
-                    <h2>Log In</h2>
-
-                    <div class="input-feild">
-                        <input asp-for="UserName" type="text" required />
-                        <label asp-for="UserName">Enter Your UserName</label>
-                        <span asp-validation-for="UserName" class="text-danger"></span>
-                    </div>
-
-                    <div class="input-feild">
-                        <input asp-for="Password" type="password" required />
-                        <label asp-for="Password">Enter Your Password</label>
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-
-                    <div class="forget">
-                        <label>
-                            <input type="checkbox" name="RememberMe" />
-                            Remember Me
-                        </label>
-                        <a href="#">Forget Password</a>
-                    </div>
-
-                    <button type="submit">Log In</button>
-
-                    <div class="register">
-                        <a href="#" id="showRegister">Don't have an account? Register</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- REGISTER MODAL -->
-<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="wrapper">
-                <form asp-action="Register" asp-controller="Home" method="post">
-                    <div id="RegisterError" class="alert alert-danger" style="display:none;"></div>
-
-                    <h2>Register</h2>
-
-                    <div class="input-feild">
-                        <input asp-for="Name" type="text" required />
-                        <label asp-for="Name">Enter Your Name</label>
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-
-                    <div class="input-feild">
-                        <input asp-for="EmailAddress" type="email" required />
-                        <label asp-for="EmailAddress">Enter Your Email</label>
-                        <span asp-validation-for="EmailAddress" class="text-danger"></span>
-                    </div>
-
-                    <div class="input-feild">
-                        <input asp-for="UserName" type="text" required />
-                        <label asp-for="UserName">Enter Your UserName</label>
-                        <span asp-validation-for="UserName" class="text-danger"></span>
-                    </div>
-
-                    <div class="input-feild">
-                        <input asp-for="Password" type="password" required />
-                        <label asp-for="Password">Enter Your Password</label>
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-
-                    <div class="forget">
-                        <label>
-                            <input type="checkbox" name="RememberMe" />
-                            Remember Me
-                        </label>
-                    </div>
-
-                    <button type="submit">Register</button>
-
-                    <div class="register">
-                        <a href="#" id="backToLogin">Back to Login</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div> *@
-
 
 
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -113,6 +20,7 @@
                     <div class="input-field">
                         <input asp-for="login.Passwordlogin" id="Login_Password" type="password" required />
                         <label for="Login_Password">Enter Your Password</label>
+                        <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
 
                     <button type="submit">Log In</button>
@@ -136,21 +44,18 @@
 
                     <div class="input-field">
                         <input asp-for="Name" type="text" required />
-                        <label asp-for="Name">Enter Your Name</label>
-                        <span asp-validation-for="Name" class="text-danger"></span>
+                        <label asp-for="Name">Enter Your Name</label>                        
                     </div>
 
                     <div class="input-field">
                         <input asp-for="EmailAddress" type="email" required />
                         <label asp-for="EmailAddress">Enter Your Email</label>
-                        <span asp-validation-for="EmailAddress" class="text-danger"></span>
                     </div>
 
                    
                     <div class="input-field">
                         <input asp-for="UserName" id="Register_UserName" type="text" required />
                         <label for="Register_UserName">Enter Your UserName</label>
-                        <span asp-validation-for="UserName" class="text-danger"></span>
                     </div>
 
                     <div class="input-field">
@@ -171,33 +76,4 @@
 </div>
 
 
-@* @section Scripts {
-    <partial name="_ValidationScriptsPartial" /> *@
-  @*   <script>
-            const showRegisterLink = document.getElementById('showRegister');
-            if (showRegisterLink && loginModalEl && registerModalEl) {
-                showRegisterLink.addEventListener('click', e => {
-                    e.preventDefault();
-                    const loginModal = bootstrap.Modal.getInstance(loginModalEl) || new bootstrap.Modal(loginModalEl);
-                    loginModal.hide();
-
-                    const registerModal = new bootstrap.Modal(registerModalEl);
-                    registerModal.show();
-                });
-            }
-
-            const backToLoginLink = document.getElementById('backToLogin');
-            if (backToLoginLink && loginModalEl && registerModalEl) {
-                backToLoginLink.addEventListener('click', e => {
-                    e.preventDefault();
-                    const registerModal = bootstrap.Modal.getInstance(registerModalEl) || new bootstrap.Modal(registerModalEl);
-                    registerModal.hide();
-
-                    const loginModal = new bootstrap.Modal(loginModalEl);
-                    loginModal.show();
-                });
-            }
-        });
-    </script>
-    } *@
 

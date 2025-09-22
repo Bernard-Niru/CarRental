@@ -19,23 +19,31 @@ namespace CarRental.Services.Implementations
         {
             _repo = repo;
         }
+        //============ CheckUser Name =================
         public async Task<bool> CheckAsync(string UserName)
         {
             return await _repo.CheckUserNameAsync(UserName);
         }
+
+
+        //============ Check Email =================
         public async Task<bool> CheckEmailAsync(string Email)
         {
             return await _repo.CheckEmailAsync(Email);
         }
+
+
+        //============= Add User ================
         public async Task AddAsync(UserViewModel model)
         {
-            string hashedPassword = Convert.ToBase64String(
-                SHA256.HashData(Encoding.UTF8.GetBytes(model.Password.Trim()))
-            );
+            string hashedPassword = HashPassword(model.Password.Trim());
             var User = UserMapper.ToModel(model, hashedPassword);
             await _repo.AddAsync(User);
 
         }
+
+
+        //============== Get All Users ==============
         public async Task<IEnumerable<UserDTO>> GetallAsync()
         {
             var user = await _repo.GetAllAsync();
@@ -54,13 +62,18 @@ namespace CarRental.Services.Implementations
             }
             return userDTO;
         }
-        
+
+
+        //=============== Get UserBy ID For Edit ===========
         public UserDTO GetbyId(int id)
         {
             var user = UserMapper.ToDTO(_repo.GetByID(id));
             return user;
 
         }
+
+
+        //=============== Edit User===================
         public void Edit(UserDTO userDTO)
         {
             var User = new User
@@ -74,10 +87,16 @@ namespace CarRental.Services.Implementations
             };
             _repo.UpdateByID(User);
         }
+
+
+        //============== Delete User IsDelete = True======================
         public void Delete(int id)
         {
             _repo.DeletebyID(id);
         }
+
+
+        //================== Check Password =======================
         public string CheckPassword(LoginViewModels login)
         {
             var User = _repo.CheckPassword(login.Usernamelogin.Trim());
@@ -85,9 +104,8 @@ namespace CarRental.Services.Implementations
             {
                 return "Account Blocked";
             }
-            string hashedPassword = Convert.ToBase64String(
-                SHA256.HashData(Encoding.UTF8.GetBytes(login.Passwordlogin.Trim()))
-            );
+            string hashedPassword = HashPassword(login.Passwordlogin.Trim());
+
             if (User.Password != hashedPassword)
             {
                 return "Incorrect Password";
@@ -97,7 +115,7 @@ namespace CarRental.Services.Implementations
         }
 
 
-
+        //============= Password Hashing  =================
         private string HashPassword(string password)
         {
             return Convert.ToBase64String(
@@ -105,30 +123,28 @@ namespace CarRental.Services.Implementations
             );
         }
 
-        public string ChangePassword(int userId, string oldPassword, string newPassword)
+        //=============== Change Password ==========================
+        public string UpdatePassword(ProfileViewModel vm, int id)
         {
-            var user = _repo.GetUserById(userId);
-            if (user == null)
+            var user = _repo.GetUserById(id);
+            if (user == null) return "User not found";
+
+            if (!string.IsNullOrWhiteSpace(vm.NewPassword))
             {
-                return "User not found";
+                string hashedOldPassword = HashPassword(vm.OldPassword);
+                if (user.Password != hashedOldPassword)
+                    return "Old password is incorrect";
+
+                if (vm.NewPassword != vm.ConfirmPassword)
+                    return "New password and confirm password do not match.";
+
+                user.Password = HashPassword(vm.NewPassword);
             }
 
-            // Hash the old password input
-            string hashedOldPassword = HashPassword(oldPassword);
-
-            // Compare with DB
-            if (user.Password != hashedOldPassword)
-            {
-                return "Old password is incorrect";
-            }
-
-            // Hash and update new password
-            user.Password = HashPassword(newPassword);
-            _repo.UpdateUser(user);
-
-            return "Password updated successfully";
+            return _repo.UpdateUser(user);
         }
 
+        //=============Get UserBy Id for Cuustomer View ==============
         public UserDTO GetUserById(int id)
         {
             var user = _repo.GetUserById(id);
@@ -144,39 +160,8 @@ namespace CarRental.Services.Implementations
                 ProfileImage = user.ProfileImage
             };
         }
-        public string UpdatePassword(ProfileViewModel vm,int id)
-        {
-            var user = _repo.GetUserById(id);
-            if (user == null) return "User not found";
 
-            if (!string.IsNullOrWhiteSpace(vm.NewPassword))
-                {
-                    string hashedOldPassword = HashPassword(vm.OldPassword);
-                    if (user.Password != hashedOldPassword)
-                        return "Old password is incorrect";
 
-                    if (vm.NewPassword != vm.ConfirmPassword)
-                        return "New password and confirm password do not match.";
-
-                    user.Password = HashPassword(vm.NewPassword);
-                }
-
-            return _repo.UpdateUser(user);
-           
-        }
-        public string ViewUser(ProfileViewModel VM)
-        {
-            var user = _repo.GetUserById(VM.Id);
-            if (user == null) return "User not found";
-
-            // update profile fields
-            user.Name = VM.Name;
-            user.UserName = VM.UserName;
-            user.Email = VM.Email;
-
-            return ViewUser (VM);
-
-        }
 
         public async Task<int> GetNewUsersThisMonthAsync()
         {
@@ -202,7 +187,7 @@ namespace CarRental.Services.Implementations
             await _repo.UpdateUserAsync(user);
             return "update successful";
         }
-
+        
 
 
     }

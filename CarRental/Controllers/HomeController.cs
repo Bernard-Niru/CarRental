@@ -83,12 +83,12 @@ namespace CarRental.Controllers
         {
             User.Role = Enums.UserEnums.UserRole.Customer;
 
-                if (!ModelState.IsValid)
-                {
-                    TempData["RegisterErrorMessage"] = "Invalid Input";
-                    var combinedViewModel = open(User);
-                    return View("Index", combinedViewModel);
-                }
+                //if (!ModelState.IsValid)
+                //{
+                //    TempData["RegisterErrorMessage"] = "Invalid Input";
+                //    var combinedViewModel = open(User);
+                //    return View("Index", combinedViewModel);
+                //}
 
                 if (await _userservice.CheckEmailAsync(User.EmailAddress.Trim()))
                 {
