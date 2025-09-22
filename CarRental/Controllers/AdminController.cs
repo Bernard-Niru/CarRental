@@ -708,12 +708,14 @@ namespace CarRental.Controllers
         public IActionResult PickupDelay(int UserID, int CarID)
         {
             _notificationService.Add(CarID, UserID, Purpose.PickupDelay);
+            TempData["SuccessMessage"] = "Notification send successfully!";
             return RedirectToAction("ViewBookings");
         }
 
         public IActionResult ReturnDelay(int UserID, int CarID)
         {
             _notificationService.Add(CarID, UserID, Purpose.ReturnDelay);
+            TempData["SuccessMessage"] = "Notification send successfully!";
             return RedirectToAction("ActiveRentals");
         }
 
