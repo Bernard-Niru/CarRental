@@ -23,7 +23,7 @@ namespace CarRental.Controllers
         private readonly IBookingService _bookingService;
 
 
-        public CustomerController(ICarService carService , IRequestService requestService ,IBrandService brandService,INotificationService notificationService, IUserService userService, IBookingService bookingService)
+        public CustomerController(ICarService carService, IRequestService requestService, IBrandService brandService, INotificationService notificationService, IUserService userService, IBookingService bookingService)
 
         {
             _carService = carService;
@@ -37,7 +37,7 @@ namespace CarRental.Controllers
 
         public IActionResult SignOut()
         {
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
         public IActionResult HomePage()
         {
@@ -67,24 +67,7 @@ namespace CarRental.Controllers
 
         public IActionResult Index()
         {
-            //var brands = _brandService.GetAll()
-            //              .Select(b => new SelectListItem
-            //              {
-            //                  Value = b.BrandID.ToString(),
-            //                  Text = b.BrandName
-            //              })
-            //              .ToList(); 
 
-            //var allCars = _carService.GetAll();
-            //var dailyCars = GetDailyCars(allCars, 6);
-            //var topCars = _carService.GetTopRatedCars().Cars;
-
-            //var guestViewModel = new GuestPageViewModel
-            //{
-            //    Cars = dailyCars,
-            //    BrandOptions = brands,
-            //    TopCars = topCars
-            //};
             return View("HomePage");
         }
 
@@ -104,7 +87,7 @@ namespace CarRental.Controllers
                 var vm = _carService.GetAvailableCarsForCustomer();
 
                 ViewData["FormErrors"] = "Please fix the form errors.";
-                return View("HomePage", vm); 
+                return View("HomePage", vm);
             }
 
             int userId = Session.UserID;
@@ -119,19 +102,6 @@ namespace CarRental.Controllers
             return RedirectToAction("HomePage");
         }
 
-        //[HttpPost]
-        //public IActionResult AddRequest(RequestViewModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        var cars = _carService.GetAll(); // You need to repopulate the model
-        //        ViewData["FormErrors"] = "Please fix the form errors.";
-        //        return View("HomePage", cars); // Pass the cars list again
-        //    }
-        //    model.UserID = HttpContext.Session.GetInt32("UserID") ?? 0; // get current user id from session
-        //    _requestService.Add(model);
-        //    return RedirectToAction("HomePage");
-        //}
         private List<CarDTO> GetDailyCars(IEnumerable<CarDTO> allCars, int maxCount)
         {
             if (allCars == null || !allCars.Any())
@@ -146,14 +116,14 @@ namespace CarRental.Controllers
 
 
 
-        public IActionResult Ratings(int rating,int CarID)
+        public IActionResult Ratings(int rating, int CarID)
         {
-            
-           _notificationService.AddRatings(rating, CarID);
+
+            _notificationService.AddRatings(rating, CarID);
             return RedirectToAction("Notification");
         }
 
-      
+
         public IActionResult ProfileEdit()
         {
             int userId = Session.UserID; // from session
@@ -171,23 +141,18 @@ namespace CarRental.Controllers
                 Role = userDto.Role.ToString()
             };
 
-            return View("ProfileEdit" , vm);
+            return View("ProfileEdit", vm);
         }
-        public IActionResult Profile() 
+        public IActionResult Profile()
         {
-            
-              int userId = Session.UserID; // from session
-              var userDto = _userService.GetUserById(userId);
 
-              if (userDto == null)
-                  return NotFound();
+            int userId = Session.UserID; // from session
+            var userDto = _userService.GetUserById(userId);
+
+            if (userDto == null)
+                return NotFound();
 
             var bookings = _bookingService.GetUserBookingHistory(Session.UserID);
-
-            //if (bookings == null || !bookings.Any())
-            //{
-            //    return NotFound("No picked bookings found for this user.");
-            //}
 
             var vm = new ProfileViewModel
             {
@@ -198,26 +163,23 @@ namespace CarRental.Controllers
                 Role = userDto.Role.ToString(),
                 bookings = bookings
             };
-              return View("Profile",vm);
+            return View("Profile", vm);
         }
 
-        public IActionResult Notification() 
+        public IActionResult Notification()
         {
             var notification = _notificationService.GetAll(Session.UserID);
             return View(notification);
 
-            
+
         }
         [HttpPost]
         public IActionResult Update(ProfileViewModel vm)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return View("Profile", vm);
-            //}
+
             int id = Session.UserID;
 
-            var result = _userService.UpdatePassword(vm,id);
+            var result = _userService.UpdatePassword(vm, id);
 
             if (result == "Password updated successfully!")
                 TempData["Success"] = result;
@@ -237,26 +199,9 @@ namespace CarRental.Controllers
             }
 
 
-            return View("Profile",bookings);
+            return View("Profile", bookings);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> UpdateProfileImage(IFormFile profileImage)
-        //{
-        //    if (profileImage == null || profileImage.Length == 0)
-        //    {
-        //        return BadRequest("No file selected");
-        //    }
-        //    int userId = Session.UserID; // Or use ClaimsPrincipal if available
-
-        //    using var ms = new MemoryStream();
-        //    await profileImage.CopyToAsync(ms);
-        //    byte[] imageBytes = ms.ToArray();
-
-        //    var result = await _userService.UpdateProfileImageAsync(userId, imageBytes);
-
-        //    return View("Profile");
-        //}
         [HttpPost]
         public async Task<IActionResult> UpdateProfileImage(IFormFile profileImage)
         {
@@ -283,7 +228,7 @@ namespace CarRental.Controllers
 
             TempData["Success"] = "Profile image updated successfully!";
 
-            // 🔑 Always reload user profile and return with model
+            // Always reload user profile and return with model
             var user = _userService.GetUserById(userId);
             var vm = new ProfileViewModel
             {
@@ -315,10 +260,10 @@ namespace CarRental.Controllers
             return File(user.ProfileImage, "image/jpeg");
         }
 
-        public IActionResult Search(string CarName,int BrandId,string Color)
+        public IActionResult Search(string CarName, int BrandId, string Color)
         {
             var Car = _carService.Search(CarName, BrandId, Color);
-            if(Car != null)
+            if (Car != null)
             {
                 var CombainedViewModel = new CombinedViewModel
                 {
@@ -328,7 +273,7 @@ namespace CarRental.Controllers
             }
             TempData["ErrorMessage"] = "Car Not Found";
             var vm = _carService.GetAvailableCarsForCustomer();
-            if(Session.Role != "Admin") return RedirectToAction("Index", "Admin", vm);
+            if (Session.Role != "Admin") return RedirectToAction("Index", "Admin", vm);
             return View("HomePage", vm);
 
         }

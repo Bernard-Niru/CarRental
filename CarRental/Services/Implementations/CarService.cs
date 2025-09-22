@@ -43,11 +43,9 @@ namespace CarRental.Services.Implementations
                 GearType = car.GearType,
                 Color = car.Color,
                 No_of_Seats = car.No_of_Seats,
-                Ratings = car.Ratings,
+                Ratings = Math.Round(car.Ratings, 1),
                 RentalRate = car.RentalRate,
-          //      Rating = (car.Ratings != null && car.Ratings.TotalStars > 0)
-          //? (double)car.Ratings.TotalStars / car.Ratings.TotalRaters
-          //: 0,
+          
 
                 Brand = new BrandDTO
                 {
@@ -77,7 +75,7 @@ namespace CarRental.Services.Implementations
                 GearType = car.GearType,
                 Color = car.Color,
                 No_of_Seats = car.No_of_Seats,
-                Ratings = car.Ratings,
+                Ratings = Math.Round(car.Ratings, 1),
                 RentalRate = car.RentalRate,
 
                 Brand = new BrandDTO
@@ -141,7 +139,7 @@ namespace CarRental.Services.Implementations
                 GearType = car.GearType,
                 Color = car.Color,
                 No_of_Seats = car.No_of_Seats,
-                Ratings = car.Ratings,
+                Ratings = Math.Round(car.Ratings, 1),
                 RentalRate = car.RentalRate,
 
                 Brand = new BrandDTO
@@ -193,7 +191,7 @@ namespace CarRental.Services.Implementations
                 GearType = car.GearType,
                 Color = car.Color,
                 No_of_Seats = car.No_of_Seats,
-                Ratings = car.Ratings,
+                Ratings = Math.Round(car.Ratings, 1),
                 RentalRate = car.RentalRate,
 
                 Brand = new BrandDTO
@@ -289,7 +287,7 @@ namespace CarRental.Services.Implementations
                 GearType = car.GearType,
                 Color = car.Color,
                 No_of_Seats = car.No_of_Seats,
-                Ratings = car.Ratings,
+                Ratings = Math.Round(car.Ratings, 1),
                 RentalRate = car.RentalRate,
 
                 Brand = new BrandDTO
@@ -341,7 +339,7 @@ namespace CarRental.Services.Implementations
                 GearType = car.GearType,
                 Color = car.Color,
                 No_of_Seats = car.No_of_Seats,
-                Ratings = car.Ratings,
+                Ratings = Math.Round(car.Ratings, 1),
                 RentalRate = car.RentalRate,
                 AvailableUnit = car.AvailableUnit,
 
@@ -411,14 +409,14 @@ namespace CarRental.Services.Implementations
         //}
 
 
-        public void UpdateRatings(double rating, int CarID) 
+        public void UpdateRatings(double rating, int CarID)
         {
             var car = _repo.GetByID(CarID);
-            var NewCar = new Car
+            if (car != null)
             {
-                Ratings = rating,
-            };
-            _repo.Update(NewCar);
+                car.Ratings = Math.Round(rating, 1); // Round to 1 decimal place
+                _repo.Update(car);
+            }
         }
 
 
